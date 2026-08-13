@@ -25,3 +25,6 @@ dist-ssr
 
 # 잘못 생성된 빈 하위 폴더 (stray nested repo)
 /FrontEnd/
+
+# 에디터/도구 로컬 설정
+.claude/
