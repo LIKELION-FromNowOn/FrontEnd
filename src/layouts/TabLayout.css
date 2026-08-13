@@ -21,17 +21,16 @@
   display: flex;
   justify-content: space-around;
   padding: 10px 0 max(10px, env(safe-area-inset-bottom));
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid #ececf1;
+  background: var(--c-surface);
+  border-top: 1px solid var(--c-border);
 }
 .tabl__tab {
   font-size: 13px;
-  color: #9a96a3;
+  color: var(--c-text-faint);
   text-decoration: none;
   padding: 4px 12px;
 }
 .tabl__tab.is-active {
-  color: #aa3bff;
+  color: var(--c-text);
   font-weight: 700;
 }

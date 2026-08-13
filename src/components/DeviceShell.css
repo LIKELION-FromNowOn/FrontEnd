@@ -18,7 +18,7 @@
 .shell__screen {
   flex: 1;
   min-width: 0;
-  background: var(--app-bg, #fff);
+  background: var(--c-bg);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -43,15 +43,12 @@
     flex: 0 0 auto;
     padding: 12px;
     border-radius: 44px;
-    background: #111216;
-    box-shadow:
-      0 0 0 2px rgba(255, 255, 255, 0.06) inset,
-      0 30px 60px -20px rgba(0, 0, 0, 0.45);
+    background: var(--c-bezel);
+    box-shadow: var(--shadow-device);
   }
 
   .shell__screen {
     border-radius: 32px;
-    box-shadow: 0 0 0 1px var(--border, #e5e4e7);
   }
 
   .shell__aside {
@@ -59,9 +56,6 @@
     flex: 1 1 0;
     max-width: 360px;
     align-self: center;
-  }
-  .shell__aside--left {
-    text-align: right;
   }
 }
 

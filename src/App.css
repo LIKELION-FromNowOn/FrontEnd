@@ -1,40 +1,22 @@
-/* 웹 여백에 들어가는 설명 패널 스타일 (앱 뷰에선 안 보임) */
-.promo__title {
-  font-size: clamp(28px, 3vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -1px;
-  color: var(--text-h);
-  margin: 0 0 16px;
-}
-.promo__lead {
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text);
-  margin: 0;
-}
-
-.promo__features {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* 웹 여백에 들어가는 설명 영역 (앱 뷰에선 안 보임) — 자리만 잡아둔 플레이스홀더 */
+.promo {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-.promo__features li {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-left: 16px;
-  border-left: 3px solid var(--accent, #aa3bff);
+  gap: 12px;
   text-align: left;
 }
-.promo__features b {
-  font-size: 17px;
-  color: var(--text-h);
-}
-.promo__features span {
+
+.promo__slot {
+  display: grid;
+  place-items: center;
+  min-height: 72px;
+  padding: 16px;
+  border: 1px dashed var(--c-border);
+  border-radius: var(--r-card);
+  color: var(--c-text-faint);
   font-size: 14px;
-  line-height: 1.5;
-  color: var(--text);
+}
+.promo__slot--title {
+  min-height: 96px;
+  font-size: 16px;
 }
