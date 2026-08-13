@@ -1,0 +1,73 @@
+/* ── 공용 껍데기 레이아웃 ─────────────────────────────
+   폰 비율 화면 한 벌을, 웹에서는 프레임+설명으로 감싸고
+   앱(좁은 화면)에서는 풀스크린으로 편다. */
+
+.shell {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* 폰 화면 — 기본(앱 뷰): 뷰포트를 그대로 채운다 */
+.shell__device {
+  width: 100%;
+  display: flex;
+}
+
+.shell__screen {
+  flex: 1;
+  min-width: 0;
+  background: var(--app-bg, #fff);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 좌우 설명 패널 — 앱 뷰에서는 숨김 */
+.shell__aside {
+  display: none;
+}
+
+/* ── 웹 뷰: 넓어지면 폰을 가운데 기기 프레임으로, 여백에 설명 ── */
+@media (min-width: 900px) {
+  .shell {
+    align-items: center;
+    gap: clamp(24px, 4vw, 72px);
+    padding: 40px 24px;
+    box-sizing: border-box;
+  }
+
+  .shell__device {
+    width: 390px;
+    height: min(844px, calc(100svh - 80px));
+    flex: 0 0 auto;
+    padding: 12px;
+    border-radius: 44px;
+    background: #111216;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.06) inset,
+      0 30px 60px -20px rgba(0, 0, 0, 0.45);
+  }
+
+  .shell__screen {
+    border-radius: 32px;
+    box-shadow: 0 0 0 1px var(--border, #e5e4e7);
+  }
+
+  .shell__aside {
+    display: block;
+    flex: 1 1 0;
+    max-width: 360px;
+    align-self: center;
+  }
+  .shell__aside--left {
+    text-align: right;
+  }
+}
+
+/* 아주 넓은 화면에서 설명이 폰에서 너무 멀어지지 않게 */
+@media (min-width: 1400px) {
+  .shell__aside {
+    max-width: 420px;
+  }
+}
