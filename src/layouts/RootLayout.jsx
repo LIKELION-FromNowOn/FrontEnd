@@ -1,13 +1,12 @@
-import DeviceShell from './components/DeviceShell'
-import HomeScreen from './screens/HomeScreen'
-import './App.css'
+import { Outlet } from 'react-router-dom'
+import DeviceShell from '../components/DeviceShell'
+import '../App.css'
 
 /**
- * 웹/앱 공용 진입점.
- * - 폰 화면(HomeScreen)은 한 벌만 만들고 DeviceShell로 감싼다.
- * - left/right 설명 패널은 웹에서만 보이고, 앱(좁은 화면)에서는 자동으로 사라진다.
+ * 최상위 레이아웃. 폰 화면(Outlet)을 DeviceShell로 감싼다.
+ * 웹에서는 좌/우 설명 패널이 붙고, 앱(좁은 화면)에서는 사라진다.
  */
-function App() {
+export default function RootLayout() {
   return (
     <DeviceShell
       left={
@@ -39,9 +38,7 @@ function App() {
         </ul>
       }
     >
-      <HomeScreen />
+      <Outlet />
     </DeviceShell>
   )
 }
-
-export default App
