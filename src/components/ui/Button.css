@@ -1,0 +1,38 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--h-cta);
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-accent-text);
+}
+
+.btn--secondary {
+  background: var(--c-accent-soft);
+  color: var(--c-text);
+}
+
+.btn--outline {
+  background: var(--c-surface);
+  border-color: var(--c-border);
+  color: var(--c-text);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}

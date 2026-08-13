@@ -1,0 +1,25 @@
+.analyzing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100%;
+  padding: 40px var(--sp-screen);
+  background: var(--c-bg);
+  text-align: center;
+}
+
+.analyzing__text {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.analyzing__dots {
+  margin: 0 0 20px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--c-text-faint);
+}

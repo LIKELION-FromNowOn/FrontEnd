@@ -1,38 +1,40 @@
 import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
-import TabLayout from './layouts/TabLayout'
 import StubScreen from './screens/StubScreen'
-import TodayScreen from './screens/TodayScreen'
-import { SCREENS, TABS } from './screens/registry'
+import { SCREENS } from './screens/registry'
 
+import LoginScreen from './screens/auth/LoginScreen'
+import EmailInputScreen from './screens/auth/EmailInputScreen'
+import PasswordSetupScreen from './screens/auth/PasswordSetupScreen'
+import EmailVerificationScreen from './screens/auth/EmailVerificationScreen'
+import CareItemsScreen from './screens/onboarding/CareItemsScreen'
+import ConditionScreen from './screens/dailycheck/ConditionScreen'
+import AnalyzingScreen from './screens/dailycheck/AnalyzingScreen'
+import HomeScreen from './screens/firststep/HomeScreen'
+import FirstStepIntroScreen from './screens/firststep/FirstStepIntroScreen'
+import FirstStepListScreen from './screens/firststep/FirstStepListScreen'
+
+/** 시안이 나와서 실제로 구현된 화면. 나머지는 자동으로 StubScreen이 뜬다. */
 const REAL = {
-  today: <TodayScreen />,
+  login: <LoginScreen />,
+  authEmail: <EmailInputScreen />,
+  authPassword: <PasswordSetupScreen />,
+  authVerify: <EmailVerificationScreen />,
+  careItems: <CareItemsScreen />,
+  condition: <ConditionScreen />,
+  analyzing: <AnalyzingScreen />,
+  home: <HomeScreen />,
+  firstStepIntro: <FirstStepIntroScreen />,
+  firstStepList: <FirstStepListScreen />,
 }
-
-const tabPaths = new Set(TABS.map((t) => t.path))
-const el = (meta, showBack) =>
-  REAL[meta.key] ?? <StubScreen meta={meta} showBack={showBack} />
-
-// 탭 화면: TabLayout(하단 탭바) 아래. push 화면: 탭바 없이 단독 + 뒤로가기.
-const tabScreens = SCREENS.filter((s) => tabPaths.has(s.path))
-const pushScreens = SCREENS.filter((s) => !tabPaths.has(s.path))
 
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
-    children: [
-      {
-        element: <TabLayout />,
-        children: tabScreens.map((s) => ({
-          index: s.path === '/',
-          path: s.path === '/' ? undefined : s.path.slice(1),
-          element: el(s, false),
-        })),
-      },
-      ...pushScreens.map((s) => ({
-        path: s.path.slice(1),
-        element: el(s, true),
-      })),
-    ],
+    children: SCREENS.map((s) => ({
+      index: s.path === '/',
+      path: s.path === '/' ? undefined : s.path.slice(1),
+      element: REAL[s.key] ?? <StubScreen meta={s} showBack />,
+    })),
   },
 ])

@@ -1,0 +1,72 @@
+.fscard {
+  position: relative;
+  padding: 20px 18px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--r-card);
+  background: var(--c-surface);
+}
+
+.fscard__more {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text-faint);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.fscard__quote {
+  margin: 8px 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.fscard__who {
+  margin: 0;
+  font-size: 12px;
+  color: var(--c-text-faint);
+  text-align: center;
+}
+
+.fscard__rule {
+  margin: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--c-border);
+}
+
+.fscard__body {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--c-text-muted);
+}
+
+.fscard--compact .fscard__body {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fscard__point {
+  padding-top: 14px;
+  border-top: 1px solid var(--c-border);
+}
+
+.fscard__point-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fscard__point-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--c-text-muted);
+}

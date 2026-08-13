@@ -1,0 +1,36 @@
+.slot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 1px dashed var(--c-border-strong);
+  background: var(--c-surface-sub);
+  color: var(--c-text-faint);
+  overflow: hidden;
+}
+
+.slot--rect {
+  border-radius: var(--r-card);
+}
+
+.slot--circle {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+.slot__label {
+  font-size: 11px;
+  text-align: center;
+  padding: 4px;
+  line-height: 1.3;
+}
+
+/* 작은 슬롯에서는 라벨이 넘치므로 숨긴다 */
+.slot--sm .slot__label {
+  display: none;
+}
+
+.slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
