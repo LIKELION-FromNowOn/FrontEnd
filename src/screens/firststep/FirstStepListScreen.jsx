@@ -1,32 +1,37 @@
-import Slot from '../../components/ui/Slot'
+import { useNavigate } from 'react-router-dom'
+import HeroPanel from '../../components/HeroPanel'
 import FirstStepCard from '../../components/FirstStepCard'
 import { FIRST_STEP_CARDS } from '../options'
 import './FirstStepListScreen.css'
 
-/** E01_FirstStep/Example — 첫 발자국 카드 목록 */
+/** F02_FirstStep/List — 첫 발자국 카드 목록 */
 export default function FirstStepListScreen() {
-  return (
-    <div className="fslist">
-      <header className="fslist__header">
-        <div className="fslist__user">
-          <Slot label="캐릭터" shape="circle" width={28} sm />
-          <span className="fslist__nickname">닉네임</span>
-        </div>
-        <div className="fslist__actions">
-          <button type="button" className="fslist__icon" aria-label="캘린더">
-            ▤
-          </button>
-          <button type="button" className="fslist__icon" aria-label="마이">
-            ○
-          </button>
-        </div>
-      </header>
+  const navigate = useNavigate()
 
-      <div className="fslist__body">
+  return (
+    <HeroPanel
+      nickname="예니"
+      hero={
+        <button
+          type="button"
+          className="fslist__back"
+          onClick={() => navigate(-1)}
+          aria-label="뒤로"
+        >
+          ←
+        </button>
+      }
+    >
+      <div className="fslist__cards">
         {FIRST_STEP_CARDS.map((card) => (
-          <FirstStepCard key={card.id} card={card} compact onMore={() => {}} />
+          <FirstStepCard
+            key={card.id}
+            card={card}
+            compact
+            onMore={() => navigate('/first-step/detail')}
+          />
         ))}
       </div>
-    </div>
+    </HeroPanel>
   )
 }

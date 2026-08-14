@@ -1,0 +1,37 @@
+.appheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(12px, env(safe-area-inset-top)) var(--sp-screen) 10px;
+  background: var(--c-surface);
+}
+
+/* 모카 히어로 위에 얹힐 때 */
+.appheader--on-brand {
+  background: transparent;
+}
+
+.appheader__user {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.appheader__nickname {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+.appheader--on-brand .appheader__nickname {
+  color: var(--c-text-brown);
+}
+
+.appheader__bell {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--c-text-brown);
+  cursor: pointer;
+}

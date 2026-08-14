@@ -61,6 +61,50 @@ export const SIGNAL_GROUPS = [
   },
 ]
 
+/**
+ * 판정 값 — API 명세서 기준 코드명.
+ * 한글 라벨은 기능 명세서 NOW-SUB-008의 5종을 따른다.
+ * (코드명은 2026-08-14 확정 예정 건이라 바뀌면 여기만 수정)
+ */
+export const VERDICT_LABEL = {
+  keep: '그대로',
+  simplify: '방식만',
+  reduce: '덜어내기',
+  skip: '쉬기',
+  excluded: '판정 안 함',
+}
+
+/** G02 덜어내기 결과 — 판정 필터 */
+export const REDUCE_FILTERS = [
+  { key: 'all', label: '전체' },
+  { key: 'keep', label: '그대로' },
+  { key: 'reduce', label: '덜어내기' },
+  { key: 'skip', label: '쉬기' },
+  { key: 'excluded', label: '판정 안 함' },
+]
+
+/** G02 오늘 루틴 전체 (시안 예시 데이터) */
+export const ROUTINE_ITEMS = [
+  { name: '클렌징', verdict: 'keep' },
+  { name: '토너', verdict: 'excluded' },
+  { name: '레티놀', verdict: 'reduce' },
+  { name: '보습', verdict: 'keep' },
+  { name: '자외선 차단제', verdict: 'keep' },
+  { name: '마스크팩', verdict: 'keep' },
+]
+
+/** 덜어내기 기록 — 피부 느낌 5단계 */
+export const SKIN_FEELINGS = [
+  { key: 'good', emoji: '😄', label: '좋음' },
+  { key: 'fine', emoji: '😊', label: '괜찮음' },
+  { key: 'normal', emoji: '🙂', label: '보통' },
+  { key: 'sensitive', emoji: '😕', label: '조금 예민' },
+  { key: 'bad', emoji: '🙄', label: '예민함' },
+]
+
+/** 덜어내기 기록 — 실행 정도 */
+export const DID_OPTIONS = ['추천대로 했어요', '조금 바꿨어요', '거의 못 했어요']
+
 /** E01 첫 발자국 카드 (시안에 있는 예시 문구) */
 export const FIRST_STEP_CARDS = [
   {

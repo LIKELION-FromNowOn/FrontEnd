@@ -1,101 +1,130 @@
-.home {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  background: var(--c-bg);
+/* ── 히어로 ────────────────────────────────── */
+.home__hero {
+  position: relative;
 }
 
-/* ── 상단 헤더 ───────────────────────────── */
-.home__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: max(14px, env(safe-area-inset-top)) var(--sp-screen) 14px;
-  background: var(--c-surface);
+.home__character {
+  margin-top: -28px;
 }
 
-.home__user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.home__nickname {
-  font-size: 14px;
+/* ── 섹션 제목 ─────────────────────────────── */
+.home__section {
+  margin: 0 0 12px;
+  font-size: 16px;
   font-weight: 700;
+  color: var(--c-text-brown);
+}
+.home__section:not(:first-child) {
+  margin-top: 26px;
 }
 
-.home__actions {
-  display: flex;
-  gap: 12px;
-}
-
-.home__icon {
-  border: 0;
-  background: none;
-  color: var(--c-text-muted);
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.home__body {
-  flex: 1;
-  padding: 20px var(--sp-screen) 24px;
-}
-
-/* ── 카테고리 3개 ─────────────────────────── */
-.home__categories {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.home__category {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: var(--c-text);
-}
-
-.home__category-label {
-  font-size: 12px;
-}
-
-/* ── 배너 ────────────────────────────────── */
-.home__banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px;
-  margin-bottom: 20px;
-  border-radius: var(--r-card);
-  background: var(--c-accent-soft);
-}
-
-.home__banner-text {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-/* ── 카드 하단 액션 ───────────────────────── */
-.home__card-actions {
-  margin-top: 16px;
+/* ── 오늘의 케어 카드 ───────────────────────── */
+.home__care {
+  padding: 22px 18px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
   text-align: center;
 }
 
-.home__more-link {
-  margin-top: 10px;
-  padding: 4px;
+.home__care-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.home__care-desc {
+  margin: 0 0 18px;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+.home__care-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.home__link {
+  padding: 2px 4px;
   border: 0;
   background: none;
-  color: var(--c-text-faint);
-  font-size: 12px;
+  color: var(--c-text-muted);
+  font-size: 10px;
   cursor: pointer;
+}
+.home__link--center {
+  display: block;
+  margin: 10px auto 0;
+}
+
+/* ── 이어가는 첫 발자국 ─────────────────────── */
+.home__streak {
+  padding: 22px 18px 18px;
+  border-radius: var(--r-card-lg);
+  background: var(--c-brand-light);
+  text-align: center;
+}
+
+.home__streak-title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-brand-on);
+}
+
+.home__streak-sub {
+  margin: 0 0 16px;
+  font-size: 10px;
+  color: var(--c-brand-on);
+  opacity: 0.85;
+}
+
+/* 7일 진행 점 */
+.home__dots {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+/* 점 사이를 잇는 선 */
+.home__dots::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  height: 1px;
+  background: var(--c-brand-on);
+  opacity: 0.5;
+}
+
+.home__dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--c-brand-on);
+  border-radius: 50%;
+  background: var(--c-brand-light);
+  color: var(--c-brand-on);
+  font-size: 11px;
+}
+.home__dot.is-done {
+  background: var(--c-brand-on);
+  color: var(--c-brand);
+  font-weight: 700;
+}
+
+/* ── 첫 발자국 카드 하단 ────────────────────── */
+.home__card-actions {
+  margin-top: 16px;
 }

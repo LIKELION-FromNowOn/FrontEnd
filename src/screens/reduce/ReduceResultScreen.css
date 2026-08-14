@@ -1,0 +1,190 @@
+.rresult {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--c-bg);
+}
+
+.rresult__body {
+  flex: 1;
+  padding: 6px var(--sp-screen) 24px;
+}
+
+.rresult__back {
+  padding: 0 0 12px;
+  border: 0;
+  background: none;
+  color: var(--c-text);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rresult__title {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--c-text-brown);
+}
+
+.rresult__sub {
+  margin: 0 0 20px;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* 상태 요약 카드 */
+.rresult__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+}
+
+.rresult__summary-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.rresult__legend {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rresult__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8px;
+  color: var(--c-text-muted);
+}
+.rresult__legend-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.rresult__legend-item--a::before {
+  background: var(--c-badge-rec);
+}
+.rresult__legend-item--b::before {
+  background: var(--c-badge-keep-bg);
+}
+.rresult__legend-item--c::before {
+  background: var(--c-badge-reduce-bg);
+}
+
+.rresult__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid var(--c-badge-reduce-bg);
+  border-radius: var(--r-field);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+  white-space: nowrap;
+}
+.rresult__tag::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c-badge-rec);
+}
+
+/* 필터 칩 */
+.rresult__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.rresult__section {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+/* 루틴 목록 */
+.rresult__list {
+  margin: 0;
+  padding: 6px 0;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  list-style: none;
+}
+
+.rresult__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+}
+.rresult__row + .rresult__row {
+  border-top: 1px solid var(--c-cream);
+}
+
+.rresult__no {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--c-text-brown);
+  color: var(--c-brand-on);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.rresult__name {
+  flex: 1;
+  font-size: 13px;
+  color: var(--c-text);
+}
+
+.rresult__badge {
+  padding: 4px 10px;
+  border-radius: var(--r-field);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--c-badge-on);
+  white-space: nowrap;
+}
+.rresult__badge--keep {
+  background: var(--c-badge-keep-bg);
+}
+.rresult__badge--excluded {
+  background: var(--c-badge-none-bg);
+  color: var(--c-text-muted);
+}
+.rresult__badge--reduce {
+  background: var(--c-badge-reduce-bg);
+}
+.rresult__badge--simplify {
+  background: var(--c-brand-light);
+}
+.rresult__badge--skip {
+  background: var(--c-brand-pale);
+  color: var(--c-text-brown);
+}
+
+.rresult__arrow {
+  color: var(--c-text-muted);
+  font-size: 15px;
+}
+
+.rresult__cta {
+  margin-top: 22px;
+}

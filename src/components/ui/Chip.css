@@ -4,7 +4,7 @@
   gap: 4px;
   height: var(--h-chip);
   padding: 0 14px;
-  border: 1px solid var(--c-border-strong);
+  border: 1px solid var(--c-text);
   border-radius: var(--r-pill);
   background: var(--c-surface);
   color: var(--c-text);
@@ -14,12 +14,23 @@
 }
 
 .chip.is-selected {
-  border-color: var(--c-accent);
-  background: var(--c-accent);
-  color: var(--c-accent-text);
+  border-color: var(--c-brand);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
 }
 
-/* 칩 묶음 — 줄바꿈되며 흐르는 배치 */
+/* 크림 배경 위에서 쓰는 필터 칩 (덜어내기 결과) */
+.chip--filter {
+  border-color: transparent;
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-weight: 600;
+}
+.chip--filter.is-selected {
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+}
+
 .chip-group {
   display: flex;
   flex-wrap: wrap;

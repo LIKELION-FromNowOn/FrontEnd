@@ -3,29 +3,37 @@ import Slot from '../../components/ui/Slot'
 import Button from '../../components/ui/Button'
 import './LoginScreen.css'
 
-/** A01_Auth/Login — 로고 + 캐릭터, 하단 시트에 게스트 진입 버튼 */
+/** A01_Auth/Login — 로고 + 캐릭터, 하단 모카 시트에 게스트 진입 */
 export default function LoginScreen() {
   const navigate = useNavigate()
 
   return (
     <div className="login">
       <div className="login__hero">
-        <Slot label="로고" width={180} height={44} />
+        <h1 className="login__logo">지금부터</h1>
         <p className="login__tagline">
-          하루하루의 정신 건강을
+          오늘 상태를 판정해서 피부 관리를
           <br />
-          위한 즐거움 앱!
+          조정해 주는 서비스
         </p>
-        <Slot label="캐릭터" shape="circle" width={160} />
+        <div className="login__character">
+          <Slot label="캐릭터" shape="circle" width={170} />
+        </div>
       </div>
 
       <section className="login__sheet">
         <p className="login__sheet-label">게스트</p>
 
-        <Button variant="outline" onClick={() => navigate('/auth/email')}>
+        <Button variant="cream" onClick={() => navigate('/auth/email')}>
+          <span className="login__icon" aria-hidden>
+            G
+          </span>
           구글로 계속하기
         </Button>
-        <Button variant="outline" onClick={() => navigate('/auth/email')}>
+        <Button variant="cream" onClick={() => navigate('/auth/email')}>
+          <span className="login__icon" aria-hidden>
+            ✉
+          </span>
           이메일로 계속하기
         </Button>
 

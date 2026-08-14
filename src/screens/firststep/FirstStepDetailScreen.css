@@ -1,0 +1,52 @@
+/* 바텀시트 느낌 — 히어로 아래 크림 패널 */
+.fsdetail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 100%;
+  margin: -20px calc(var(--sp-screen) * -1) calc(var(--sp-screen) * -1);
+  padding: 12px var(--sp-screen) 20px;
+  background: var(--c-cream);
+}
+
+/* 시트 상단 손잡이 */
+.fsdetail__handle {
+  width: 56px;
+  height: 4px;
+  margin: 0 auto 20px;
+  border-radius: var(--r-pill);
+  background: var(--c-brand);
+}
+
+.fsdetail__quote-box {
+  padding: 22px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+}
+
+.fsdetail__quote {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--c-text-brown);
+}
+
+.fsdetail__who {
+  margin: 0;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* 내용 미정 블록 */
+.fsdetail__block {
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+}
+.fsdetail__block--sm {
+  min-height: 78px;
+}
+.fsdetail__block--lg {
+  flex: 1;
+  min-height: 190px;
+}

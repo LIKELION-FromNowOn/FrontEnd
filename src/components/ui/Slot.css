@@ -1,10 +1,11 @@
+/* 에셋 미정 자리 — 어떤 배경 위에서도 보이도록 중립 회색 점선 */
 .slot {
   display: grid;
   place-items: center;
   flex: none;
-  border: 1px dashed var(--c-border-strong);
-  background: var(--c-surface-sub);
-  color: var(--c-text-faint);
+  border: 1px dashed rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
 

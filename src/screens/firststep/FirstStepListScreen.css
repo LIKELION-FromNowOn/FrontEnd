@@ -1,47 +1,15 @@
-.fslist {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  background: var(--c-bg);
-}
-
-.fslist__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: max(14px, env(safe-area-inset-top)) var(--sp-screen) 14px;
-  background: var(--c-surface);
-}
-
-.fslist__user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.fslist__nickname {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.fslist__actions {
-  display: flex;
-  gap: 12px;
-}
-
-.fslist__icon {
+.fslist__back {
+  padding: 0 0 60px;
   border: 0;
   background: none;
-  color: var(--c-text-muted);
-  font-size: 18px;
+  color: var(--c-text-brown);
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
 }
 
-.fslist__body {
-  flex: 1;
+.fslist__cards {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 16px var(--sp-screen) 24px;
 }

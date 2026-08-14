@@ -6,8 +6,8 @@
   height: var(--h-cta);
   padding: 0 24px;
   border: 1px solid transparent;
-  border-radius: var(--r-pill);
-  font-size: 16px;
+  border-radius: var(--r-cta);
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -16,14 +16,23 @@
   width: 100%;
 }
 
+/* 기본 CTA — 모카 배경 + 흰 글자 */
 .btn--primary {
-  background: var(--c-accent);
-  color: var(--c-accent-text);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
 }
 
-.btn--secondary {
-  background: var(--c-accent-soft);
+/* 카드 안에서 쓰는 연한 CTA (시작하기 / 루틴 따라하기) */
+.btn--soft {
+  background: var(--c-brand-soft);
+  color: var(--c-brand-on);
+}
+
+/* 크림 버튼 — 로그인 하단 시트 */
+.btn--cream {
+  background: var(--c-cream);
   color: var(--c-text);
+  border-radius: var(--r-pill);
 }
 
 .btn--outline {
@@ -33,6 +42,6 @@
 }
 
 .btn:disabled {
-  opacity: 0.45;
+  opacity: 0.5;
   cursor: default;
 }

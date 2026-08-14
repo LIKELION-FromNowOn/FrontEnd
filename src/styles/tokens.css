@@ -1,45 +1,57 @@
 /* ─────────────────────────────────────────────
-   디자인 토큰
+   디자인 토큰 — 피그마 시안(2026-08-14 수정본)에서 추출한 실제 값
 
-   색은 아직 확정 전이라 무채색 플레이스홀더입니다.
-   시안 확정되면 이 파일의 색 값만 교체하면 전체에 반영됩니다.
-   형태(모서리·간격·크기)는 피그마 기준으로 잡아둔 값입니다.
-
+   색은 시안 PNG의 픽셀에서 직접 뽑았습니다.
+   추가 수정이 오면 이 파일의 값만 바꾸면 전체 화면에 반영됩니다.
    화면 코드에는 색을 직접 쓰지 말고 항상 이 변수를 쓸 것.
    ───────────────────────────────────────────── */
 :root {
-  /* 표면 */
-  --c-bg: #f4f4f5;
+  /* ── 브랜드 (모카/토프) ── */
+  --c-brand: #caa491; /* 히어로 배경, 기본 CTA */
+  --c-brand-light: #d6baa2; /* 히어로 위 반투명 카드 */
+  --c-brand-soft: #ddc6ba; /* 카드 안 CTA */
+  --c-brand-pale: #e4cdbf; /* 번호 원, 연한 강조 */
+  --c-brand-on: #ffffff; /* 브랜드 배경 위 글자 */
+
+  /* ── 표면 ── */
+  --c-bg: #ffffff; /* 기본 화면 배경 */
+  --c-cream: #fff6ed; /* 카드·시트 버튼 크림 */
   --c-surface: #ffffff;
-  --c-surface-sub: #fafafa;
-  --c-border: #e2e2e5;
-  --c-border-strong: #c9c9cf;
+  --c-tabbar: #f7f7f7;
 
-  /* 텍스트 */
-  --c-text: #1a1a1d;
-  --c-text-muted: #6e6e76;
-  --c-text-faint: #9b9ba3;
+  /* ── 테두리 ── */
+  --c-border: #e4e4e4; /* 흰 화면의 옅은 테두리 */
+  --c-border-cream: #e0cdbb; /* 크림 카드의 갈색 테두리 */
+  --c-border-strong: #caa491;
 
-  /* 강조 — 시안 나오면 브랜드 컬러로 교체 */
-  --c-accent: #3d3d44;
-  --c-accent-text: #ffffff;
-  --c-accent-soft: #ececee;
+  /* ── 텍스트 ── */
+  --c-text: #202020; /* 흰 배경 화면의 본문 */
+  --c-text-brown: #764413; /* 갈색 제목 — 메인 화면 강조 */
+  --c-text-muted: #9f9f9f;
+  --c-text-faint: #c8c8c8; /* 플레이스홀더 */
 
-  /* 형태 */
-  --r-card: 16px;
-  --r-row: 12px;
+  /* ── 배지 (덜어내기 판정) ── */
+  --c-badge-keep-bg: #cfc39b; /* 그대로 */
+  --c-badge-none-bg: #e6dfc4; /* 판정 안 함 */
+  --c-badge-reduce-bg: #967046; /* 덜어내기 */
+  --c-badge-on: #ffffff;
+  --c-badge-rec: #ff9b9b; /* 추천 */
+
+  /* ── 형태 ── */
+  --r-card: 12px;
+  --r-card-lg: 16px;
+  --r-panel: 24px; /* 히어로 아래 흰 패널 */
+  --r-row: 10px;
   --r-pill: 999px;
   --r-field: 8px;
+  --r-cta: 8px;
 
-  /* 간격 */
-  --sp-screen: 24px;
-  --sp-section: 32px;
+  /* ── 간격 ── */
+  --sp-screen: 20px;
+  --sp-section: 28px;
 
-  /* 컨트롤 크기 */
-  --h-cta: 52px;
-  --h-chip: 34px;
-
-  /* 웹 전용 폰 목업 베젤 (앱 화면 디자인과 무관) */
-  --c-bezel: #111216;
-  --shadow-device: 0 30px 60px -20px rgba(0, 0, 0, 0.45);
+  /* ── 컨트롤 크기 ── */
+  --h-cta: 48px;
+  --h-chip: 32px;
+  --h-tabbar: 60px;
 }
