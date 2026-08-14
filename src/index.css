@@ -1,7 +1,9 @@
+@import './styles/fonts.css';
 @import './styles/tokens.css';
 
 :root {
-  --sans: system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  /* A2G가 로딩되기 전에는 시스템 한글 폰트로 대체 */
+  --sans: 'A2G', system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   --mono: ui-monospace, Menlo, Consolas, monospace;
 
   font: 16px/1.45 var(--sans);

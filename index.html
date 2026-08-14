@@ -1,10 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fromnowon</title>
+
+    <!-- 가장 많이 쓰는 두 굵기만 미리 받아 로딩 중 글꼴 깜빡임을 줄인다 -->
+    <link
+      rel="preload"
+      href="/fonts/a2g-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/a2g-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <title>지금부터</title>
   </head>
   <body>
     <div id="root"></div>
