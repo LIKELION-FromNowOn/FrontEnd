@@ -17,6 +17,12 @@ import FirstStepDetailScreen from './screens/firststep/FirstStepDetailScreen'
 import ReduceIntroScreen from './screens/reduce/ReduceIntroScreen'
 import ReduceResultScreen from './screens/reduce/ReduceResultScreen'
 import ReduceRecordScreen from './screens/reduce/ReduceRecordScreen'
+import MyScreen from './screens/my/MyScreen'
+import EditNicknameScreen from './screens/my/EditNicknameScreen'
+import ProfileSettingsScreen from './screens/my/ProfileSettingsScreen'
+import NotificationSettingsScreen from './screens/my/NotificationSettingsScreen'
+import ServiceGuideScreen from './screens/my/ServiceGuideScreen'
+import ContactScreen from './screens/my/ContactScreen'
 
 /** 시안이 나와서 구현된 화면. 나머지는 자동으로 StubScreen이 뜬다. */
 const REAL = {
@@ -33,6 +39,12 @@ const REAL = {
   reduceIntro: <ReduceIntroScreen />,
   reduceResult: <ReduceResultScreen />,
   reduceRecord: <ReduceRecordScreen />,
+  my: <MyScreen />,
+  editNickname: <EditNicknameScreen />,
+  profileSettings: <ProfileSettingsScreen />,
+  notificationSettings: <NotificationSettingsScreen />,
+  serviceGuide: <ServiceGuideScreen />,
+  contact: <ContactScreen />,
 }
 
 const el = (s) => REAL[s.key] ?? <StubScreen meta={s} showBack />

@@ -1,0 +1,105 @@
+.subpage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--c-bg);
+}
+
+.subpage__body {
+  flex: 1;
+  padding: 4px var(--sp-screen) 24px;
+}
+
+.subpage__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.subpage__back {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text-brown);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.subpage__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.subpage__lead {
+  margin: 0 0 20px;
+  padding: 0 4px 20px;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--c-text-brown);
+}
+
+.subpage__footer {
+  padding: 12px var(--sp-screen) max(20px, env(safe-area-inset-bottom));
+}
+
+/* ── 하위 화면에서 반복되는 조각 ─────────────── */
+
+/* 크림 테두리 카드 */
+.subpage__card {
+  padding: 6px 0;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+}
+
+.subpage__section {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+.subpage__section:not(:first-of-type) {
+  margin-top: 26px;
+}
+
+/* 카드 안 행 */
+.subpage__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 18px;
+  border: 0;
+  background: none;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: var(--c-text-brown);
+  text-decoration: none;
+}
+.subpage__row + .subpage__row {
+  border-top: 1px solid var(--c-cream);
+}
+button.subpage__row,
+a.subpage__row {
+  cursor: pointer;
+}
+
+.subpage__row-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.subpage__row-value {
+  font-size: 13px;
+  color: var(--c-text-muted);
+}
+
+.subpage__chevron {
+  color: var(--c-text-muted);
+  font-size: 16px;
+}

@@ -1,0 +1,36 @@
+import SubPage from '../../components/SubPage'
+
+/** I04_ServiceGuide — 서비스 안내 목록 */
+const QUESTIONS = [
+  '지금부터는 어떤 서비스인가요?',
+  '첫 발자국이란 무엇인가요?',
+  '덜어내기란 무엇인가요?',
+  '기록은 어떻게 활용되나요?',
+  '개인정보와 문의 안내',
+]
+
+export default function ServiceGuideScreen() {
+  return (
+    <SubPage
+      title="서비스 안내"
+      lead={
+        <>
+          지금부터는 오늘 상태를 판정하여 피부 관리를
+          <br />
+          조정해 주는 서비스입니다.
+        </>
+      }
+    >
+      <div className="subpage__card">
+        {QUESTIONS.map((q) => (
+          <button key={q} type="button" className="subpage__row">
+            <span className="subpage__row-label">{q}</span>
+            <span className="subpage__chevron" aria-hidden>
+              ›
+            </span>
+          </button>
+        ))}
+      </div>
+    </SubPage>
+  )
+}

@@ -26,6 +26,12 @@
   color: var(--c-text-brown);
 }
 
+.appheader__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .appheader__bell {
   display: grid;
   place-items: center;

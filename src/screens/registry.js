@@ -45,9 +45,22 @@ export const SCREENS = [
   { path: '/reduce/record', key: 'reduceRecord', code: 'G02', title: '덜어내기 기록', kind: 'required', tab: true,
     links: ['/home'] },
 
+  // ── I 마이 (탭) ─────────────────────────
+  { path: '/my', key: 'my', code: 'I01', title: '마이', kind: 'required', tab: true,
+    links: ['/my/profile', '/my/notifications'] },
+  { path: '/my/nickname', key: 'editNickname', title: '닉네임 수정', kind: 'required', tab: true,
+    links: ['/my'] },
+  { path: '/my/profile', key: 'profileSettings', code: 'I02', title: '프로필 설정', kind: 'required', tab: true,
+    links: ['/my/nickname'] },
+  { path: '/my/notifications', key: 'notificationSettings', code: 'I03', title: '알림 설정', kind: 'required', tab: true,
+    links: ['/my'] },
+  { path: '/my/guide', key: 'serviceGuide', code: 'I04', title: '서비스 안내', kind: 'required', tab: true,
+    links: ['/my'] },
+  { path: '/my/contact', key: 'contact', code: 'I05', title: '문의하기', kind: 'required', tab: true,
+    links: ['/my'] },
+
   // ── 아직 시안 없음 ──────────────────────
   { path: '/records', key: 'records', title: '기록', kind: 'required', tab: true, links: ['/home'] },
-  { path: '/my', key: 'my', title: '마이', kind: 'required', tab: true, links: ['/home'] },
   { path: '/care/start', key: 'careStart', title: '케어 시작', kind: 'required', links: ['/home'] },
   { path: '/coach', key: 'coach', title: '케어 코치', kind: 'required', links: ['/home'] },
 ]

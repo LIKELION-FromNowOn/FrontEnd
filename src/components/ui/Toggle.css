@@ -1,0 +1,43 @@
+.toggle {
+  flex: none;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.toggle__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle__track {
+  display: block;
+  width: 46px;
+  height: 26px;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: #dcdcdc;
+  transition: background 0.15s;
+}
+
+.toggle__knob {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--c-surface);
+  transition: transform 0.15s;
+}
+
+.toggle__input:checked + .toggle__track {
+  background: var(--c-brand);
+}
+.toggle__input:checked + .toggle__track .toggle__knob {
+  transform: translateX(20px);
+}
+
+.toggle__input:focus-visible + .toggle__track {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+}
