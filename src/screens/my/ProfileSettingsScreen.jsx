@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import SubPage from '../../components/SubPage'
-import Slot from '../../components/ui/Slot'
+import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import './ProfileSettingsScreen.css'
 
@@ -11,7 +11,7 @@ export default function ProfileSettingsScreen() {
       {/* 프로필 카드 */}
       <section className="profile__card">
         <div className="profile__avatar">
-          <Slot label="캐릭터" shape="circle" width={110} />
+          <Character variant="fullCircle" width={120} />
           <button type="button" className="profile__avatar-edit" aria-label="캐릭터 변경">
             ✎
           </button>

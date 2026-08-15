@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import Slot from '../../components/ui/Slot'
+import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import './LoginScreen.css'
 
@@ -17,7 +17,7 @@ export default function LoginScreen() {
           조정해 주는 서비스
         </p>
         <div className="login__character">
-          <Slot label="캐릭터" shape="circle" width={170} />
+          <Character variant="fullCircle" width={190} />
         </div>
       </div>
 

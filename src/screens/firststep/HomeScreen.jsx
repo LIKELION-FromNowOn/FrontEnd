@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import HeroPanel from '../../components/HeroPanel'
-import Slot from '../../components/ui/Slot'
+import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
 import { FIRST_STEP_CARDS } from '../options'
@@ -54,7 +54,7 @@ export default function HomeScreen() {
           </div>
 
           <div className="home__character">
-            <Slot label="캐릭터" width={190} height={120} />
+            <Character variant="fullCircle" width={200} />
           </div>
         </div>
       }

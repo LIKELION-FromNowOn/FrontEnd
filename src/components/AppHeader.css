@@ -32,7 +32,7 @@
   gap: 14px;
 }
 
-.appheader__bell {
+.appheader__icon {
   display: grid;
   place-items: center;
   padding: 4px;

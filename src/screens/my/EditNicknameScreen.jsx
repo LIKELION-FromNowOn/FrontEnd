@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SubPage from '../../components/SubPage'
-import Slot from '../../components/ui/Slot'
+import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import './EditNicknameScreen.css'
 
@@ -21,7 +21,7 @@ export default function EditNicknameScreen() {
       }
     >
       <div className="nick__talk">
-        <Slot label="캐릭터" shape="circle" width={92} />
+        <Character variant="face" width={92} />
         <p className="nick__bubble">닉네임을 설정해주세요!</p>
       </div>
 

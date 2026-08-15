@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import AppHeader from '../../components/AppHeader'
-import Slot from '../../components/ui/Slot'
+import Character from '../../components/ui/Character'
 import './MyScreen.css'
 
 /** I01_MyPage — 프로필 요약 + 설정 메뉴 */
@@ -85,7 +85,7 @@ export default function MyScreen() {
         {/* 캐릭터가 크림 카드 위로 걸쳐 있는 구조 */}
         <div className="my__profile">
           <div className="my__character">
-            <Slot label="캐릭터" shape="circle" width={140} />
+            <Character variant="fullCircle" width={150} />
           </div>
 
           <div className="my__stats">

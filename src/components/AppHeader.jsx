@@ -1,4 +1,5 @@
-import Slot from './ui/Slot'
+import Character from './ui/Character'
+import { BellIcon, MyIcon } from './ui/Icon'
 import './AppHeader.css'
 
 /**
@@ -12,40 +13,19 @@ export default function AppHeader({ nickname = '닉네임', onBrand = false, pro
   return (
     <header className={`appheader${onBrand ? ' appheader--on-brand' : ''}`}>
       <div className="appheader__user">
-        <Slot label="캐릭터" shape="circle" width={26} sm />
+        <Character variant="face" width={24} />
         <span className="appheader__nickname">{nickname}</span>
       </div>
 
       <div className="appheader__actions">
         {profile && (
-          <button type="button" className="appheader__bell" aria-label="내 정보">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <circle cx="12" cy="8" r="3.4" stroke="currentColor" strokeWidth="1.8" />
-              <path
-                d="M5.5 20c0-3.4 2.9-5.3 6.5-5.3s6.5 1.9 6.5 5.3"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
+          <button type="button" className="appheader__icon" aria-label="내 정보">
+            <MyIcon size={18} />
           </button>
         )}
 
-        <button type="button" className="appheader__bell" aria-label="알림">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path
-            d="M12 3a6 6 0 0 0-6 6v3.5L4.5 15.5h15L18 12.5V9a6 6 0 0 0-6-6Z"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 18a2 2 0 0 0 4 0"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-          </svg>
+        <button type="button" className="appheader__icon" aria-label="알림">
+          <BellIcon size={20} />
         </button>
       </div>
     </header>
