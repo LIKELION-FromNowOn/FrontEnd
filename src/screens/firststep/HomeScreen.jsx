@@ -54,7 +54,7 @@ export default function HomeScreen() {
           </div>
 
           <div className="home__character">
-            <Character variant="fullCircle" width={200} />
+            <Character variant="fullPlain" width={200} />
           </div>
         </div>
       }

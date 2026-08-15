@@ -4,7 +4,8 @@ import './Character.css'
  * 캐릭터 이미지.
  *
  *   face        얼굴만 — 헤더 아바타, 말풍선 옆
- *   fullCircle  크림 원 배경 + 전신 — 로그인, 마이 프로필
+ *   fullCircle  크림 원 배경 + 전신 — 로그인, 마이 프로필 (시안에 원이 있는 자리)
+ *   fullPlain   배경 없는 전신 — 모카 히어로처럼 색 배경 위에 얹는 자리
  *   leaf        나뭇잎 위 달팽이
  *
  * 파일은 public/character/ 에 있습니다. 그림이 바뀌면 같은 이름으로 덮어쓰면
@@ -13,6 +14,7 @@ import './Character.css'
 const SRC = {
   face: '/character/face.png',
   fullCircle: '/character/full-circle.png',
+  fullPlain: '/character/full-plain.png',
   leaf: '/character/leaf.png',
 }
 
