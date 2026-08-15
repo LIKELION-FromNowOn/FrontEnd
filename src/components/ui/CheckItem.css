@@ -16,6 +16,8 @@
 
 .check__box {
   flex: none;
+  display: grid;
+  place-items: center;
   width: 17px;
   height: 17px;
   border: 1.5px solid var(--c-border);
@@ -23,22 +25,24 @@
   background: var(--c-surface);
 }
 
+/* 체크 표시 — 사각형의 두 변만 남기고 45도 회전 */
+.check__box::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  margin-top: -2px;
+  border: solid var(--c-brand-on);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
 .check__input:checked + .check__box {
   border-color: var(--c-brand);
   background: var(--c-brand);
-  /* 체크 표시 */
-  background-image: linear-gradient(
-      45deg,
-      transparent 40%,
-      var(--c-brand-on) 40% 50%,
-      transparent 50%
-    ),
-    linear-gradient(
-      -45deg,
-      transparent 55%,
-      var(--c-brand-on) 55% 65%,
-      transparent 65%
-    );
+}
+.check__input:checked + .check__box::after {
+  opacity: 1;
 }
 
 .check__input:focus-visible + .check__box {

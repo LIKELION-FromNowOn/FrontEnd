@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppHeader from '../../components/AppHeader'
 import Button from '../../components/ui/Button'
-import { REDUCE_FILTERS, ROUTINE_ITEMS, VERDICT_LABEL } from '../options'
+import { REDUCE_FILTERS, ROUTINE_ITEMS, VERDICT_LABEL, canRevert } from '../options'
 import './ReduceResultScreen.css'
 
 /** G02_ReduceResult — 덜어내기 결과 (판정 배지 + 필터) */
@@ -60,6 +60,10 @@ export default function ReduceResultScreen() {
 
         <h2 className="rresult__section">오늘 루틴 전체 보기</h2>
 
+        {items.length === 0 && (
+          <p className="rresult__empty">이 판정에 해당하는 항목이 없어요</p>
+        )}
+
         <ol className="rresult__list">
           {items.map((item, i) => (
             <li key={item.name} className="rresult__row">
@@ -68,6 +72,14 @@ export default function ReduceResultScreen() {
               <span className={`rresult__badge rresult__badge--${item.verdict}`}>
                 {VERDICT_LABEL[item.verdict]}
               </span>
+
+              {/* keep·excluded는 되돌릴 판정이 없어 버튼을 띄우지 않는다 */}
+              {canRevert(item.verdict) && (
+                <button type="button" className="rresult__revert">
+                  되돌리기
+                </button>
+              )}
+
               <span className="rresult__arrow" aria-hidden>
                 ›
               </span>

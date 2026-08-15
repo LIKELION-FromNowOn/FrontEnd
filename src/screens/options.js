@@ -23,13 +23,28 @@ export const CARE_ITEM_GROUPS = [
   },
 ]
 
-/** D01 지금 컨디션 */
+/**
+ * C01 빈도 (NOW-ITEM-002).
+ * 기본값을 두지 않는다 — 「매일」이면 전부 줄이라고 나오고,
+ * 「주 1~2회」면 아무것도 안 줄어든다. 사용자가 반드시 고르게 한다.
+ */
+export const FREQUENCIES = [
+  { key: 'daily', label: '매일' },
+  { key: 'weekly34', label: '주 3~4회' },
+  { key: 'weekly12', label: '주 1~2회' },
+]
+
+/**
+ * D01 지금 컨디션 (NOW-STATE-001).
+ * 문구는 시안, 코드값·구성은 명세서를 따른다.
+ * 「잘 모르겠어요」는 정도가 아니라 답을 하지 않는 선택지라 빠지면 안 된다.
+ */
 export const CONDITIONS = [
-  '아주 좋아요 😄',
-  '좀 처져요 😅',
-  '괜찮아요 🙂',
-  '많이 지쳤어요 😵',
-  '그냥 그래요 😐',
+  { key: 'energetic', label: '아주 좋아요 😄' },
+  { key: 'normal', label: '괜찮아요 🙂' },
+  { key: 'low', label: '좀 처져요 😅' },
+  { key: 'drained', label: '많이 지쳤어요 😵' },
+  { key: 'unknown', label: '잘 모르겠어요 🤔' },
 ]
 
 /** D01 오늘 느껴지는 신호 */
@@ -69,17 +84,28 @@ export const SIGNAL_GROUPS = [
 export const VERDICT_LABEL = {
   keep: '그대로',
   simplify: '방식만',
-  reduce: '덜어내기',
-  skip: '쉬기',
-  excluded: '판정 안 함',
+  reduce: '줄이기',
+  skip: '오늘은 쉬기',
+  excluded: '판정 안 함', // 문구 재검토 대상 (8/16 김지현·송원석 확정 예정)
 }
+
+/**
+ * 되돌리기 버튼 노출 규칙 (NOW-SUB-007).
+ *   keep     — 이미 「그대로」라 되돌릴 것이 없음
+ *   excluded — 앱이 판단하지 않은 것이라 되돌릴 판정이 없음.
+ *              클리닉 안내가 앱 제안보다 우선한다는 안전 원칙이라 사용자가 뒤집을 수 없다.
+ * 되돌리면 keep으로 고정되고 다음 판정에서도 기억한다.
+ */
+export const canRevert = (verdict) =>
+  verdict === 'simplify' || verdict === 'reduce' || verdict === 'skip'
 
 /** G02 덜어내기 결과 — 판정 필터 */
 export const REDUCE_FILTERS = [
   { key: 'all', label: '전체' },
   { key: 'keep', label: '그대로' },
-  { key: 'reduce', label: '덜어내기' },
-  { key: 'skip', label: '쉬기' },
+  { key: 'simplify', label: '방식만' },
+  { key: 'reduce', label: '줄이기' },
+  { key: 'skip', label: '오늘은 쉬기' },
   { key: 'excluded', label: '판정 안 함' },
 ]
 

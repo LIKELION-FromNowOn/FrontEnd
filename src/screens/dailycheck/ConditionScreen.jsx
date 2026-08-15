@@ -24,14 +24,24 @@ export default function ConditionScreen() {
       back
       title="오늘 컨디션은 어때요?"
       subtitle="지금 상태를 알려주시면 오늘의 케어를 조절할게요"
-      footer={<Button onClick={() => navigate('/check/analyzing')}>오늘의 케어 보기</Button>}
+      /* 컨디션은 판정 입력값이라 반드시 하나 골라야 한다.
+         모르는 경우를 위해 「잘 모르겠어요」가 있으므로 못 고를 상황은 없다. */
+      footer={
+        <Button disabled={!condition} onClick={() => navigate('/check/analyzing')}>
+          오늘의 케어 보기
+        </Button>
+      }
     >
       <section className="screen__group">
         <h2 className="screen__group-title">지금 컨디션</h2>
         <div className="chip-group">
           {CONDITIONS.map((c) => (
-            <Chip key={c} selected={condition === c} onClick={() => setCondition(c)}>
-              {c}
+            <Chip
+              key={c.key}
+              selected={condition === c.key}
+              onClick={() => setCondition(c.key)}
+            >
+              {c.label}
             </Chip>
           ))}
         </div>
