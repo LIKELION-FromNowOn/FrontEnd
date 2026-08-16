@@ -3,35 +3,53 @@
  * 나중에 서버(마스터 API)에서 받아오게 되면 이 파일이 그 자리로 교체된다.
  */
 
-/** C01 관리 항목 선택 */
+/**
+ * C01 관리 항목 선택.
+ *
+ * 항목은 마스터 API(NOW-MASTER-002)에서 받아올 자리다. 지금은 시안 값으로 대신한다.
+ * freqEditable: false 인 항목은 빈도를 받지 않는다 (마스터의 frequencyEditable).
+ * 값이 없으면 true로 본다.
+ */
+const item = (name, freqEditable = true) => ({ name, freqEditable })
+
 export const CARE_ITEM_GROUPS = [
   {
     title: '세안 · 클렌징',
-    items: ['폼 클렌저', '약산성 클렌저', '오일/밤 클렌저', '각질 케어', '클렌징 워터/미셀라', '스크럽/필링'],
+    items: ['폼 클렌저', '약산성 클렌저', '오일/밤 클렌저', '각질 케어', '클렌징 워터/미셀라', '스크럽/필링'].map((n) => item(n)),
   },
   {
     title: '보습 · 진정',
-    items: ['토너·에센스', '수분팩', '세럼·앰플', '진정팩', '크림·로션', '미스트', '오일·페이셜 오일'],
+    items: ['토너·에센스', '수분팩', '세럼·앰플', '진정팩', '크림·로션', '미스트', '오일·페이셜 오일'].map((n) => item(n)),
   },
   {
     title: '자외선 차단',
-    items: ['선크림 (야외)', '선크림 (실내·창가)', '톤업 선크림'],
+    items: ['선크림 (야외)', '선크림 (실내·창가)', '톤업 선크림'].map((n) => item(n)),
   },
   {
     title: '집중 케어',
-    items: ['트러블 케어', '나이트 케어', '립 케어', '수면팩', '아이 케어'],
+    items: ['트러블 케어', '나이트 케어', '립 케어', '수면팩', '아이 케어'].map((n) => item(n)),
+  },
+  {
+    // 빈도를 받지 않는 항목들. 앱이 판정하지 않는 영역이라 강도를 조절하지 않는다.
+    title: '의료 · 클리닉',
+    items: [item('클리닉 안내', false), item('처방약', false), item('정기 검진', false)],
   },
 ]
 
 /**
- * C01 빈도 (NOW-ITEM-002).
+ * C01 빈도 (NOW-ITEM-002) — 명세서 FQL 테이블 5단계.
+ * weight는 서버 load 계산에 쓰이는 값이라 프론트가 계산에 쓰진 않지만,
+ * 값이 어긋나면 바로 드러나도록 함께 적어 둔다.
+ *
  * 기본값을 두지 않는다 — 「매일」이면 전부 줄이라고 나오고,
- * 「주 1~2회」면 아무것도 안 줄어든다. 사용자가 반드시 고르게 한다.
+ * 「주 1회」면 아무것도 안 줄어든다. 사용자가 반드시 고르게 한다.
  */
 export const FREQUENCIES = [
-  { key: 'daily', label: '매일' },
-  { key: 'weekly34', label: '주 3~4회' },
-  { key: 'weekly12', label: '주 1~2회' },
+  { key: 'weekly_1', label: '주 1회', weight: 0.5 },
+  { key: 'weekly_2', label: '주 2회', weight: 1.1 },
+  { key: 'weekly_3', label: '주 3회', weight: 1.9 },
+  { key: 'weekly_4plus', label: '주 4회 이상', weight: 2.9 },
+  { key: 'daily', label: '매일', weight: 3.6 },
 ]
 
 /**
@@ -44,7 +62,8 @@ export const CONDITIONS = [
   { key: 'normal', label: '괜찮아요 🙂' },
   { key: 'low', label: '좀 처져요 😅' },
   { key: 'drained', label: '많이 지쳤어요 😵' },
-  { key: 'unknown', label: '잘 모르겠어요 🤔' },
+  // 「그냥 그래요」를 뺀 자리를 대신 차지하지 않도록 「모르겠다」 쪽으로 문구를 민다
+  { key: 'unknown', label: '오늘은 잘 모르겠어요 🤔' },
 ]
 
 /** D01 오늘 느껴지는 신호 */
@@ -109,14 +128,31 @@ export const REDUCE_FILTERS = [
   { key: 'excluded', label: '판정 안 함' },
 ]
 
-/** G02 오늘 루틴 전체 (시안 예시 데이터) */
+/**
+ * G02 오늘 루틴 전체 — 서버 판정 응답을 대신하는 목 데이터.
+ *
+ * reason은 서버가 내려주는 문장을 그대로 쓴다. 프론트에서 만들지 않는다.
+ * 클리닉·항목마다 문장이 다르고, 브랜드명·의학적 단정 검사가 서버에만 있기 때문.
+ */
 export const ROUTINE_ITEMS = [
-  { name: '클렌징', verdict: 'keep' },
-  { name: '토너', verdict: 'excluded' },
-  { name: '레티놀', verdict: 'reduce' },
-  { name: '보습', verdict: 'keep' },
-  { name: '자외선 차단제', verdict: 'keep' },
-  { name: '마스크팩', verdict: 'keep' },
+  { itemId: 'mv_001', name: '클렌징', verdict: 'keep' },
+  {
+    itemId: 'mv_002',
+    name: '토너',
+    verdict: 'excluded',
+    excludedBy: 'clinicNote',
+    reason: '클리닉에서 받으신 안내가 우선입니다. 앱이 바꾸지 않습니다.',
+  },
+  { itemId: 'mv_003', name: '레티놀', verdict: 'reduce' },
+  { itemId: 'mv_004', name: '보습', verdict: 'keep' },
+  { itemId: 'mv_005', name: '자외선 차단제', verdict: 'keep' },
+  {
+    itemId: 'mv_006',
+    name: '마스크팩',
+    verdict: 'excluded',
+    excludedBy: 'floor',
+    reason: '이 항목은 앱이 판단하지 않습니다.',
+  },
 ]
 
 /** 덜어내기 기록 — 피부 느낌 5단계 */

@@ -12,26 +12,32 @@ import './CareItemsScreen.css'
  * 항목을 체크하면 그 줄 아래에 빈도 칩이 펼쳐진다.
  * 빈도에 기본값을 두지 않는다 — load 계산이 한쪽으로 쏠려 판정 전체가 틀어지기 때문.
  * 체크한 항목 중 빈도가 비어 있으면 다음으로 넘어갈 수 없다.
+ *
+ * 단 freqEditable: false 인 항목(클리닉 안내·처방약·정기 검진)은 빈도를 받지 않으므로
+ * 칩도 띄우지 않고 다음 버튼도 막지 않는다.
  */
 export default function CareItemsScreen() {
   const navigate = useNavigate()
-  // { 항목명: 빈도키 | null }
+  // { 항목명: 빈도키 | null }  — 빈도를 받지 않는 항목은 값이 계속 null이다
   const [picked, setPicked] = useState({})
   const [etc, setEtc] = useState('')
 
-  const toggle = (item) =>
+  const toggle = (name) =>
     setPicked((prev) => {
       const next = { ...prev }
-      if (item in next) delete next[item]
-      else next[item] = null
+      if (name in next) delete next[name]
+      else next[name] = null
       return next
     })
 
-  const setFreq = (item, freq) => setPicked((prev) => ({ ...prev, [item]: freq }))
+  const setFreq = (name, freq) => setPicked((prev) => ({ ...prev, [name]: freq }))
 
-  const chosen = Object.keys(picked)
-  const missingFreq = chosen.filter((i) => !picked[i])
-  const canProceed = chosen.length > 0 && missingFreq.length === 0
+  // 빈도가 필요한데 아직 안 고른 항목
+  const needsFreq = CARE_ITEM_GROUPS.flatMap((g) => g.items).filter(
+    (it) => it.freqEditable && it.name in picked && !picked[it.name],
+  )
+  const chosenCount = Object.keys(picked).length
+  const canProceed = chosenCount > 0 && needsFreq.length === 0
 
   return (
     <Screen
@@ -45,9 +51,9 @@ export default function CareItemsScreen() {
       subtitle="평소 관리하는 항목을 알려주시면 오늘 상태에 맞게 케어를 추천해드려요. 이 설정은 언제든 바꿀 수 있어요"
       footer={
         <>
-          {chosen.length > 0 && missingFreq.length > 0 && (
+          {needsFreq.length > 0 && (
             <p className="careitems__hint" role="status">
-              선택한 항목의 빈도를 골라주세요 ({missingFreq.length}개 남음)
+              선택한 항목의 빈도를 골라주세요 ({needsFreq.length}개 남음)
             </p>
           )}
           <Button disabled={!canProceed} onClick={() => navigate('/check')}>
@@ -61,30 +67,31 @@ export default function CareItemsScreen() {
           <h2 className="screen__group-title">{group.title}</h2>
 
           <ul className="careitems__list">
-            {group.items.map((item) => {
-              const isPicked = item in picked
+            {group.items.map((it) => {
+              const isPicked = it.name in picked
+              const showFreq = isPicked && it.freqEditable
+
               return (
-                <li key={item} className="careitems__row">
+                <li key={it.name} className="careitems__row">
                   <CheckItem
-                    label={item}
+                    label={it.name}
                     checked={isPicked}
-                    onChange={() => toggle(item)}
+                    onChange={() => toggle(it.name)}
                   />
 
-                  {/* 체크한 항목만 빈도 칩을 펼친다 */}
-                  {isPicked && (
+                  {showFreq && (
                     <div
-                      className={`careitems__freq${picked[item] ? '' : ' is-missing'}`}
+                      className={`careitems__freq${picked[it.name] ? '' : ' is-missing'}`}
                     >
                       {FREQUENCIES.map((f) => (
                         <button
                           key={f.key}
                           type="button"
                           className={`careitems__freq-chip${
-                            picked[item] === f.key ? ' is-selected' : ''
+                            picked[it.name] === f.key ? ' is-selected' : ''
                           }`}
-                          onClick={() => setFreq(item, f.key)}
-                          aria-pressed={picked[item] === f.key}
+                          onClick={() => setFreq(it.name, f.key)}
+                          aria-pressed={picked[it.name] === f.key}
                         >
                           {f.label}
                         </button>

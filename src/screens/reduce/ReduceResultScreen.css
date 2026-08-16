@@ -139,13 +139,24 @@
 }
 
 .rresult__row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   padding: 13px 16px;
 }
 .rresult__row + .rresult__row {
   border-top: 1px solid var(--c-cream);
+}
+
+.rresult__main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 서버가 내려준 판정 사유 */
+.rresult__reason {
+  margin: 6px 0 0 28px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--c-text-muted);
 }
 
 .rresult__no {
