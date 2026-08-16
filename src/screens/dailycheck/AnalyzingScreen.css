@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 18px;
   min-height: 100%;
   padding: 40px var(--sp-screen);
-  background: var(--c-bg);
+  background: var(--c-cream);
   text-align: center;
 }
 
@@ -14,12 +14,45 @@
   margin: 0;
   font-size: 17px;
   font-weight: 700;
-  color: var(--c-text);
+  color: var(--c-text-brown);
 }
 
+/* 점 세 개가 차례로 깜빡인다 */
 .analyzing__dots {
-  margin: 0 0 20px;
-  font-size: 18px;
-  letter-spacing: 2px;
-  color: var(--c-text-faint);
+  display: flex;
+  gap: 7px;
+  margin: 0;
+}
+
+.analyzing__dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-brand);
+  animation: analyzing-blink 1.2s infinite ease-in-out;
+}
+.analyzing__dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.analyzing__dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes analyzing-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* 애니메이션을 줄이도록 설정한 사용자에게는 깜빡임을 끈다 */
+@media (prefers-reduced-motion: reduce) {
+  .analyzing__dots span {
+    animation: none;
+    opacity: 0.6;
+  }
 }
