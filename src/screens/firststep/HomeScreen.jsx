@@ -19,42 +19,40 @@ export default function HomeScreen() {
       nickname="예니"
       hero={
         <div className="home__hero">
-          <div className="hero__split">
-            <div>
-              <h1 className="hero__title">
-                지금부터,
-                <br />
-                오늘도 한 걸음
-              </h1>
-              <p className="hero__lead">
-                오늘 나에게 필요한
-                <br />
-                작은 루틴을 시작해보세요
-              </p>
-            </div>
+          <h1 className="hero__title">
+            지금부터,
+            <br />
+            오늘도 한 걸음
+          </h1>
+          <p className="hero__lead">
+            오늘 나에게 필요한
+            <br />
+            작은 루틴을 시작해보세요
+          </p>
 
-            <div className="hero__shortcuts">
-              <Link to="/first-step" className="hero__shortcut hero__shortcut--solid">
-                <span className="hero__shortcut-title">
-                  내 첫 발자국
-                  <br />
-                  관리하기
-                </span>
-                <span className="hero__shortcut-arrow" aria-hidden>
-                  ›
-                </span>
-              </Link>
-              <Link to="/check" className="hero__shortcut hero__shortcut--tint">
-                <span className="hero__shortcut-title">오늘의 컨디션</span>
-                <span className="hero__shortcut-arrow" aria-hidden>
-                  ›
-                </span>
-              </Link>
-            </div>
+          {/* 제목 오른쪽에 겹쳐 놓이는 바로가기 2개 */}
+          <div className="hero__shortcuts">
+            <Link to="/first-step" className="hero__shortcut hero__shortcut--solid">
+              <span className="hero__shortcut-title">
+                내 첫 발자국
+                <br />
+                관리하기
+              </span>
+              <span className="hero__shortcut-arrow" aria-hidden>
+                ›
+              </span>
+            </Link>
+            <Link to="/check" className="hero__shortcut hero__shortcut--tint">
+              <span className="hero__shortcut-title">오늘의 컨디션</span>
+              <span className="hero__shortcut-arrow" aria-hidden>
+                ›
+              </span>
+            </Link>
           </div>
 
+          {/* 아래 흰 패널과 맞닿게 히어로 왼쪽 아래에 붙인다 */}
           <div className="home__character">
-            <Character variant="fullPlain" width={200} />
+            <Character variant="fullPlain" />
           </div>
         </div>
       }

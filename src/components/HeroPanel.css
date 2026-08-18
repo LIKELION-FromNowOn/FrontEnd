@@ -44,12 +44,15 @@
 .hero__shortcuts {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 13px;
 }
 
 .hero__shortcut {
-  display: block;
-  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 72px;
+  padding: 13px 14px;
   border-radius: var(--r-card);
   text-decoration: none;
   color: var(--c-text-brown);
@@ -68,26 +71,17 @@
   line-height: 1.35;
 }
 
+/* 두 카드 모두 노란 원 + 갈색 화살표 */
 .hero__shortcut-arrow {
   display: grid;
   place-items: center;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   margin-top: 8px;
   border-radius: 50%;
-  background: var(--c-brand);
-  color: var(--c-brand-on);
-  font-size: 10px;
-}
-.hero__shortcut--tint .hero__shortcut-arrow {
-  background: var(--c-cream);
-  color: var(--c-brand);
-}
-
-/* 히어로 좌우 배치 (좌: 문구+캐릭터 / 우: 바로가기) */
-.hero__split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  align-items: start;
+  background: var(--c-arrow);
+  color: var(--c-text-brown);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }
