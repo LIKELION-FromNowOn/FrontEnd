@@ -82,68 +82,8 @@
   margin: 10px auto 0;
 }
 
-/* ── 이어가는 첫 발자국 ─────────────────────── */
-.home__streak {
-  padding: 22px 18px 18px;
-  border-radius: var(--r-card-lg);
-  background: var(--c-brand-light);
-  text-align: center;
-}
-
-.home__streak-title {
-  margin: 0 0 4px;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--c-brand-on);
-}
-
-.home__streak-sub {
-  margin: 0 0 16px;
-  font-size: 10px;
-  color: var(--c-brand-on);
-  opacity: 0.85;
-}
-
-/* 7일 진행 점 */
-.home__dots {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-  margin: 0 0 16px;
-  padding: 0;
-  list-style: none;
-  position: relative;
-}
-/* 점 사이를 잇는 선 */
-.home__dots::before {
-  content: '';
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  top: 50%;
-  height: 1px;
-  background: var(--c-brand-on);
-  opacity: 0.5;
-}
-
-.home__dot {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--c-brand-on);
-  border-radius: 50%;
-  background: var(--c-brand-light);
-  color: var(--c-brand-on);
-  font-size: 11px;
-}
-.home__dot.is-done {
-  background: var(--c-brand-on);
-  color: var(--c-brand);
-  font-weight: 700;
-}
+/* 「이어가는 첫 발자국」 카드는 첫 발자국 관리 화면과 공용이라
+   components/StreakCard.css 로 옮겼습니다. */
 
 /* ── 첫 발자국 카드 하단 ────────────────────── */
 .home__card-actions {

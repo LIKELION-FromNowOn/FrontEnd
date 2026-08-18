@@ -58,13 +58,20 @@ export const FREQUENCIES = [
  * 「잘 모르겠어요」는 정도가 아니라 답을 하지 않는 선택지라 빠지면 안 된다.
  */
 export const CONDITIONS = [
-  { key: 'energetic', label: '아주 좋아요 😄' },
-  { key: 'normal', label: '괜찮아요 🙂' },
-  { key: 'low', label: '좀 처져요 😅' },
-  { key: 'drained', label: '많이 지쳤어요 😵' },
+  { key: 'energetic', emoji: '😄', label: '아주 좋아요 😄' },
+  { key: 'normal', emoji: '🙂', label: '괜찮아요 🙂' },
+  { key: 'low', emoji: '😅', label: '좀 처져요 😅' },
+  { key: 'drained', emoji: '😵', label: '많이 지쳤어요 😵' },
   // 「그냥 그래요」를 뺀 자리를 대신 차지하지 않도록 「모르겠다」 쪽으로 문구를 민다
-  { key: 'unknown', label: '오늘은 잘 모르겠어요 🤔' },
+  { key: 'unknown', emoji: '🤔', label: '오늘은 잘 모르겠어요 🤔' },
 ]
+
+/**
+ * 등급이 있는 컨디션만 (그래프 세로축용).
+ * 「잘 모르겠어요」는 좋고 나쁨의 정도가 아니라 답을 미룬 것이라 축에 세우면 안 된다.
+ * 아래(1)에서 위(4)로 갈수록 좋은 쪽이다.
+ */
+export const CONDITION_LEVELS = CONDITIONS.filter((c) => c.key !== 'unknown')
 
 /** D01 오늘 느껴지는 신호 */
 export const SIGNAL_GROUPS = [
@@ -166,6 +173,152 @@ export const SKIN_FEELINGS = [
 
 /** 덜어내기 기록 — 실행 정도 */
 export const DID_OPTIONS = ['추천대로 했어요', '조금 바꿨어요', '거의 못 했어요']
+
+/**
+ * 이어가는 첫 발자국 — 따라가는 중인 루틴 (F01 «루틴 따라하기» 상태 · F_FirstStepManage).
+ *
+ * 아직 아무 루틴도 시작하지 않았으면 null이다. 그때는 홈에서 이 카드를 통째로 빼고
+ * 히어로 바로가기 문구도 「오늘의 컨디션 및 관리 항목」으로 바뀐다 (F01 기본 상태).
+ * 서버 연동 시 홈 응답(NOW-HOME-001)에서 받아 채운다.
+ */
+export const ACTIVE_STREAK = {
+  title: '아침에 눈 뜨면 물 마시기',
+  day: 1,
+  total: 7,
+}
+
+/** 완료한 첫 발자국 (F_FirstStepManage) — 시안이 빈 상태라 목도 비워 둔다 */
+export const DONE_STREAKS = []
+
+/**
+ * 이번 주 컨디션 막대그래프 (F_WeeklyCondition).
+ *
+ * level은 CONDITION_LEVELS를 아래에서부터 센 값(1=많이 지쳤어요 … 4=아주 좋아요)이다.
+ * 「잘 모르겠어요」로 답했거나 답하지 않은 날은 높이를 만들 수 없으므로
+ * level을 null로 두고 막대를 비운다.
+ * 서버 연동 시 기록 요약(NOW-LOG-002)에서 받아 채운다.
+ */
+export const WEEK_CONDITION = [
+  { date: '8.11', level: 3 },
+  { date: '8.12', level: 2 },
+  { date: '8.13', level: 3 },
+  { date: '8.14', level: 4 },
+  { date: '8.15', level: 1 },
+  { date: '8.16', level: 2 },
+  { date: '8.17', level: 3 },
+]
+
+/**
+ * 오늘의 행동 (NOW-TODAY-001 GET /today).
+ *
+ * durationSec은 서버가 매번 다르게 내려주는 값이다. 4차 회의에서 15분 고정을 없앴으므로
+ * 화면에서 상수로 쓰면 안 된다 — 이 목에서도 반드시 이 값을 통해서만 읽는다.
+ */
+export const TODAY_ACTION = {
+  actionId: 'ac_992',
+  categoryName: '피부·홈케어',
+  title: '세안하고 크림 한번만 바르기',
+  durationSec: 240,
+}
+
+/**
+ * 오늘의 행동을 미룰 때 고르는 사유 (NOW-TODAY-008 POST /today/reject).
+ * 「다른 행동 요청」과 달리 이유가 남고, 실패로 기록하지 않는다.
+ */
+export const REJECT_REASONS = [
+  { key: 'tired', label: '오늘은 너무 지쳤어요' },
+  { key: 'no_time', label: '시간이 없어요' },
+  { key: 'not_now', label: '지금 할 상황이 아니에요' },
+  { key: 'not_fit', label: '나에게 맞지 않아요' },
+  { key: 'already', label: '이미 했어요' },
+]
+
+/**
+ * 기록 (NOW-LOG-001 GET /logs · NOW-LOG-002 GET /logs/summary).
+ *
+ * 완료한 것만 남긴다. 달성률·연속일은 만들지 않는다 —
+ * 비율을 만들면 못 한 날이 드러나고, 끊기는 순간이 부담이 되기 때문(명세서 「하지 않는 것」).
+ */
+export const LOG_DAYS = [
+  {
+    date: '8월 18일',
+    logs: [
+      { logId: 'lg_770', title: '세안하고 크림 한번만 바르기', categoryName: '피부·홈케어' },
+    ],
+  },
+  {
+    date: '8월 17일',
+    logs: [
+      { logId: 'lg_769', title: '자기 전 알람 하나만 남기기', categoryName: '수면' },
+      { logId: 'lg_768', title: '물 한 잔 마시기', categoryName: '식사·영양' },
+    ],
+  },
+  {
+    date: '8월 15일',
+    logs: [{ logId: 'lg_764', title: '창문 열고 3분 서 있기', categoryName: '마음' }],
+  },
+]
+
+/** 기록 요약 — 분모를 만들지 않으므로 건수와 분포만 있다 */
+export const LOG_SUMMARY = {
+  total: 4,
+  byCategory: [
+    { categoryName: '피부·홈케어', count: 2 },
+    { categoryName: '수면', count: 1 },
+    { categoryName: '마음', count: 1 },
+  ],
+}
+
+/**
+ * 기록 탭 잠금 (홈 응답 NOW-HOME-001의 unlock 블록).
+ * 기록한 날이 쌓여야 주간·월간 발견이 열린다.
+ */
+export const LOG_UNLOCK = {
+  recordedDays: 7,
+  weeklyOpen: true,
+  monthlyOpen: false,
+  monthlyNeed: 30,
+}
+
+/**
+ * 케어 코치 (NOW-COACH-001 POST /coach/ask).
+ *
+ * 판정은 규칙이 하고 AI는 문장만 만든다. 그래서 화면은 답변과 함께 근거(basis)를
+ * 반드시 같이 띄운다 (NOW-COACH-003). 서버가 붙는 자리라 여기서는 목으로 흉내만 낸다.
+ *
+ *   level  no   오늘은 하지 않는 편이 낫다
+ *          soft 조건을 낮춰서라면 괜찮다
+ *          ok   해도 된다
+ */
+export const COACH_SUGGESTIONS = [
+  '오늘 각질 관리 해도 되나요',
+  '오늘 팩 해도 될까요',
+  '선크림은 발라야 하나요',
+]
+
+export const COACH_MOCK_ANSWER = {
+  answer: '클리닉에서 3일간 피하라고 안내받으셨습니다. 오늘은 쉬시는 것이 맞습니다.',
+  basis: { type: 'clinicNote', label: '클리닉 안내', sent: 2 },
+  level: 'no',
+  generatedBy: 'rule+llm',
+}
+
+/** 케어 코치 답변 수위 배지 */
+export const COACH_LEVEL = {
+  no: { label: '오늘은 쉬어요', tone: 'stop' },
+  soft: { label: '가볍게라면', tone: 'soft' },
+  ok: { label: '해도 괜찮아요', tone: 'ok' },
+}
+
+/** 캐릭터 소개(F_CharacterIntro)의 말풍선. 위치는 CSS에서 시안 좌표로 잡는다. */
+export const CHARACTER_TRAITS = [
+  { key: 'step', label: '작은 한 걸음' },
+  { key: 'steady', label: '꾸준히', desc: '작은 걸음을 이어가요' },
+  { key: 'slow', label: '천천히', desc: '서두르지 않아요' },
+  { key: 'light', label: '가볍게', desc: '필요한 만큼만 해요' },
+  { key: 'easy', label: '편안하게', desc: '힘든 날에는 쉬어가요' },
+  { key: 'rest', label: '쉬어가기' },
+]
 
 /** E01 첫 발자국 카드 (시안에 있는 예시 문구) */
 export const FIRST_STEP_CARDS = [

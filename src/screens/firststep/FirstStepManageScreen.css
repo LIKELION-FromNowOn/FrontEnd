@@ -1,0 +1,77 @@
+/* 제목 아래 안내 한 줄. SubPage의 lead와 달리 시안에 구분선이 없다. */
+.fsmanage__lead {
+  margin: -8px 0 22px 4px;
+  font-size: 13px;
+  color: var(--c-text-brown);
+}
+
+/* 「이어가는 첫 발자국」 + 오른쪽 «다른 첫 발자국 보기» */
+.fsmanage__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fsmanage__section {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+.fsmanage__section--gap {
+  margin-top: 28px;
+}
+
+.fsmanage__more {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-decoration: none;
+}
+
+/* 빈 상태 — 크림 카드 안 가운데 한 줄 */
+.fsmanage__empty {
+  display: grid;
+  place-items: center;
+  min-height: 118px;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* 완료 목록 */
+.fsmanage__done {
+  margin: 0;
+  padding: 6px 0;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  list-style: none;
+}
+
+.fsmanage__done-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 18px;
+}
+.fsmanage__done-row + .fsmanage__done-row {
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.fsmanage__done-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-text-brown);
+}
+
+.fsmanage__done-date {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}

@@ -3,16 +3,21 @@ import HeroPanel from '../../components/HeroPanel'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
-import { FIRST_STEP_CARDS } from '../options'
+import StreakCard from '../../components/StreakCard'
+import { ACTIVE_STREAK, FIRST_STEP_CARDS } from '../options'
 import './HomeScreen.css'
 
-/** F01_Home — 히어로 + 오늘의 케어 + 이어가는 첫 발자국 + 오늘의 첫 발자국 */
-const STREAK_TOTAL = 7
-const STREAK_DONE = 1
-
+/**
+ * F01_Home — 히어로 + 오늘의 케어 + (이어가는 첫 발자국) + 오늘의 첫 발자국
+ *
+ * 시안이 두 상태로 나왔다.
+ *   루틴 없음  — 「이어가는 첫 발자국」 없음, 바로가기는 «오늘의 컨디션 및 관리 항목»
+ *   루틴 있음  — 카드가 들어가고 바로가기가 «오늘의 컨디션» 한 줄로 줄어든다
+ */
 export default function HomeScreen() {
   const navigate = useNavigate()
   const card = FIRST_STEP_CARDS[0]
+  const streak = ACTIVE_STREAK
 
   return (
     <HeroPanel
@@ -32,7 +37,7 @@ export default function HomeScreen() {
 
           {/* 제목 오른쪽에 겹쳐 놓이는 바로가기 2개 */}
           <div className="hero__shortcuts">
-            <Link to="/first-step" className="hero__shortcut hero__shortcut--solid">
+            <Link to="/first-step/manage" className="hero__shortcut hero__shortcut--solid">
               <span className="hero__shortcut-title">
                 내 첫 발자국
                 <br />
@@ -42,8 +47,19 @@ export default function HomeScreen() {
                 ›
               </span>
             </Link>
-            <Link to="/check" className="hero__shortcut hero__shortcut--tint">
-              <span className="hero__shortcut-title">오늘의 컨디션</span>
+            <Link to="/condition" className="hero__shortcut hero__shortcut--tint">
+              {/* 루틴 카드가 없는 날은 홈이 허전해서 시안이 문구를 두 줄로 늘린다 */}
+              <span className="hero__shortcut-title">
+                오늘의 컨디션
+                {!streak && (
+                  <>
+                    {' '}
+                    및
+                    <br />
+                    관리 항목
+                  </>
+                )}
+              </span>
               <span className="hero__shortcut-arrow" aria-hidden>
                 ›
               </span>
@@ -77,26 +93,18 @@ export default function HomeScreen() {
         </div>
       </section>
 
-      {/* 이어가는 첫 발자국 */}
-      <h2 className="home__section">이어가는 첫 발자국</h2>
-      <section className="home__streak">
-        <h3 className="home__streak-title">아침에 눈 뜨면 물 마시기</h3>
-        <p className="home__streak-sub">오늘이 첫 번째 날이에요</p>
-
-        <ol className="home__dots">
-          {Array.from({ length: STREAK_TOTAL }, (_, i) => (
-            <li
-              key={i}
-              className={`home__dot${i < STREAK_DONE ? ' is-done' : ''}`}
-              aria-current={i === STREAK_DONE - 1 ? 'step' : undefined}
-            >
-              {i + 1}
-            </li>
-          ))}
-        </ol>
-
-        <Button variant="cream">오늘도 이어가기</Button>
-      </section>
+      {/* 이어가는 첫 발자국 — 따라가는 루틴이 있을 때만 */}
+      {streak && (
+        <>
+          <h2 className="home__section">이어가는 첫 발자국</h2>
+          <StreakCard
+            title={streak.title}
+            day={streak.day}
+            total={streak.total}
+            onContinue={() => navigate('/care/start')}
+          />
+        </>
+      )}
 
       {/* 오늘의 첫 발자국 */}
       <h2 className="home__section">오늘의 첫 발자국</h2>

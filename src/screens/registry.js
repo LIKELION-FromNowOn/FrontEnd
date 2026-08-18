@@ -28,6 +28,8 @@ export const SCREENS = [
     links: ['/check/analyzing'] },
   { path: '/check/analyzing', key: 'analyzing', code: 'D02', title: '케어 분석 중', kind: 'required',
     links: ['/home'] },
+  { path: '/condition', key: 'conditionHub', code: 'F_WeeklyCondition', title: '오늘의 컨디션', kind: 'required', tab: true,
+    links: ['/check', '/onboarding/care-items'] },
 
   // ── F 홈 · 첫 발자국 (탭) ───────────────
   { path: '/home', key: 'home', code: 'F01', title: '홈', kind: 'required', tab: true,
@@ -37,6 +39,10 @@ export const SCREENS = [
   { path: '/first-step', key: 'firstStepList', code: 'F02', title: '첫 발자국 목록', kind: 'required', tab: true,
     links: ['/first-step/detail'] },
   { path: '/first-step/detail', key: 'firstStepDetail', code: 'F03', title: '첫 발자국 상세', kind: 'required', tab: true,
+    links: ['/home'] },
+  { path: '/first-step/manage', key: 'firstStepManage', code: 'F_FirstStepManage', title: '내 첫 발자국 관리', kind: 'required', tab: true,
+    links: ['/first-step', '/care/start'] },
+  { path: '/character', key: 'characterIntro', code: 'F_CharacterIntro', title: '캐릭터 소개', kind: 'optional', tab: true,
     links: ['/home'] },
 
   // ── G 덜어내기 (탭) ─────────────────────
@@ -61,8 +67,12 @@ export const SCREENS = [
   { path: '/my/contact', key: 'contact', code: 'I05', title: '문의하기', kind: 'required', tab: true,
     links: ['/my'] },
 
-  // ── 아직 시안 없음 ──────────────────────
-  { path: '/records', key: 'records', title: '기록', kind: 'required', tab: true, links: ['/home'] },
-  { path: '/care/start', key: 'careStart', title: '케어 시작', kind: 'required', links: ['/home'] },
-  { path: '/coach', key: 'coach', title: '케어 코치', kind: 'required', links: ['/home'] },
+  // ── 시안 없이 API 명세만으로 구현한 화면 ──
+  // 기존 색·간격 토큰만 써서 짰다. 시안이 나오면 값만 갈아끼우면 된다.
+  { path: '/records', key: 'records', title: '기록', kind: 'required', tab: true,
+    links: ['/home'] },
+  { path: '/care/start', key: 'careStart', title: '케어 시작', kind: 'required',
+    links: ['/records', '/home'] },
+  { path: '/coach', key: 'coach', title: '케어 코치', kind: 'required', tab: true,
+    links: ['/home'] },
 ]

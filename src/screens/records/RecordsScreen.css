@@ -1,0 +1,172 @@
+/* ── 기간 전환 ─────────────────────────────── */
+.records__periods {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.records__period {
+  height: var(--h-chip);
+  padding: 0 16px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.records__period.is-selected {
+  border-color: var(--c-brand);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+}
+
+/* ── 잠긴 기간 ─────────────────────────────── */
+.records__locked {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  min-height: 160px;
+  padding: 24px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  text-align: center;
+}
+
+.records__locked-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+  word-break: keep-all;
+}
+
+.records__locked-sub {
+  margin: 0;
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+/* ── 요약 ──────────────────────────────────
+   완료 건수와 분포만 있다. 분모(달성률)를 만들지 않는다. */
+.records__summary {
+  padding: 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.records__count {
+  margin: 0 0 16px;
+  font-size: 15px;
+  color: var(--c-text-brown);
+}
+.records__count strong {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.records__dist {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.records__dist-row {
+  display: grid;
+  grid-template-columns: 74px 1fr 18px;
+  align-items: center;
+  gap: 10px;
+}
+
+.records__dist-name {
+  font-size: 11px;
+  color: var(--c-text-brown);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.records__dist-track {
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  overflow: hidden;
+}
+
+.records__dist-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--c-brand-light);
+}
+
+.records__dist-count {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-align: right;
+}
+
+/* ── 완료 목록 ─────────────────────────────── */
+.records__section {
+  margin: 28px 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.records__day + .records__day {
+  margin-top: 18px;
+}
+
+.records__date {
+  margin: 0 0 8px 2px;
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.records__logs {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  list-style: none;
+}
+
+.records__log {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+}
+.records__log + .records__log {
+  border-top: 1px solid var(--c-cream);
+}
+
+.records__log-title {
+  font-size: 14px;
+  color: var(--c-text-brown);
+  word-break: keep-all;
+}
+
+.records__log-cat {
+  flex: none;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+.records__empty {
+  margin: 0;
+  padding: 40px 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  text-align: center;
+}

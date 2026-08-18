@@ -11,11 +11,14 @@ import PasswordSetupScreen from './screens/auth/PasswordSetupScreen'
 import EmailVerificationScreen from './screens/auth/EmailVerificationScreen'
 import CareItemsScreen from './screens/onboarding/CareItemsScreen'
 import ConditionScreen from './screens/dailycheck/ConditionScreen'
+import ConditionHubScreen from './screens/dailycheck/ConditionHubScreen'
 import AnalyzingScreen from './screens/dailycheck/AnalyzingScreen'
 import HomeScreen from './screens/firststep/HomeScreen'
 import FirstStepListScreen from './screens/firststep/FirstStepListScreen'
 import FirstStepIntroScreen from './screens/firststep/FirstStepIntroScreen'
 import FirstStepDetailScreen from './screens/firststep/FirstStepDetailScreen'
+import FirstStepManageScreen from './screens/firststep/FirstStepManageScreen'
+import CharacterIntroScreen from './screens/firststep/CharacterIntroScreen'
 import ReduceIntroScreen from './screens/reduce/ReduceIntroScreen'
 import ReduceResultScreen from './screens/reduce/ReduceResultScreen'
 import ReduceRecordScreen from './screens/reduce/ReduceRecordScreen'
@@ -25,6 +28,9 @@ import ProfileSettingsScreen from './screens/my/ProfileSettingsScreen'
 import NotificationSettingsScreen from './screens/my/NotificationSettingsScreen'
 import ServiceGuideScreen from './screens/my/ServiceGuideScreen'
 import ContactScreen from './screens/my/ContactScreen'
+import RecordsScreen from './screens/records/RecordsScreen'
+import CareStartScreen from './screens/today/CareStartScreen'
+import CoachScreen from './screens/coach/CoachScreen'
 
 /** 시안이 나와서 구현된 화면. 나머지는 자동으로 StubScreen이 뜬다. */
 const REAL = {
@@ -34,11 +40,14 @@ const REAL = {
   authVerify: <EmailVerificationScreen />,
   careItems: <CareItemsScreen />,
   condition: <ConditionScreen />,
+  conditionHub: <ConditionHubScreen />,
   analyzing: <AnalyzingScreen />,
   home: <HomeScreen />,
   firstStepIntro: <FirstStepIntroScreen />,
   firstStepList: <FirstStepListScreen />,
   firstStepDetail: <FirstStepDetailScreen />,
+  firstStepManage: <FirstStepManageScreen />,
+  characterIntro: <CharacterIntroScreen />,
   reduceIntro: <ReduceIntroScreen />,
   reduceResult: <ReduceResultScreen />,
   reduceRecord: <ReduceRecordScreen />,
@@ -48,6 +57,9 @@ const REAL = {
   notificationSettings: <NotificationSettingsScreen />,
   serviceGuide: <ServiceGuideScreen />,
   contact: <ContactScreen />,
+  records: <RecordsScreen />,
+  careStart: <CareStartScreen />,
+  coach: <CoachScreen />,
 }
 
 const el = (s) => REAL[s.key] ?? <StubScreen meta={s} showBack />

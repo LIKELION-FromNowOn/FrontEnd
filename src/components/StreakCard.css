@@ -1,0 +1,85 @@
+/* 「이어가는 첫 발자국」 — 모카 카드 안에 달팽이 + 제목 + 7일 진행 점 + CTA */
+.streak {
+  padding: 16px 16px 16px;
+  border-radius: var(--r-card-lg);
+  background: var(--c-brand-light);
+}
+
+.streak__head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 잎 위 달팽이. 카드 왼쪽에서 살짝 넘치게 두어 시안의 여유를 맞춘다 */
+.streak__char {
+  flex: 0 0 33%;
+  margin: -6px 0 -2px -4px;
+}
+.streak__char .character {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.streak__text {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.streak__title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-brand-on);
+  word-break: keep-all;
+}
+
+.streak__sub {
+  margin: 0;
+  font-size: 10px;
+  color: var(--c-brand-on);
+  opacity: 0.85;
+}
+
+/* ── 7일 진행 점 ───────────────────────────── */
+.streak__dots {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin: 12px 0 14px;
+  padding: 0;
+  list-style: none;
+}
+/* 점 사이를 잇는 선 — 점 아래에 깔린다 */
+.streak__dots::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  height: 1px;
+  background: var(--c-brand-on);
+  opacity: 0.5;
+}
+
+.streak__dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--c-brand-on);
+  border-radius: 50%;
+  background: var(--c-brand-light);
+  color: var(--c-brand-on);
+  font-size: 11px;
+}
+.streak__dot.is-done {
+  background: var(--c-brand-on);
+  color: var(--c-brand);
+  font-weight: 700;
+}

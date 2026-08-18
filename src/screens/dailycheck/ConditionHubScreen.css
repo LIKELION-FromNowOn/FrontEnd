@@ -1,0 +1,132 @@
+/* 섹션 제목 + 오른쪽 «수정하기» */
+.chub__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.chub__head--gap {
+  margin-top: 28px;
+}
+
+.chub__section {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+.chub__section--gap {
+  margin-top: 28px;
+}
+
+.chub__edit {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-decoration: none;
+}
+
+/* ── 현재 관리 중인 항목 ────────────────────── */
+.chub__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chub__item {
+  display: inline-flex;
+  align-items: center;
+  height: var(--h-chip);
+  padding: 0 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.chub__empty {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 13px;
+}
+
+/* ── 이번 주 컨디션 그래프 ──────────────────── */
+.chub__chart {
+  padding: 16px 18px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.chub__chart-title {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.chub__plot {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  height: 120px;
+}
+
+/* 세로축 — 위(좋음)에서 아래(나쁨)로 이모지 4개 */
+.chub__scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chub__scale-tick {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* 막대 — 아래에서 위로 자란다 */
+.chub__bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chub__bar-slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chub__bar {
+  position: relative;
+  width: 100%;
+  min-height: 2px;
+  border-radius: 3px 3px 0 0;
+  background: var(--c-brand-light);
+}
+
+/* 날짜는 막대 머리 위에 */
+.chub__bar-date {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 3px;
+  color: var(--c-text-muted);
+  font-size: 8px;
+  white-space: nowrap;
+}

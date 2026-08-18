@@ -1,0 +1,124 @@
+/* 타이머 화면 — 계속 들여다보게 만들지 않는 것이 목적이라 요소를 최소로 둔다 */
+.carestart {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 4px var(--sp-screen) 24px;
+  background: var(--c-bg);
+}
+
+.carestart__back {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text-brown);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.carestart__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 18px;
+}
+
+.carestart__category {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.carestart__title {
+  margin: 0 0 32px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+  word-break: keep-all;
+}
+
+/* ── 남은 시간 다이얼 ───────────────────────
+   테두리가 차오르는 원. --progress(0~1)만 바꾸면 된다. */
+.carestart__dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 62%;
+  aspect-ratio: 1;
+}
+
+/* 채워지는 테두리. 가운데를 마스크로 파내 링만 남긴다.
+   글자는 이 안에 두면 함께 지워지므로 형제로 올린다. */
+.carestart__ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--c-brand) calc(var(--progress) * 360deg),
+    var(--c-cream) 0
+  );
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 calc(100% - 9px));
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(100% - 10px),
+    #000 calc(100% - 9px)
+  );
+}
+
+.carestart__time,
+.carestart__unit {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.carestart__time {
+  top: 38%;
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--c-text-brown);
+  letter-spacing: 0.02em;
+}
+.carestart__unit {
+  top: 57%;
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.carestart__snail {
+  width: 42%;
+  margin-top: 8px;
+}
+.carestart__snail .character {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.carestart__guide {
+  margin: 22px 0 0;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* ── 하단 액션 ──────────────────────────── */
+.carestart__actions {
+  padding-top: 16px;
+}
+
+.carestart__cancel {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}

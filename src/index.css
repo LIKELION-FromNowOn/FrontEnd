@@ -28,3 +28,17 @@ body {
 button {
   font: inherit;
 }
+
+/* 눈에는 안 보이지만 스크린리더는 읽는 텍스트.
+   그래프처럼 형태로만 뜻을 전하는 자리에 값을 글로 남긴다. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}

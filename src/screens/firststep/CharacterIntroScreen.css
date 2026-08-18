@@ -1,0 +1,167 @@
+/* 화면 전체가 모카색. 흰 패널이 없는 유일한 앱 화면이다. */
+.charintro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-bottom: 24px;
+  background: var(--c-brand);
+  overflow: hidden;
+}
+
+.charintro__back {
+  align-self: flex-start;
+  margin: 4px 0 0 var(--sp-screen);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-brand-on);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.charintro__title {
+  margin: 22px var(--sp-screen) 0;
+  color: var(--c-brand-on);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  word-break: keep-all;
+}
+
+/* ── 말풍선 무대 ────────────────────────────
+   시안(402×874)에서 잰 위치를 %로 옮겼다. 폰 폭이 달라져도 배치가 유지된다. */
+.charintro__stage {
+  position: relative;
+  flex: 1;
+  min-height: 380px;
+  margin-top: 18px;
+}
+
+.charintro__bubble {
+  position: absolute;
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  border-radius: 50%;
+  /* 모카 위에 살짝 밝은 원 — 색을 새로 만들지 않고 흰색 투명도로 낸다 */
+  background: rgb(255 255 255 / 0.16);
+  color: var(--c-brand-on);
+  text-align: center;
+  padding: 8px;
+}
+
+.charintro__bubble-label {
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.charintro__bubble-desc {
+  font-size: 10px;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+/* 큰 원일수록 글자도 커진다 */
+.charintro__bubble--slow {
+  left: 2%;
+  top: 14%;
+  width: 46%;
+  aspect-ratio: 1;
+}
+.charintro__bubble--slow .charintro__bubble-label {
+  font-size: 20px;
+}
+
+.charintro__bubble--step {
+  left: 28%;
+  top: 1%;
+  width: 30%;
+  aspect-ratio: 1;
+}
+.charintro__bubble--step .charintro__bubble-label {
+  font-size: 13px;
+}
+
+.charintro__bubble--steady {
+  right: 2%;
+  top: 8%;
+  width: 34%;
+  aspect-ratio: 1;
+}
+
+.charintro__bubble--light {
+  left: 43%;
+  top: 42%;
+  width: 34%;
+  aspect-ratio: 1;
+}
+
+.charintro__bubble--easy {
+  left: 12%;
+  top: 57%;
+  width: 33%;
+  aspect-ratio: 1;
+}
+
+.charintro__bubble--rest {
+  right: 6%;
+  top: 62%;
+  width: 24%;
+  aspect-ratio: 1;
+}
+.charintro__bubble--rest .charintro__bubble-label {
+  font-size: 12px;
+}
+
+/* ── 잎 장식 ────────────────────────────────
+   글자 위에 얹히지 않도록 말풍선보다 뒤에 두지 않고, 사이사이 빈 자리에 놓는다. */
+.charintro__leaf {
+  position: absolute;
+  pointer-events: none;
+}
+.charintro__leaf .character {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.charintro__leaf--1 {
+  left: 0;
+  top: 12%;
+  width: 15%;
+  transform: rotate(-18deg);
+}
+.charintro__leaf--2 {
+  left: 44%;
+  top: 36%;
+  width: 13%;
+  transform: rotate(28deg);
+}
+.charintro__leaf--3 {
+  left: 15%;
+  top: 76%;
+  width: 14%;
+  transform: rotate(-8deg);
+}
+.charintro__leaf--4 {
+  right: 4%;
+  top: 84%;
+  width: 16%;
+  transform: rotate(12deg);
+}
+
+/* ── 달팽이 ─────────────────────────────────
+   시안에서 왼쪽 아래에 크게 앉아 있고 살짝 잘린다. */
+.charintro__snail {
+  width: 52%;
+  margin: -8% 0 0 4%;
+}
+.charintro__snail .character {
+  width: 100%;
+  height: auto;
+  display: block;
+}
