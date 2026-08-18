@@ -1,0 +1,49 @@
+.flipcard {
+  /* 자식이 3D로 회전할 수 있게 원근을 준다 */
+  perspective: 1200px;
+  border-radius: 12px;
+  outline-offset: 4px;
+}
+
+.flipcard__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flipcard:hover .flipcard__inner,
+.flipcard:focus-visible .flipcard__inner {
+  transform: rotateY(180deg);
+}
+
+.flipcard__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 28px;
+  border-radius: 12px;
+  /* 뒤집혔을 때 반대 면이 비쳐 보이지 않게 */
+  backface-visibility: hidden;
+}
+
+.flipcard__face--front {
+  background: var(--l-yellow);
+  color: var(--l-brown);
+}
+
+.flipcard__face--back {
+  transform: rotateY(180deg);
+  background: var(--l-cream);
+  border: 1px solid var(--l-yellow);
+  color: var(--l-brown);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flipcard__inner {
+    transition: none;
+  }
+}

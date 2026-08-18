@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import TabLayout from './layouts/TabLayout'
 import StubScreen from './screens/StubScreen'
+import LandingScreen from './screens/landing/LandingScreen'
 import { SCREENS } from './screens/registry'
 
 import LoginScreen from './screens/auth/LoginScreen'
@@ -48,17 +49,15 @@ const REAL = {
 }
 
 const el = (s) => REAL[s.key] ?? <StubScreen meta={s} showBack />
-const route = (s) => ({
-  index: s.path === '/',
-  path: s.path === '/' ? undefined : s.path.slice(1),
-  element: el(s),
-})
+const route = (s) => ({ path: s.path.slice(1), element: el(s) })
 
 // 탭 화면은 TabLayout(하단 4탭) 아래, 나머지는 단독
 const tabScreens = SCREENS.filter((s) => s.tab)
 const plainScreens = SCREENS.filter((s) => !s.tab)
 
 export const router = createBrowserRouter([
+  // 랜딩은 전체 폭을 쓰는 웹 페이지라 폰 프레임(RootLayout) 밖에 둔다
+  { path: '/', element: <LandingScreen /> },
   {
     element: <RootLayout />,
     children: [

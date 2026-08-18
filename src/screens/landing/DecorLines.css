@@ -1,0 +1,30 @@
+.decor {
+  position: relative;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+/* 막대가 바깥으로 흘러나가므로 컨테이너 폭은 보이는 만큼만 */
+.decor--right {
+  width: 755px;
+  max-width: 52vw;
+}
+.decor--left {
+  width: 758px;
+  max-width: 52vw;
+}
+
+.decor__bar {
+  position: absolute;
+  border-radius: 18px;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 동작 줄이기 설정이면 커서 반응을 끈다 */
+@media (prefers-reduced-motion: reduce) {
+  .decor__bar {
+    transition: none;
+    transform: none !important;
+  }
+}

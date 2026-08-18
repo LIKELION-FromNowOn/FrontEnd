@@ -1,0 +1,487 @@
+/* ─────────────────────────────────────────────
+   서비스 소개 웹 페이지
+
+   앱 화면과 색 체계가 달라(진한 갈색 중심) 랜딩 전용 토큰을 따로 둔다.
+   값은 시안 PNG의 픽셀에서 뽑았다.
+   ───────────────────────────────────────────── */
+.lp {
+  --l-brown: #764413;
+  --l-brown-soft: #916942;
+  --l-brown-faint: #c3a98c;
+  --l-cream: #fff6ed;
+  --l-sand: #e7d7be;
+  --l-sand-deep: #d6baa2;
+  --l-arch: #e6973a;
+  --l-yellow: #fbcb55;
+  --l-yellow-deep: #e0a92c;
+  --l-line: #e8d8c4;
+
+  overflow-x: hidden;
+  background: var(--l-cream);
+  color: var(--l-brown);
+}
+
+/* ── 상단 네비 ─────────────────────────────── */
+.lp__nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px clamp(20px, 5vw, 72px);
+  background: var(--l-cream);
+}
+
+.lp__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--l-brown);
+  text-decoration: none;
+}
+
+.lp__menu {
+  display: flex;
+  gap: clamp(16px, 3vw, 40px);
+}
+
+.lp__menu-link {
+  border: 0;
+  background: none;
+  padding: 4px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--l-brown);
+  text-decoration: none;
+  cursor: pointer;
+}
+.lp__menu-link:hover {
+  color: var(--l-yellow-deep);
+}
+
+/* ── 히어로 ────────────────────────────────── */
+.lp__hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(60px, 10vw, 130px) 20px 0;
+  background: var(--l-brown);
+  text-align: center;
+}
+
+.lp__hero-lead {
+  margin: 0 0 18px;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: var(--l-cream);
+}
+
+.lp__hero-title {
+  margin: 0 0 34px;
+  font-size: clamp(52px, 10vw, 128px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+  color: #fff;
+}
+
+.lp__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  background: var(--l-cream);
+  color: var(--l-brown);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.lp__cta:hover {
+  transform: translateY(-2px);
+}
+
+/* 캐릭터 뒤 반원 */
+.lp__hero-arch {
+  position: relative;
+  width: min(760px, 78vw);
+  height: min(300px, 30vw);
+  margin: clamp(40px, 6vw, 90px) auto 0;
+  border-radius: 50% 50% 0 0;
+  background: var(--l-arch);
+  opacity: 0.35;
+}
+
+/* ── 달팽이 기어가기 ───────────────────────── */
+.lp__crawl {
+  position: relative;
+  height: 0;
+}
+
+/* 화면 오른쪽 밖에서 왼쪽 밖까지 아주 천천히 지나간다 */
+.lp__crawl-inner {
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  animation: lp-crawl 48s linear infinite;
+}
+
+@keyframes lp-crawl {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-260px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp__crawl-inner {
+    animation: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* ── 소개 ──────────────────────────────────── */
+.lp__intro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  padding: clamp(60px, 9vw, 130px) clamp(20px, 5vw, 72px);
+  background: #fff;
+}
+
+.lp__intro-decor {
+  margin-left: calc(clamp(20px, 5vw, 72px) * -1);
+}
+
+.lp__intro-copy {
+  text-align: right;
+}
+
+.lp__intro-line {
+  margin: 0 0 14px;
+  font-size: clamp(20px, 2.6vw, 34px);
+  font-weight: 700;
+  color: var(--l-brown);
+}
+
+.lp__intro-line--accent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  color: var(--l-yellow);
+}
+
+/* 「지금 ——— 부터」 사이를 잇는 선 */
+.lp__rule {
+  flex: 1;
+  max-width: 260px;
+  height: 2px;
+  background: currentColor;
+}
+.lp__rule--dark {
+  display: inline-block;
+  width: 140px;
+  margin-left: 10px;
+  vertical-align: middle;
+  background: var(--l-brown);
+}
+
+/* ── 기능 카드 ─────────────────────────────── */
+.lp__features {
+  padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 72px);
+  background: #fff;
+}
+
+.lp__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.lp__cards .flipcard {
+  aspect-ratio: 372 / 394;
+}
+
+.lp__card-front {
+  font-size: 22px;
+  font-weight: 700;
+}
+.lp__card-back {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ── 문제 제기 ─────────────────────────────── */
+.lp__problem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  padding: clamp(60px, 9vw, 130px) clamp(20px, 5vw, 72px);
+  background: #fff;
+}
+
+.lp__problem-decor {
+  margin-right: calc(clamp(20px, 5vw, 72px) * -1);
+}
+
+.lp__problem-line {
+  margin: 0 0 14px;
+  font-size: clamp(20px, 2.6vw, 34px);
+  font-weight: 700;
+  color: var(--l-brown);
+}
+.lp__problem-line--accent {
+  padding-left: 60px;
+  color: var(--l-yellow);
+}
+
+/* ── 고민 말풍선 ───────────────────────────── */
+.lp__pains {
+  position: relative;
+  padding: clamp(60px, 8vw, 110px) clamp(20px, 5vw, 72px) clamp(70px, 9vw, 120px);
+  background: #fff;
+}
+
+/* 배경 아치 */
+.lp__pains-arch {
+  position: absolute;
+  inset: 0 -10% auto;
+  height: 100%;
+  border-radius: 50% 50% 0 0 / 34% 34% 0 0;
+  background: #f4e9db;
+}
+
+.lp__bubbles {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.lp__bubble {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 600;
+  line-height: 1.6;
+  text-align: center;
+  white-space: pre-line;
+  color: var(--l-brown);
+  transition: transform 0.3s ease;
+}
+
+/* 위아래로 어긋나게 배치해 시안의 흩뿌린 느낌을 만든다 */
+.lp__bubble--fit {
+  transform: translateY(-38px);
+}
+.lp__bubble--keep {
+  transform: translateY(34px);
+}
+.lp__bubble--steps {
+  transform: translateY(-8px);
+}
+
+/* 마우스를 올리면 제자리에서 살짝 흔들린다 */
+.lp__bubble:hover {
+  animation: lp-wiggle 0.6s ease-in-out;
+}
+
+@keyframes lp-wiggle {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -4deg;
+  }
+  75% {
+    rotate: 4deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp__bubble:hover {
+    animation: none;
+  }
+}
+
+/* ── 해결 ──────────────────────────────────── */
+.lp__solution {
+  padding: clamp(50px, 7vw, 90px) clamp(20px, 5vw, 72px) clamp(60px, 8vw, 110px);
+  background: var(--l-sand-deep);
+}
+
+.lp__solution-title {
+  max-width: 1180px;
+  margin: 0 auto clamp(28px, 4vw, 56px);
+  font-size: clamp(22px, 2.8vw, 36px);
+  font-weight: 800;
+  color: var(--l-brown);
+}
+.lp__solution-title em {
+  font-style: normal;
+  color: var(--l-yellow-deep);
+}
+
+.lp__solution-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.lp__solution-card {
+  aspect-ratio: 340 / 190;
+  border-radius: 12px;
+  background: var(--l-cream);
+}
+
+/* ── 앱 미리보기 ───────────────────────────── */
+.lp__preview {
+  display: grid;
+  place-items: center;
+  padding: clamp(60px, 9vw, 130px) 20px;
+  background: var(--l-sand);
+}
+
+.lp__phone {
+  display: flex;
+  flex-direction: column;
+  width: min(300px, 82vw);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 60px -24px rgba(60, 35, 10, 0.4);
+}
+
+.lp__phone-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 42px 24px 30px;
+  text-align: center;
+}
+
+.lp__phone-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #17110b;
+}
+
+.lp__phone-sub {
+  margin: 0 0 8px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #9b8f83;
+}
+
+.lp__phone-sheet {
+  padding: 16px 18px 20px;
+  border-radius: 24px 24px 0 0;
+  background: #caa491;
+  text-align: center;
+}
+
+.lp__phone-guest {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--l-brown);
+}
+
+.lp__phone-btn {
+  display: block;
+  padding: 9px;
+  margin-bottom: 7px;
+  border-radius: 999px;
+  background: var(--l-cream);
+  font-size: 11px;
+  font-weight: 600;
+  color: #17110b;
+}
+
+.lp__phone-terms {
+  margin: 6px 0 0;
+  font-size: 7px;
+  line-height: 1.6;
+  color: #fff;
+}
+
+/* ── 푸터 ──────────────────────────────────── */
+.lp__footer {
+  padding: clamp(40px, 6vw, 70px) clamp(20px, 5vw, 72px);
+  background: var(--l-brown);
+}
+
+.lp__footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.lp__logo--footer {
+  color: var(--l-cream);
+}
+
+.lp__footer-link {
+  border: 0;
+  background: none;
+  padding: 4px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--l-cream);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ── 좁은 화면 ─────────────────────────────── */
+@media (max-width: 900px) {
+  .lp__intro,
+  .lp__problem {
+    grid-template-columns: 1fr;
+  }
+  /* 장식 라인은 좁은 화면에서 자리를 너무 먹어 숨긴다 */
+  .lp__intro-decor,
+  .lp__problem-decor {
+    display: none;
+  }
+  .lp__intro-copy {
+    text-align: left;
+  }
+  .lp__intro-line--accent {
+    justify-content: flex-start;
+  }
+  .lp__problem-line--accent {
+    padding-left: 0;
+  }
+  .lp__bubble--fit,
+  .lp__bubble--keep,
+  .lp__bubble--steps {
+    transform: none;
+  }
+}

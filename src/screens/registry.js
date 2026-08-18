@@ -10,7 +10,7 @@
  */
 export const SCREENS = [
   // ── A·B 인증 (탭바 없음) ────────────────
-  { path: '/', key: 'login', code: 'A01', title: '로그인', kind: 'required',
+  { path: '/login', key: 'login', code: 'A01', title: '로그인', kind: 'required',
     links: ['/auth/email'] },
   { path: '/auth/email', key: 'authEmail', code: 'B01', title: '이메일 입력', kind: 'required',
     links: ['/auth/password'] },
