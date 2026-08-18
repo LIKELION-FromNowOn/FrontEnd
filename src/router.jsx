@@ -14,6 +14,7 @@ import ConditionScreen from './screens/dailycheck/ConditionScreen'
 import AnalyzingScreen from './screens/dailycheck/AnalyzingScreen'
 import HomeScreen from './screens/firststep/HomeScreen'
 import FirstStepListScreen from './screens/firststep/FirstStepListScreen'
+import FirstStepIntroScreen from './screens/firststep/FirstStepIntroScreen'
 import FirstStepDetailScreen from './screens/firststep/FirstStepDetailScreen'
 import ReduceIntroScreen from './screens/reduce/ReduceIntroScreen'
 import ReduceResultScreen from './screens/reduce/ReduceResultScreen'
@@ -35,6 +36,7 @@ const REAL = {
   condition: <ConditionScreen />,
   analyzing: <AnalyzingScreen />,
   home: <HomeScreen />,
+  firstStepIntro: <FirstStepIntroScreen />,
   firstStepList: <FirstStepListScreen />,
   firstStepDetail: <FirstStepDetailScreen />,
   reduceIntro: <ReduceIntroScreen />,

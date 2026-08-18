@@ -47,8 +47,10 @@
   --r-field: 8px;
   --r-cta: 8px;
 
-  /* ── 간격 ── */
-  --sp-screen: 20px;
+  /* ── 간격 ──
+     시안(402px 폭)을 실측한 값. 본문은 39px, CTA는 그보다 6px 더 안쪽. */
+  --sp-screen: 36px;
+  --sp-cta: 42px;
   --sp-section: 28px;
 
   /* ── 컨트롤 크기 ── */

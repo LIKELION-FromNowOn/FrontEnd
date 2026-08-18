@@ -37,8 +37,9 @@
   line-height: 1.5;
 }
 
+/* CTA는 본문보다 조금 더 안쪽으로 (시안 기준 +6px) */
 .screen__footer {
-  padding: 12px var(--sp-screen) max(20px, env(safe-area-inset-bottom));
+  padding: 12px var(--sp-cta) max(20px, env(safe-area-inset-bottom));
 }
 
 /* ── 화면 안에서 반복되는 조각들 ───────────────── */

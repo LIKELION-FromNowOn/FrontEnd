@@ -32,6 +32,8 @@ export const SCREENS = [
   // ── F 홈 · 첫 발자국 (탭) ───────────────
   { path: '/home', key: 'home', code: 'F01', title: '홈', kind: 'required', tab: true,
     links: ['/first-step', '/check'] },
+  { path: '/first-step/intro', key: 'firstStepIntro', code: 'E01', title: '첫 발자국 소개', kind: 'required', tab: true,
+    links: ['/first-step', '/home'] },
   { path: '/first-step', key: 'firstStepList', code: 'F02', title: '첫 발자국 목록', kind: 'required', tab: true,
     links: ['/first-step/detail'] },
   { path: '/first-step/detail', key: 'firstStepDetail', code: 'F03', title: '첫 발자국 상세', kind: 'required', tab: true,

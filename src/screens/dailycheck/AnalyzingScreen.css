@@ -1,26 +1,30 @@
+/* 시안(402x874) 비율: 제목이 화면 위에서 약 29% 지점, 그 아래 점·일러스트 */
 .analyzing {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 18px;
   min-height: 100%;
-  padding: 40px var(--sp-screen);
+  padding: 28% var(--sp-screen) 0;
   background: var(--c-cream);
   text-align: center;
 }
 
 .analyzing__text {
-  margin: 0;
+  margin: 0 0 14px;
   font-size: 17px;
   font-weight: 700;
   color: var(--c-text-brown);
 }
 
+.analyzing__illust {
+  width: 46%;
+  margin-top: 34px;
+}
+
 /* 점 세 개가 차례로 깜빡인다 */
 .analyzing__dots {
   display: flex;
-  gap: 7px;
+  gap: 9px;
   margin: 0;
 }
 
