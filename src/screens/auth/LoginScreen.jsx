@@ -1,11 +1,22 @@
 import { useNavigate } from 'react-router-dom'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
+import { startGoogleLogin } from '../../api/auth'
 import './LoginScreen.css'
 
 /** A01_Auth/Login — 로고 + 캐릭터, 하단 모카 시트에 게스트 진입 */
 export default function LoginScreen() {
   const navigate = useNavigate()
+
+  /**
+   * 구글 로그인.
+   * 백엔드가 붙으면 그쪽으로 넘어가고, 이후 「계정 선택」·「허용」 화면은 구글이 그린다.
+   * 아직 안 붙었으면 흐름만 이어 이메일 입력으로 보낸다.
+   */
+  const onGoogle = () => {
+    const { mocked } = startGoogleLogin()
+    if (mocked) navigate('/auth/email')
+  }
 
   return (
     <div className="login">
@@ -24,7 +35,7 @@ export default function LoginScreen() {
       <section className="login__sheet">
         <p className="login__sheet-label">게스트</p>
 
-        <Button variant="cream" onClick={() => navigate('/auth/email')}>
+        <Button variant="cream" onClick={onGoogle}>
           <span className="login__icon" aria-hidden>
             G
           </span>
