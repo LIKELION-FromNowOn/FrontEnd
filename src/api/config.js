@@ -2,20 +2,22 @@
  * API 설정.
  *
  * 값은 .env 로 넣는다 (.env.example 참고).
- * 백엔드가 준비되기 전에는 VITE_API_LIVE 를 켜지 않으면 목 데이터로 돌아간다.
+ *
+ * 실연동 여부는 여기가 아니라 live.js 에서 **엔드포인트별로** 켠다.
+ * 전역 스위치 하나로 두면 서버에 몇 건밖에 없는 동안 켜는 순간 화면이 전부 깨진다.
  */
 
-/** 서버를 실제로 호출할지 여부. 꺼져 있으면 목 응답을 쓴다. */
-export const LIVE = import.meta.env.VITE_API_LIVE === 'true'
-
-/** 백엔드 주소. 끝의 / 는 떼서 저장한다. */
+/**
+ * 백엔드 주소. 끝의 / 는 떼서 저장한다.
+ *
+ * 명세서의 경로가 전부 `{BASE_URL}/api/v1/...` 이므로 **버전 접두사까지 포함해서** 넣는다.
+ *   예: https://api.example.com/api/v1
+ */
 export const API_BASE = (import.meta.env.VITE_API_BASE ?? '').replace(/\/$/, '')
 
 /**
  * 구글 로그인 시작 주소.
- *
- * 프론트에서 구글로 직접 가지 않고 백엔드의 시작 엔드포인트로 보낸다.
- * client_secret 이 백엔드에만 있어야 하고, 토큰 교환도 백엔드가 하기 때문.
+ * ⚠️ 명세서에 OAuth 엔드포인트가 없다. 팀에서 넣기로 정하면 그때 쓴다. (api/auth.js 참고)
  */
 export const GOOGLE_LOGIN_URL = import.meta.env.VITE_GOOGLE_LOGIN_URL ?? ''
 
