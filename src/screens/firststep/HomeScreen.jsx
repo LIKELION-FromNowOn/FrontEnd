@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import HeroPanel from '../../components/HeroPanel'
+import RejectSheet from '../../components/RejectSheet'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
@@ -18,6 +20,7 @@ export default function HomeScreen() {
   const navigate = useNavigate()
   const card = FIRST_STEP_CARDS[0]
   const streak = ACTIVE_STREAK
+  const [rejecting, setRejecting] = useState(false)
 
   return (
     <HeroPanel
@@ -87,7 +90,11 @@ export default function HomeScreen() {
           <button type="button" className="home__link">
             다른 방식
           </button>
-          <button type="button" className="home__link">
+          <button
+            type="button"
+            className="home__link"
+            onClick={() => setRejecting(true)}
+          >
             오늘은 쉬어갈게요
           </button>
         </div>
@@ -118,6 +125,14 @@ export default function HomeScreen() {
           </button>
         </div>
       </FirstStepCard>
+
+      {rejecting && (
+        /* 사유는 다음 추천에 반영될 뿐 실패로 저장되지 않는다 (NOW-TODAY-005) */
+        <RejectSheet
+          onClose={() => setRejecting(false)}
+          onSubmit={() => setRejecting(false)}
+        />
+      )}
     </HeroPanel>
   )
 }
