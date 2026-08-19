@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Screen from '../../components/ui/Screen'
 import Button from '../../components/ui/Button'
 import CheckItem from '../../components/ui/CheckItem'
-import { CARE_ITEM_GROUPS, FREQUENCIES } from '../options'
+import { CARE_ITEM_GROUPS, FREQUENCIES, MIN_CARE_ITEMS } from '../options'
 import './CareItemsScreen.css'
 
 /**
@@ -36,8 +36,10 @@ export default function CareItemsScreen() {
   const needsFreq = CARE_ITEM_GROUPS.flatMap((g) => g.items).filter(
     (it) => it.freqEditable && it.name in picked && !picked[it.name],
   )
+  // 최소 개수를 채워야 넘어간다. 항목이 적으면 판정할 것이 없어 덜어내기가 빈 화면이 된다.
   const chosenCount = Object.keys(picked).length
-  const canProceed = chosenCount > 0 && needsFreq.length === 0
+  const needsMore = Math.max(0, MIN_CARE_ITEMS - chosenCount)
+  const canProceed = needsMore === 0 && needsFreq.length === 0
 
   return (
     <Screen
@@ -51,10 +53,16 @@ export default function CareItemsScreen() {
       subtitle="평소 관리하는 항목을 알려주시면 오늘 상태에 맞게 케어를 추천해드려요. 이 설정은 언제든 바꿀 수 있어요"
       footer={
         <>
-          {needsFreq.length > 0 && (
+          {needsMore > 0 ? (
             <p className="careitems__hint" role="status">
-              선택한 항목의 빈도를 골라주세요 ({needsFreq.length}개 남음)
+              {MIN_CARE_ITEMS}개 이상 골라주세요 ({needsMore}개 남음)
             </p>
+          ) : (
+            needsFreq.length > 0 && (
+              <p className="careitems__hint" role="status">
+                선택한 항목의 빈도를 골라주세요 ({needsFreq.length}개 남음)
+              </p>
+            )
           )}
           <Button disabled={!canProceed} onClick={() => navigate('/check')}>
             다음

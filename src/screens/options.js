@@ -136,6 +136,30 @@ export const REDUCE_FILTERS = [
 ]
 
 /**
+ * 회의에서 정하는 숫자 3종 — 2026-08-18 PM 해결방안 B장 안건 6.
+ * 8/19 10:00 회의 기본값이며, 다르게 정해지면 여기 세 줄만 고치면 된다.
+ *
+ *   MIN_CARE_ITEMS  관리 항목 최소 선택 수 (NOW-ITEM-002 「최소 3개(제안값)」)
+ *   REROLL_LIMIT    오늘의 행동 다시 받기 (NOW-TODAY-002)
+ *   COACH_DAILY_MAX 케어 코치 하루 호출 (NOW-COACH-001 크레딧 보호)
+ */
+export const MIN_CARE_ITEMS = 3
+export const REROLL_LIMIT = 3
+export const COACH_DAILY_MAX = 20
+
+/**
+ * 판정 제외 사유 (NOW-SUB-001의 excludedBy).
+ *
+ * **확정값은 이 둘뿐이다** — 2026-08-18 PM 해결방안 C-1.
+ * 한때 코드에 `floor` 가 있었으나 명세서 예시(`medical`) 쪽으로 맞췄다.
+ * 새 값을 임의로 만들지 말 것. 화면이 조용히 안 걸린다.
+ */
+export const EXCLUDED_BY = {
+  medical: '의료·클리닉 항목',
+  clinicNote: '클리닉 안내',
+}
+
+/**
  * G02 오늘 루틴 전체 — 서버 판정 응답을 대신하는 목 데이터.
  *
  * reason은 서버가 내려주는 문장을 그대로 쓴다. 프론트에서 만들지 않는다.
@@ -154,10 +178,12 @@ export const ROUTINE_ITEMS = [
   { itemId: 'mv_004', name: '보습', verdict: 'keep' },
   { itemId: 'mv_005', name: '자외선 차단제', verdict: 'keep' },
   {
+    // 판정 제외는 「앱이 판단하지 않는 영역」이라 의료·클리닉 항목에 붙는다.
+    // 마스크팩처럼 일반 항목에 붙어 있으면 값도 뜻도 어긋난다.
     itemId: 'mv_006',
-    name: '마스크팩',
+    name: '처방약',
     verdict: 'excluded',
-    excludedBy: 'floor',
+    excludedBy: 'medical',
     reason: '이 항목은 앱이 판단하지 않습니다.',
   },
 ]
