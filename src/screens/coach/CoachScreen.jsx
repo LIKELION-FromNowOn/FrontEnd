@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import SubPage from '../../components/SubPage'
 import Character from '../../components/ui/Character'
-import { COACH_LEVEL, COACH_MOCK_ANSWER, COACH_SUGGESTIONS } from '../options'
+import { askCoach } from '../../api/care'
+import { useAction } from '../../api/useApi'
+import { COACH_LEVEL, COACH_SUGGESTIONS } from '../options'
 import './CoachScreen.css'
 
 /**
@@ -19,21 +21,24 @@ import './CoachScreen.css'
 export default function CoachScreen() {
   const [question, setQuestion] = useState('')
   const [thread, setThread] = useState([])
-  const [asking, setAsking] = useState(false)
+  const coach = useAction(askCoach)
 
-  const ask = (text) => {
+  const ask = async (text) => {
     const q = text.trim()
-    if (!q || asking) return
+    if (!q || coach.pending) return
 
     setThread((t) => [...t, { role: 'me', text: q }])
     setQuestion('')
-    setAsking(true)
 
-    // 서버가 붙기 전까지의 임시 응답. 연동 시 POST /coach/ask 결과로 갈아끼운다.
-    setTimeout(() => {
-      setThread((t) => [...t, { role: 'coach', ...COACH_MOCK_ANSWER }])
-      setAsking(false)
-    }, 600)
+    try {
+      /* 판정은 규칙이 하고 AI는 문장만 만든다. 받은 answer·basis·level을 그대로 옮긴다. */
+      const answer = await coach.run(q)
+      setThread((t) => [...t, { role: 'coach', ...answer }])
+    } catch (e) {
+      /* 실패도 대화에 남긴다. 질문만 떠 있고 아무 반응이 없으면 멈춘 것처럼 보인다.
+         LLM_UNAVAILABLE 이면 서버가 규칙 기반 문구를 같이 준다. */
+      setThread((t) => [...t, { role: 'error', text: coach.errorText || e.message }])
+    }
   }
 
   return (
@@ -63,6 +68,10 @@ export default function CoachScreen() {
             <p key={i} className="coach__bubble coach__bubble--me">
               {m.text}
             </p>
+          ) : m.role === 'error' ? (
+            <p key={i} className="coach__bubble coach__bubble--error" role="alert">
+              {m.text}
+            </p>
           ) : (
             <div key={i} className="coach__answer">
               <span className={`coach__level coach__level--${COACH_LEVEL[m.level].tone}`}>
@@ -82,7 +91,7 @@ export default function CoachScreen() {
           ),
         )}
 
-        {asking && <p className="coach__typing">확인하고 있어요…</p>}
+        {coach.pending && <p className="coach__typing">확인하고 있어요…</p>}
       </div>
 
       {thread.length === 0 && (
@@ -114,7 +123,7 @@ export default function CoachScreen() {
         <button
           type="submit"
           className="coach__send"
-          disabled={!question.trim() || asking}
+          disabled={!question.trim() || coach.pending}
         >
           묻기
         </button>

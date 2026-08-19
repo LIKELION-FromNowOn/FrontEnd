@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppHeader from '../../components/AppHeader'
 import Button from '../../components/ui/Button'
+import { evaluateSubtract, revertSubtract } from '../../api/records'
+import { useApi, useAction } from '../../api/useApi'
 import { REDUCE_FILTERS, ROUTINE_ITEMS, VERDICT_LABEL, canRevert } from '../options'
 import './ReduceResultScreen.css'
 
@@ -9,25 +11,43 @@ import './ReduceResultScreen.css'
 export default function ReduceResultScreen() {
   const navigate = useNavigate()
   const [filter, setFilter] = useState('all')
-  const [items, setItems] = useState(ROUTINE_ITEMS)
+  /* 되돌린 항목 id 만 들고 있는다. 목록 자체를 복사해 두면 서버 응답과 어긋난다. */
+  const [reverted, setReverted] = useState(() => new Set())
+
+  /* 서버가 붙으면 판정 결과로 목록이 바뀐다.
+     실패하면 목으로 계속 그린다 — 발표 중에 서버가 흔들려도 화면이 비면 안 된다. */
+  const result = useApi(evaluateSubtract)
+  const reverting = useAction(revertSubtract)
+
+  const source = result.data?.items?.length ? result.data.items : ROUTINE_ITEMS
+  const items = source.map((it) =>
+    reverted.has(it.itemId)
+      ? { ...it, verdict: 'keep', persisted: true, reason: undefined }
+      : it,
+  )
 
   /**
    * 되돌리기 (NOW-SUB-007).
    * 서버는 해당 항목과 갱신된 summary만 돌려준다. 점수식이 항목별로 독립이라
    * 다른 항목에 영향이 없으므로 목록 전체를 다시 그리지 않고 그 줄만 바꾼다.
    */
-  const revert = (itemId) =>
-    setItems((prev) =>
-      prev.map((it) =>
-        it.itemId === itemId
-          ? { ...it, verdict: 'keep', persisted: true, reason: undefined }
-          : it,
-      ),
-    )
+  const revert = async (itemId) => {
+    try {
+      await reverting.run(itemId)
+    } catch {
+      /* CANNOT_REVERT_EXCLUDED 같은 거절이면 목록을 바꾸지 않는다.
+         서버가 막은 것을 화면에서 되돌린 것처럼 보이면 안 된다. */
+      return
+    }
+    setReverted((prev) => new Set(prev).add(itemId))
+  }
 
   const summary = useMemo(
     () =>
-      items.reduce((acc, it) => ({ ...acc, [it.verdict]: (acc[it.verdict] ?? 0) + 1 }), {}),
+      items.reduce(
+        (acc, it) => ({ ...acc, [it.verdict]: (acc[it.verdict] ?? 0) + 1 }),
+        {},
+      ),
     [items],
   )
 
@@ -80,6 +100,12 @@ export default function ReduceResultScreen() {
         </div>
 
         <h2 className="rresult__section">오늘 루틴 전체 보기</h2>
+
+        {reverting.error && (
+          <p className="rresult__revert-error" role="alert">
+            {reverting.errorText}
+          </p>
+        )}
 
         {shown.length === 0 && (
           <p className="rresult__empty">이 판정에 해당하는 항목이 없어요</p>

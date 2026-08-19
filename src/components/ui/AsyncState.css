@@ -1,0 +1,33 @@
+.async {
+  margin: 0;
+  padding: 28px 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  text-align: center;
+}
+
+.async--loading {
+  color: var(--c-text-muted);
+  font-size: 13px;
+}
+
+.async__message {
+  margin: 0 0 12px;
+  color: var(--c-text-brown);
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.async__retry {
+  height: 34px;
+  padding: 0 16px;
+  border: 1px solid var(--c-brand);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-brown);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}

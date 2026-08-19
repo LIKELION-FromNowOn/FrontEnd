@@ -66,3 +66,11 @@
   color: var(--c-brand-on);
   word-break: keep-all; /* 한글 단어 중간에서 끊기지 않게 */
 }
+
+/* 게스트 시작 실패 사유 — 서버가 준 문장을 그대로 띄운다 */
+.login__error {
+  margin: 4px 0 0;
+  color: var(--c-brand-on);
+  font-size: 12px;
+  text-align: center;
+}

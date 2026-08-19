@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/ui/Button'
 import Character from '../../components/ui/Character'
+import { completeToday, getToday, startTimer } from '../../api/today'
+import { useApi, useAction } from '../../api/useApi'
 import { TODAY_ACTION } from '../options'
 import './CareStartScreen.css'
 
@@ -24,7 +26,15 @@ const mmss = (sec) => {
 
 export default function CareStartScreen() {
   const navigate = useNavigate()
-  const action = TODAY_ACTION
+
+  /* 오늘의 행동을 서버에서 받는다(NOW-TODAY-001).
+     실패하면 목으로 계속 그린다 — 타이머 화면이 비면 데모가 끊긴다. */
+  const today = useApi(getToday)
+  const starting = useAction(startTimer)
+  const finishing = useAction(completeToday)
+
+  const action = today.data ?? TODAY_ACTION
+  const [timerId, setTimerId] = useState(null)
 
   // 서버가 준 durationSec에서 시작한다. 기본값을 두지 않는다.
   const [left, setLeft] = useState(action.durationSec)
@@ -45,8 +55,35 @@ export default function CareStartScreen() {
     return () => clearInterval(timer.current)
   }, [running])
 
-  const done = left === 0
-  const progress = 1 - left / action.durationSec
+  /* 시작 전에는 서버가 준 시간을 그대로 보여준다. 응답이 늦게 와도 목 시간이 남지 않는다.
+     시작한 뒤에는 카운트다운 값을 쓴다. */
+  const shown = running ? left : action.durationSec
+  const done = running && left === 0
+  const progress = running ? 1 - left / action.durationSec : 0
+
+  /** 타이머 시작 (NOW-TODAY-003). durationSec·endsAt은 서버가 정한다. */
+  const onStart = async () => {
+    try {
+      const t = await starting.run(action.actionId)
+      setTimerId(t.timerId)
+      setLeft(t.durationSec)
+    } catch {
+      /* TIMER_ALREADY_RUNNING 등으로 막히면 시작하지 않는다.
+         서버가 거절했는데 화면만 흘러가면 완료가 안 붙는다. */
+      return
+    }
+    setRunning(true)
+  }
+
+  /** 완료 처리 (NOW-TODAY-004). 타이머 없이 완료하면 timerId는 null이다. */
+  const onDone = async () => {
+    try {
+      await finishing.run({ actionId: action.actionId, timerId })
+    } catch {
+      return
+    }
+    navigate('/records')
+  }
 
   return (
     <div className="carestart">
@@ -66,8 +103,12 @@ export default function CareStartScreen() {
         <div className="carestart__dial" role="timer" aria-live="off">
           {/* 링에는 마스크가 걸려 있어 안에 글자를 넣으면 같이 지워진다.
               그래서 링은 테두리만 그리고 숫자는 형제로 겹쳐 올린다. */}
-          <div className="carestart__ring" style={{ '--progress': progress }} aria-hidden />
-          <span className="carestart__time">{mmss(left)}</span>
+          <div
+            className="carestart__ring"
+            style={{ '--progress': progress }}
+            aria-hidden
+          />
+          <span className="carestart__time">{mmss(shown)}</span>
           <span className="carestart__unit">{done ? '다 됐어요' : '남았어요'}</span>
         </div>
 
@@ -75,6 +116,12 @@ export default function CareStartScreen() {
           <div className="carestart__snail">
             <Character variant="leaf" />
           </div>
+        )}
+
+        {(starting.error || finishing.error) && (
+          <p className="carestart__error" role="alert">
+            {starting.errorText || finishing.errorText}
+          </p>
         )}
 
         <p className="carestart__guide">
@@ -87,9 +134,13 @@ export default function CareStartScreen() {
       <div className="carestart__actions">
         {running ? (
           /* 만료 전에도 완료를 허용한다 — 실제로 끝낸 사람이 기다릴 이유가 없다 */
-          <Button onClick={() => navigate('/records')}>했어요</Button>
+          <Button disabled={finishing.pending} onClick={onDone}>
+            {finishing.pending ? '기록하는 중…' : '했어요'}
+          </Button>
         ) : (
-          <Button onClick={() => setRunning(true)}>시작하기</Button>
+          <Button disabled={starting.pending} onClick={onStart}>
+            {starting.pending ? '시작하는 중…' : '시작하기'}
+          </Button>
         )}
 
         <button

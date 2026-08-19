@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import Screen from '../../components/ui/Screen'
 import Button from '../../components/ui/Button'
 import CheckItem from '../../components/ui/CheckItem'
-import { CARE_ITEM_GROUPS, FREQUENCIES, MIN_CARE_ITEMS } from '../options'
+import { getCareItems } from '../../api/master'
+import { saveMyItems, toGroups } from '../../api/me'
+import { useApi, useAction } from '../../api/useApi'
+import { FREQUENCIES, MIN_CARE_ITEMS } from '../options'
 import './CareItemsScreen.css'
 
 /**
@@ -22,6 +25,13 @@ export default function CareItemsScreen() {
   const [picked, setPicked] = useState({})
   const [etc, setEtc] = useState('')
 
+  /* 마스터에서 항목을 받는다(NOW-MASTER-002).
+     시드가 아직 비어 있어 처음엔 빈 배열이 오는데, 그때는 시안 값으로 그린다.
+     연동 실패가 아니라 데이터가 아직 없는 것이라 화면을 막지 않는다. */
+  const master = useApi(getCareItems)
+  const saving = useAction(saveMyItems)
+  const groups = toGroups(master.data?.careItems)
+
   const toggle = (name) =>
     setPicked((prev) => {
       const next = { ...prev }
@@ -33,13 +43,25 @@ export default function CareItemsScreen() {
   const setFreq = (name, freq) => setPicked((prev) => ({ ...prev, [name]: freq }))
 
   // 빈도가 필요한데 아직 안 고른 항목
-  const needsFreq = CARE_ITEM_GROUPS.flatMap((g) => g.items).filter(
-    (it) => it.freqEditable && it.name in picked && !picked[it.name],
-  )
+  const needsFreq = groups
+    .flatMap((g) => g.items)
+    .filter((it) => it.freqEditable && it.name in picked && !picked[it.name])
   // 최소 개수를 채워야 넘어간다. 항목이 적으면 판정할 것이 없어 덜어내기가 빈 화면이 된다.
   const chosenCount = Object.keys(picked).length
   const needsMore = Math.max(0, MIN_CARE_ITEMS - chosenCount)
   const canProceed = needsMore === 0 && needsFreq.length === 0
+
+  /** 고른 항목·빈도를 저장하고 다음으로 (NOW-ITEM-002) */
+  const onNext = async () => {
+    try {
+      await saving.run(
+        Object.entries(picked).map(([name, frequency]) => ({ name, frequency })),
+      )
+      navigate('/check')
+    } catch {
+      // 실패 사유는 버튼 위에 뜬다. 화면은 그대로 두어 다시 누를 수 있게 한다.
+    }
+  }
 
   return (
     <Screen
@@ -64,13 +86,18 @@ export default function CareItemsScreen() {
               </p>
             )
           )}
-          <Button disabled={!canProceed} onClick={() => navigate('/check')}>
-            다음
+          {saving.error && (
+            <p className="careitems__hint" role="alert">
+              {saving.errorText}
+            </p>
+          )}
+          <Button disabled={!canProceed || saving.pending} onClick={onNext}>
+            {saving.pending ? '저장하는 중…' : '다음'}
           </Button>
         </>
       }
     >
-      {CARE_ITEM_GROUPS.map((group) => (
+      {groups.map((group) => (
         <section key={group.title} className="screen__group">
           <h2 className="screen__group-title">{group.title}</h2>
 

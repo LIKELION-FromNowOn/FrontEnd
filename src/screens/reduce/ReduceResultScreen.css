@@ -223,3 +223,14 @@
 .rresult__cta {
   margin-top: 22px;
 }
+
+/* 되돌리기가 거절됐을 때 — 서버가 준 사유를 그대로 띄운다 */
+.rresult__revert-error {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 12px;
+}

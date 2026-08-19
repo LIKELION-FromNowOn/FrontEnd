@@ -122,3 +122,14 @@
   font-size: 13px;
   cursor: pointer;
 }
+
+/* 시작·완료가 서버에서 막혔을 때 — 사유를 그대로 띄운다 */
+.carestart__error {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 12px;
+}

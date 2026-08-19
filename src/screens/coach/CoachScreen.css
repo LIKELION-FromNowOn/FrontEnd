@@ -179,3 +179,13 @@
   opacity: 0.5;
   cursor: default;
 }
+
+/* 실패했을 때의 답변 자리 — 사유를 남겨 두어야 멈춘 것처럼 보이지 않는다 */
+.coach__bubble--error {
+  align-self: flex-start;
+  max-width: 92%;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg) var(--r-card-lg) var(--r-card-lg) 4px;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+}
