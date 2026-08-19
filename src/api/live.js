@@ -15,7 +15,12 @@ const ep = (bundle, method, path, name) => ({ bundle, method, path, name, live: 
 
 export const ENDPOINTS = {
   // ── 요구사항 No.14 · 인증·관리항목·상태·프로필 13건 (송원석) ──
-  'NOW-AUTH-001': { ...ep('auth', 'POST', '/auth/guest', '게스트 세션 발급'), live: false },
+  /* ✅ 2026-08-19 실서버 실측 완료 — 지금 살아 있는 유일한 API (FE-HANDOFF-0819.md).
+     PM 문서의 `postAuthGuest` 가 이 줄입니다. */
+  'NOW-AUTH-001': {
+    ...ep('auth', 'POST', '/auth/guest', '게스트 세션 발급'),
+    live: true,
+  },
   'NOW-AUTH-002': ep('auth', 'POST', '/auth/signup', '회원 등록'),
   'NOW-AUTH-003': ep('auth', 'POST', '/auth/login', '로그인'),
   'NOW-AUTH-004': ep('auth', 'POST', '/auth/logout', '로그아웃'),

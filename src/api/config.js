@@ -13,7 +13,17 @@
  * 명세서의 경로가 전부 `{BASE_URL}/api/v1/...` 이므로 **버전 접두사까지 포함해서** 넣는다.
  *   예: https://api.example.com/api/v1
  */
-export const API_BASE = (import.meta.env.VITE_API_BASE ?? '').replace(/\/$/, '')
+/**
+ * .env 파일은 gitignore 대상이라 다른 사람 환경이나 배포 빌드에서 비어 있을 수 있다.
+ * 비밀이 아닌 값이므로 기본값을 둬서 「환경변수를 안 넣어서 조용히 안 되는」 상황을 없앤다.
+ * 도메인이 붙으면 .env.production 과 이 줄을 같이 바꾼다.
+ */
+const DEFAULT_BASE = 'http://1.201.116.42:8080/api/v1'
+
+export const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_BASE).replace(
+  /\/$/,
+  '',
+)
 
 /**
  * 구글 로그인 시작 주소.

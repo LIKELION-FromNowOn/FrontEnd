@@ -4,8 +4,7 @@ import { getToken } from './session'
 
 /**
  * 서버 응답이 실패했을 때 던지는 오류.
- * 명세서의 실패 코드(UNAUTHORIZED · NO_EVALUATION · TIMER_ALREADY_RUNNING …)를
- * code 로 담아 화면에서 분기할 수 있게 한다.
+ * `code` 는 api/errors.js 의 ERROR 상수와 같은 문자열이다.
  */
 export class ApiError extends Error {
   constructor(message, { status, code, apiId } = {}) {
@@ -18,30 +17,24 @@ export class ApiError extends Error {
 }
 
 /**
- * 실패 응답에서 code·message 를 꺼낸다.
+ * 응답 봉투 — 2026-08-19 실서버 실측 (FE-HANDOFF-0819.md 2장).
  *
- * ⚠️ 성공 봉투는 { ok: true, data: {...} } 로 명세서 28건에 똑같이 적혀 있는데
- *    **실패 봉투의 모양은 명세서 어디에도 없다.** 표에 HTTP 상태·code·message 만 있다.
- *    그래서 흔한 세 모양을 모두 받아 준다. 백엔드에서 실물 1건을 받으면 하나로 줄일 것.
+ *   성공  { "ok": true,  "data": { ... }, "error": null }
+ *   실패  { "ok": false, "data": null,    "error": { "code": "...", "message": "..." } }
+ *
+ * 세 키가 항상 다 온다. 목도 **같은 봉투로** 만들어서 실연동으로 바꿀 때
+ * 파싱 경로가 달라지지 않게 한다.
  */
-function readError(data, status) {
-  const e = data?.error ?? data ?? {}
-  return {
-    code: e.code ?? data?.code,
-    message: e.message ?? data?.message ?? `요청에 실패했어요 (${status})`,
-  }
-}
+export const ok = (data) => ({ ok: true, data, error: null })
+export const fail = (code, message) => ({
+  ok: false,
+  data: null,
+  error: { code, message },
+})
 
-/**
- * 성공 응답에서 알맹이를 꺼낸다.
- *
- * 28건은 { ok: true, data: {...} } 로 감싸 오고,
- * 2026-08-11에 신설된 9건(안내문·예정·케어코치·안전·거절사유)은 명세서에 맨몸 JSON 으로
- * 적혀 있다. 백엔드 common 에 ApiResponse 가 이미 있어서 실제로는 전부 감쌀 가능성이 높지만,
- * 확인 전까지는 양쪽을 다 받아 준다.
- */
-const unwrap = (data) =>
-  data && typeof data === 'object' && 'ok' in data && 'data' in data ? data.data : data
+/** 봉투를 벗긴다. 봉투가 아닌 응답(혹시 모를 예외)은 그대로 돌려준다. */
+const unwrap = (body) =>
+  body && typeof body === 'object' && 'ok' in body ? body.data : body
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -50,10 +43,10 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms))
  *
  *   apiId  API 명세서의 API ID. live.js 에서 실연동 여부를 본다.
  *   path   경로 변수({itemId} 등)를 채운 실제 경로. 없으면 live.js 의 path 를 쓴다.
- *   mock   실연동 전에 돌려줄 값. **명세서 응답 예시와 같은 모양으로 둘 것** —
- *          그래야 스위치만 켜도 화면이 안 깨진다.
+ *   mock   실연동 전에 돌려줄 **봉투 전체**. ok()/fail() 로 만든다.
  *
- * 실연동이 꺼져 있으면 서버를 부르지 않고 mock 을 돌려준다.
+ * 실연동이 꺼져 있어도 봉투를 벗기고 실패면 ApiError 를 던지는 흐름이 똑같다.
+ * 그래서 목에서 fail(...) 을 돌려주면 화면의 에러 처리도 그대로 확인할 수 있다.
  */
 export async function call(apiId, { path, query, body, mock, signal } = {}) {
   const ep = ENDPOINTS[apiId]
@@ -62,7 +55,15 @@ export async function call(apiId, { path, query, body, mock, signal } = {}) {
   if (!isLive(apiId)) {
     // 실제 호출과 비슷한 체감을 주려고 약간 늦춘다. 로딩 상태가 안 보이면 버그를 놓친다.
     await delay(250)
-    return typeof mock === 'function' ? mock() : mock
+    const envelope = typeof mock === 'function' ? mock() : mock
+    if (envelope && envelope.ok === false) {
+      throw new ApiError(envelope.error?.message ?? '요청에 실패했어요', {
+        status: 400,
+        code: envelope.error?.code,
+        apiId,
+      })
+    }
+    return unwrap(envelope)
   }
 
   assertConfigured('VITE_API_BASE', API_BASE)
@@ -76,26 +77,39 @@ export async function call(apiId, { path, query, body, mock, signal } = {}) {
       ...(body ? { 'Content-Type': 'application/json' } : null),
       ...(token ? { Authorization: `Bearer ${token}` } : null),
     },
+    /* credentials 를 넣지 않는다 — 서버가 allowCredentials 를 켜지 않아서
+       include 로 보내면 브라우저가 응답을 통째로 버린다 (핸드오프 3장 ①). */
     body: body ? JSON.stringify(body) : undefined,
     signal,
   })
 
   // 204(예정 삭제 등)처럼 본문이 없는 응답이 있으므로 먼저 텍스트로 받는다
   const text = await res.text()
-  let data = null
+  let payload = null
   if (text) {
     try {
-      data = JSON.parse(text)
+      payload = JSON.parse(text)
     } catch {
       // JSON이 아니면(프록시 오류 페이지 등) 본문을 그대로 메시지에 싣는다
       throw new ApiError(text.slice(0, 200), { status: res.status, apiId })
     }
   }
 
-  if (!res.ok) {
-    const { code, message } = readError(data, res.status)
-    throw new ApiError(message, { status: res.status, code, apiId })
+  if (!res.ok || payload?.ok === false) {
+    const e = payload?.error ?? {}
+    throw new ApiError(e.message ?? `요청에 실패했어요 (${res.status})`, {
+      status: res.status,
+      code: e.code,
+      apiId,
+    })
   }
 
-  return unwrap(data)
+  return unwrap(payload)
 }
+
+/**
+ * 500 이 오면 서버 장애가 아니라 **주소 오타이거나 아직 없는 API** 일 가능성이 높다.
+ * 없는 경로에 404 가 아니라 500 을 주는 결함이 서버에 있다 (핸드오프 5장 ①, 수정 예정).
+ * 고쳐지면 404 로 바뀌므로 이 함수만 지우면 된다.
+ */
+export const looksLikeWrongUrl = (err) => err instanceof ApiError && err.status === 500

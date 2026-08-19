@@ -1,4 +1,4 @@
-import { call } from './client'
+import { call, ok } from './client'
 import { clearSession, getSession, setSession } from './session'
 
 /**
@@ -23,11 +23,13 @@ import { clearSession, getSession, setSession } from './session'
  */
 export async function startGuest() {
   const data = await call('NOW-AUTH-001', {
-    mock: () => ({
-      token: 'mock.guest.token',
-      userType: 'guest',
-      expiresAt: new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString(),
-    }),
+    /* 실서버 실측과 같은 모양. 유효기간 30일 (핸드오프 2장). */
+    mock: () =>
+      ok({
+        token: 'eyJhbGciOiJIUzI1NiJ9.mock-guest',
+        userType: 'guest',
+        expiresAt: new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString(),
+      }),
   })
   setSession(data)
   return data
@@ -42,7 +44,12 @@ export async function signup({ email, nickname }) {
 
   const data = await call('NOW-AUTH-002', {
     body: { email, nickname, ...(guestToken ? { guestToken } : null) },
-    mock: () => ({ token: 'mock.member.token', userType: 'member', name: nickname }),
+    mock: () =>
+      ok({
+        token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
+        userType: 'member',
+        name: nickname,
+      }),
   })
   setSession(data)
   return data
@@ -52,7 +59,12 @@ export async function signup({ email, nickname }) {
 export async function login({ email }) {
   const data = await call('NOW-AUTH-003', {
     body: { email },
-    mock: () => ({ token: 'mock.member.token', userType: 'member', name: '예니' }),
+    mock: () =>
+      ok({
+        token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
+        userType: 'member',
+        name: '예니',
+      }),
   })
   setSession(data)
   return data
@@ -65,7 +77,7 @@ export async function login({ email }) {
  */
 export async function logout() {
   try {
-    await call('NOW-AUTH-004', { mock: () => ({ ok: true }) })
+    await call('NOW-AUTH-004', { mock: () => ok(null) })
   } finally {
     clearSession()
   }
@@ -77,24 +89,28 @@ export async function logout() {
  */
 export function getMe() {
   return call('NOW-AUTH-005', {
-    mock: () => ({
-      userId: 'u_mock',
-      userType: 'guest',
-      name: '예니',
-      email: null,
-      currentState: 'normal',
-      recommendationPaused: false,
-      itemCount: 4,
-      hasCheckin: true,
-    }),
+    mock: () =>
+      ok({
+        userId: 'u_mock',
+        userType: 'guest',
+        name: '예니',
+        email: null,
+        currentState: 'normal',
+        recommendationPaused: false,
+        itemCount: 4,
+        hasCheckin: true,
+      }),
   })
 }
 
 /** NOW-MY-001 · PATCH /me — 닉네임·이메일 부분 수정. 실명은 받지 않는다. */
 export function updateProfile({ nickname, email }) {
   return call('NOW-MY-001', {
-    body: { ...(nickname ? { nickname } : null), ...(email ? { email } : null) },
-    mock: () => ({ name: nickname ?? '예니', email: email ?? null }),
+    body: {
+      ...(nickname ? { nickname } : null),
+      ...(email ? { email } : null),
+    },
+    mock: () => ok({ name: nickname ?? '예니', email: email ?? null }),
   })
 }
 

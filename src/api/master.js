@@ -1,4 +1,4 @@
-import { call } from './client'
+import { call, ok } from './client'
 import { CARE_ITEM_GROUPS, SIGNAL_GROUPS } from '../screens/options'
 
 /**
@@ -19,12 +19,13 @@ import { CARE_ITEM_GROUPS, SIGNAL_GROUPS } from '../screens/options'
 /** NOW-MASTER-001 · GET /categories — 관리 항목 카테고리 7건 */
 export function getCategories() {
   return call('NOW-MASTER-001', {
-    mock: () => ({
-      categories: CARE_ITEM_GROUPS.map((g, i) => ({
-        categoryId: `mock_${i}`,
-        name: g.title,
-      })),
-    }),
+    mock: () =>
+      ok({
+        categories: CARE_ITEM_GROUPS.map((g, i) => ({
+          categoryId: `mock_${i}`,
+          name: g.title,
+        })),
+      }),
   })
 }
 
@@ -34,30 +35,32 @@ export function getCategories() {
  */
 export function getCareItems() {
   return call('NOW-MASTER-002', {
-    mock: () => ({
-      careItems: CARE_ITEM_GROUPS.flatMap((g, gi) =>
-        g.items.map((it, i) => ({
-          itemId: `mock_${gi}_${i}`,
-          categoryId: `mock_${gi}`,
-          categoryName: g.title,
-          name: it.name,
-          // 명세서의 frequencyEditable. 클리닉·처방약처럼 앱이 판정하지 않는 항목은 false
-          frequencyEditable: it.freqEditable,
-        })),
-      ),
-    }),
+    mock: () =>
+      ok({
+        careItems: CARE_ITEM_GROUPS.flatMap((g, gi) =>
+          g.items.map((it, i) => ({
+            itemId: `mock_${gi}_${i}`,
+            categoryId: `mock_${gi}`,
+            categoryName: g.title,
+            name: it.name,
+            // 명세서의 frequencyEditable. 클리닉·처방약처럼 앱이 판정하지 않는 항목은 false
+            frequencyEditable: it.freqEditable,
+          })),
+        ),
+      }),
   })
 }
 
 /** NOW-MASTER-003 · GET /signals — 이상 징후 14건 + 가중치·전환 임계값 */
 export function getSignals() {
   return call('NOW-MASTER-003', {
-    mock: () => ({
-      signals: SIGNAL_GROUPS.flatMap((g) =>
-        g.items.map((name) => ({ signalId: name, group: g.label, name })),
-      ),
-      // 임계값은 서버가 정한다. 프론트가 계산에 쓰지 않고 표시에만 쓴다.
-      transitionThreshold: 5,
-    }),
+    mock: () =>
+      ok({
+        signals: SIGNAL_GROUPS.flatMap((g) =>
+          g.items.map((name) => ({ signalId: name, group: g.label, name })),
+        ),
+        // 임계값은 서버가 정한다. 프론트가 계산에 쓰지 않고 표시에만 쓴다.
+        transitionThreshold: 5,
+      }),
   })
 }
