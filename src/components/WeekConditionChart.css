@@ -1,0 +1,75 @@
+.wchart {
+  padding: 16px 18px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.wchart__title {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.wchart__plot {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  height: 120px;
+}
+
+/* 세로축 — 위(좋음)에서 아래(나쁨)로 */
+.wchart__scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wchart__tick {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* 막대 — 아래에서 위로 자란다 */
+.wchart__bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wchart__slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.wchart__bar {
+  position: relative;
+  width: 100%;
+  min-height: 2px;
+  border-radius: 3px 3px 0 0;
+  background: var(--c-brand-light);
+}
+
+/* 날짜는 막대 머리 위에 */
+.wchart__date {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 3px;
+  color: var(--c-text-muted);
+  font-size: 8px;
+  white-space: nowrap;
+}

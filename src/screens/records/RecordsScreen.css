@@ -1,168 +1,258 @@
-/* ── 기간 전환 ─────────────────────────────── */
-.records__periods {
+/* ── 히어로 ────────────────────────────────── */
+.rec__hero-head {
   display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.records__period {
-  height: var(--h-chip);
-  padding: 0 16px;
-  border: 1px solid var(--c-border-cream);
-  border-radius: var(--r-pill);
-  background: var(--c-surface);
-  color: var(--c-text-muted);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.records__period.is-selected {
-  border-color: var(--c-brand);
-  background: var(--c-brand);
+.rec__hero-more {
+  flex: none;
+  margin-top: 8px;
   color: var(--c-brand-on);
+  font-size: 12px;
+  text-decoration: none;
 }
 
-/* ── 잠긴 기간 ─────────────────────────────── */
-.records__locked {
+/* 이번 주 요약 숫자 3개. 분모를 쓰지 않는다 — 「5일/7일」은 곧 달성률이 된다. */
+.rec__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rec__stat {
   display: grid;
   place-items: center;
-  gap: 6px;
-  min-height: 160px;
-  padding: 24px;
-  border: 1px solid var(--c-border-cream);
+  gap: 8px;
+  min-height: 96px;
+  padding: 14px 8px;
   border-radius: var(--r-card-lg);
   background: var(--c-cream);
   text-align: center;
 }
 
-.records__locked-title {
-  margin: 0;
-  font-size: 14px;
+.rec__stat-label {
+  color: var(--c-text-brown);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  /* 「첫 발자국\n이어간 날」처럼 줄바꿈이 들어 있는 라벨이 있다 */
+  white-space: pre-line;
+}
+
+.rec__stat-days {
+  color: var(--c-text-brown);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+/* ── 섹션 ──────────────────────────────────── */
+.rec__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.rec__head--gap {
+  margin-top: 28px;
+}
+
+.rec__section {
+  margin: 0 0 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--c-text-brown);
   word-break: keep-all;
 }
-
-.records__locked-sub {
-  margin: 0;
-  font-size: 12px;
-  color: var(--c-text-muted);
+.rec__section--gap {
+  margin-top: 28px;
 }
 
-/* ── 요약 ──────────────────────────────────
-   완료 건수와 분포만 있다. 분모(달성률)를 만들지 않는다. */
-.records__summary {
-  padding: 18px;
+.rec__more {
+  flex: none;
+  color: var(--c-text-muted);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+/* ── 공용 카드 ─────────────────────────────── */
+.rec__card {
+  padding: 16px 18px;
   border: 1px solid var(--c-border-cream);
   border-radius: var(--r-card-lg);
+}
+.rec__card--cream {
   background: var(--c-cream);
 }
 
-.records__count {
+.rec__card-label {
   margin: 0 0 16px;
-  font-size: 15px;
-  color: var(--c-text-brown);
-}
-.records__count strong {
-  font-size: 22px;
-  font-weight: 800;
+  color: var(--c-text-muted);
+  font-size: 11px;
 }
 
-.records__dist {
-  display: grid;
-  gap: 10px;
+/* ── 이번 주 컨디션 ────────────────────────── */
+.rec__cond {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--c-cream);
+}
+
+.rec__cond-text {
+  min-width: 0;
+}
+
+.rec__cond-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--c-text-brown);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.rec__cond-days {
+  color: var(--c-text-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.rec__cond-emoji {
+  flex: none;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.rec__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.records__dist-row {
-  display: grid;
-  grid-template-columns: 74px 1fr 18px;
-  align-items: center;
-  gap: 10px;
+.rec__tag {
+  padding: 3px 9px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-brown);
+  font-size: 9px;
+  white-space: nowrap;
 }
 
-.records__dist-name {
-  font-size: 11px;
+/* ── 이번 주 덜어낸 것 ─────────────────────── */
+.rec__bars {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rec__bar-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 34px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+/* 항목 사이 점선 — 시안의 옅은 구분선 */
+.rec__bar-row + .rec__bar-row {
+  border-top: 1px dashed var(--c-border-cream);
+}
+
+.rec__bar-name {
   color: var(--c-text-brown);
+  font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.records__dist-track {
-  height: 8px;
+.rec__bar-track {
+  height: 12px;
+  border: 1px solid var(--c-border-cream);
   border-radius: var(--r-pill);
   background: var(--c-surface);
   overflow: hidden;
 }
 
-.records__dist-fill {
+.rec__bar-fill {
   display: block;
   height: 100%;
   border-radius: var(--r-pill);
-  background: var(--c-brand-light);
+  background: var(--c-text-brown);
 }
 
-.records__dist-count {
-  font-size: 11px;
-  color: var(--c-text-muted);
+.rec__bar-count {
+  color: var(--c-text-brown);
+  font-size: 14px;
+  font-weight: 700;
   text-align: right;
 }
 
-/* ── 완료 목록 ─────────────────────────────── */
-.records__section {
-  margin: 28px 0 12px;
-  font-size: 16px;
-  font-weight: 700;
+/* ── 최근 덜어내기 기록 ────────────────────── */
+.rec__log-date {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
   color: var(--c-text-brown);
+  font-size: 17px;
+  font-weight: 700;
 }
 
-.records__day + .records__day {
-  margin-top: 18px;
-}
-
-.records__date {
-  margin: 0 0 8px 2px;
-  font-size: 12px;
+.rec__log-sub {
   color: var(--c-text-muted);
+  font-size: 11px;
+  font-weight: 400;
 }
 
-.records__logs {
+.rec__log-title {
+  margin: 0 0 12px;
+  color: var(--c-text-brown);
+  font-size: 15px;
+}
+
+/* 고른 값을 보여주기만 하는 자리라 버튼이 아니라 목록으로 둔다 */
+.rec__dids {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--c-border-cream);
-  border-radius: var(--r-card-lg);
   list-style: none;
 }
 
-.records__log {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 14px 16px;
-}
-.records__log + .records__log {
-  border-top: 1px solid var(--c-cream);
-}
-
-.records__log-title {
-  font-size: 14px;
+.rec__did {
+  padding: 5px 11px;
+  border: 1px solid var(--c-text-brown);
+  border-radius: var(--r-pill);
   color: var(--c-text-brown);
-  word-break: keep-all;
-}
-
-.records__log-cat {
-  flex: none;
   font-size: 11px;
-  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+.rec__did.is-selected {
+  background: var(--c-text-brown);
+  color: var(--c-cream);
+  font-weight: 600;
 }
 
-.records__empty {
+.rec__empty {
   margin: 0;
-  padding: 40px 20px;
+  padding: 32px 20px;
   border: 1px solid var(--c-border-cream);
   border-radius: var(--r-card-lg);
   background: var(--c-cream);

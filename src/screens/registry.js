@@ -69,8 +69,13 @@ export const SCREENS = [
 
   // ── 시안 없이 API 명세만으로 구현한 화면 ──
   // 기존 색·간격 토큰만 써서 짰다. 시안이 나오면 값만 갈아끼우면 된다.
-  { path: '/records', key: 'records', title: '기록', kind: 'required', tab: true,
-    links: ['/home'] },
+  // ── H 기록 (탭) ─────────────────────────
+  { path: '/records', key: 'records', code: 'H01', title: '기록', kind: 'required', tab: true,
+    links: ['/records/condition', '/records/reductions'] },
+  { path: '/records/condition', key: 'recordCondition', code: 'H02', title: '이번 주 컨디션', kind: 'required', tab: true,
+    links: ['/check'] },
+  { path: '/records/reductions', key: 'reductionHistory', code: 'H03', title: '최근 덜어내기 기록', kind: 'required', tab: true,
+    links: ['/reduce/record'] },
   { path: '/care/start', key: 'careStart', title: '케어 시작', kind: 'required',
     links: ['/records', '/home'] },
   { path: '/coach', key: 'coach', title: '케어 코치', kind: 'required', tab: true,

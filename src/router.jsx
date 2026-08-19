@@ -29,6 +29,8 @@ import NotificationSettingsScreen from './screens/my/NotificationSettingsScreen'
 import ServiceGuideScreen from './screens/my/ServiceGuideScreen'
 import ContactScreen from './screens/my/ContactScreen'
 import RecordsScreen from './screens/records/RecordsScreen'
+import RecordConditionScreen from './screens/records/RecordConditionScreen'
+import ReductionHistoryScreen from './screens/records/ReductionHistoryScreen'
 import CareStartScreen from './screens/today/CareStartScreen'
 import CoachScreen from './screens/coach/CoachScreen'
 
@@ -58,6 +60,8 @@ const REAL = {
   serviceGuide: <ServiceGuideScreen />,
   contact: <ContactScreen />,
   records: <RecordsScreen />,
+  recordCondition: <RecordConditionScreen />,
+  reductionHistory: <ReductionHistoryScreen />,
   careStart: <CareStartScreen />,
   coach: <CoachScreen />,
 }

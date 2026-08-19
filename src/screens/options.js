@@ -307,6 +307,54 @@ export const LOG_UNLOCK = {
 }
 
 /**
+ * H01 기록 홈 — 이번 주 요약 (NOW-LOG-002 GET /logs/summary).
+ *
+ * 세 숫자는 전부 「한 일」의 개수다. 분모가 없다 —
+ * 「5일/7일」처럼 쓰면 못 한 이틀이 드러나므로 명세서가 금지한 달성률이 된다.
+ */
+export const WEEK_SUMMARY = [
+  { key: 'recorded', label: '기록한 날', days: 5 },
+  { key: 'reduced', label: '덜어낸 날', days: 2 },
+  { key: 'streak', label: '첫 발자국\n이어간 날', days: 5 },
+]
+
+/**
+ * H01 이번 주 컨디션 요약.
+ * 가장 자주 답한 컨디션 하나와, 그 주에 많이 고른 신호를 함께 보여준다.
+ */
+export const WEEK_CONDITION_SUMMARY = {
+  label: '조금 예민',
+  emoji: '😕',
+  // 「7일 중 4일」은 달성률이 아니라 최빈값의 근거라 분모를 써도 된다
+  daysOfWeek: 4,
+  totalDays: 7,
+  signals: ['조금 예민', '따가움', '잠 부족'],
+}
+
+/** H01 이번 주에 자주 덜어낸 항목 */
+export const WEEK_REDUCED = [
+  { name: '레티놀', count: 4 },
+  { name: '미스트', count: 1 },
+]
+
+/**
+ * H03 최근 덜어내기 기록 (NOW-LOG-001 GET /logs).
+ * did 는 DID_OPTIONS 중 사용자가 고른 값이고, 아직 안 골랐으면 null 이다.
+ */
+export const REDUCTION_LOGS = [
+  { logId: 'rl_003', date: '8월 18일', title: '레티놀 덜어내기', did: '추천대로 했어요', period: 'week' },
+  { logId: 'rl_002', date: '8월 15일', title: '미스트 덜어내기', did: '조금 바꿨어요', period: 'week' },
+  { logId: 'rl_001', date: '8월 6일', title: '레티놀 덜어내기', did: '거의 못 했어요', period: 'month' },
+]
+
+/** H03 기간 필터 */
+export const REDUCTION_FILTERS = [
+  { key: 'all', label: '전체' },
+  { key: 'week', label: '이번 주' },
+  { key: 'month', label: '이번 달' },
+]
+
+/**
  * 케어 코치 (NOW-COACH-001 POST /coach/ask).
  *
  * 판정은 규칙이 하고 AI는 문장만 만든다. 그래서 화면은 답변과 함께 근거(basis)를

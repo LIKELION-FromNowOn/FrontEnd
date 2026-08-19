@@ -1,8 +1,18 @@
-/* 「이어가는 첫 발자국」 — 모카 카드 안에 달팽이 + 제목 + 7일 진행 점 + CTA */
+/* 「이어가는 첫 발자국」 — 카드 안에 달팽이 + 제목 + 7일 진행 점 + CTA */
 .streak {
   padding: 16px 16px 16px;
   border-radius: var(--r-card-lg);
+}
+
+/* 홈·첫 발자국 관리 — 모카 카드 */
+.streak--mocha {
   background: var(--c-brand-light);
+}
+
+/* 기록 홈(H01) — 흰 패널 위라 크림 카드로 낮춘다 */
+.streak--cream {
+  border: 1px solid var(--c-border-cream);
+  background: var(--c-cream);
 }
 
 .streak__head {
@@ -41,6 +51,11 @@
   font-size: 10px;
   color: var(--c-brand-on);
   opacity: 0.85;
+}
+
+.streak--cream .streak__title,
+.streak--cream .streak__sub {
+  color: var(--c-text-brown);
 }
 
 /* ── 7일 진행 점 ───────────────────────────── */
@@ -82,4 +97,19 @@
   background: var(--c-brand-on);
   color: var(--c-brand);
   font-weight: 700;
+}
+
+/* 크림 카드에서는 선·점이 갈색이고, 지난 날이 갈색으로 채워진다 */
+.streak--cream .streak__dots::before {
+  background: var(--c-text-brown);
+  opacity: 0.35;
+}
+.streak--cream .streak__dot {
+  border-color: var(--c-text-brown);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+}
+.streak--cream .streak__dot.is-done {
+  background: var(--c-text-brown);
+  color: var(--c-cream);
 }
