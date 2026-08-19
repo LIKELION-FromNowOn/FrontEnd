@@ -16,6 +16,9 @@
 
   /* ── 표면 ── */
   --c-bg: #ffffff; /* 기본 화면 배경 */
+  --c-page: #f2f2f2; /* 폰 화면 바깥 바탕 — 시안의 프레임 배경색 */
+  --c-bezel: #e6e0da; /* 웹 기기 프레임 테두리 */
+  --c-accent-soft: #f2efec; /* 입력 칸 바탕 — 인증코드 6칸 */
   --c-cream: #fff6ed; /* 카드·시트 버튼 크림 */
   --c-surface: #ffffff;
   --c-tabbar: #f7f7f7;
@@ -52,6 +55,9 @@
   --sp-screen: 36px;
   --sp-cta: 42px;
   --sp-section: 28px;
+
+  /* ── 그림자 ── */
+  --shadow-device: 0 18px 48px rgb(32 32 32 / 0.14);
 
   /* ── 컨트롤 크기 ── */
   --h-cta: 48px;
