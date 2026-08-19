@@ -72,7 +72,9 @@ export default function LandingScreen() {
 
       {/* ── 히어로 ────────────────────────────── */}
       <section className="lp__hero">
-        <p className="lp__hero-lead">오늘 상태를 판정하여 피부 관리를 조정해 주는 서비스</p>
+        <p className="lp__hero-lead">
+          오늘 상태를 판정하여 피부 관리를 조정해 주는 서비스
+        </p>
         <h1 className="lp__hero-title">지금부터</h1>
 
         <Link to="/login" className="lp__cta">
@@ -190,7 +192,11 @@ export default function LandingScreen() {
             <Character variant="face" width={24} />
             <span>할래말래</span>
           </div>
-          <button type="button" className="lp__footer-link" onClick={() => setContactOpen(true)}>
+          <button
+            type="button"
+            className="lp__footer-link"
+            onClick={() => setContactOpen(true)}
+          >
             문의하기
           </button>
         </div>

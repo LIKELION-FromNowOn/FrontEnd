@@ -6,7 +6,9 @@ import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
 import StreakCard from '../../components/StreakCard'
-import { ACTIVE_STREAK, FIRST_STEP_CARDS } from '../options'
+import { getHome } from '../../api/today'
+import { useApi } from '../../api/useApi'
+import { ACTIVE_STREAK, FIRST_STEP_CARDS, TODAY_ACTION } from '../options'
 import './HomeScreen.css'
 
 /**
@@ -18,9 +20,18 @@ import './HomeScreen.css'
  */
 export default function HomeScreen() {
   const navigate = useNavigate()
-  const card = FIRST_STEP_CARDS[0]
-  const streak = ACTIVE_STREAK
   const [rejecting, setRejecting] = useState(false)
+
+  /* 홈은 한 번에 집계해서 받는다(NOW-HOME-001). 여러 번 부르면 첫 화면이 느려진다.
+     실패하면 목으로 계속 그린다 — 첫 화면이 비면 앱이 죽은 것처럼 보인다. */
+  const home = useApi(getHome)
+
+  const today = home.data?.today ?? TODAY_ACTION
+  const streak = home.data ? home.data.streak : ACTIVE_STREAK
+  /* 홈 응답의 footstepCard 는 요약만 온다. 카드 본문은 사례 목록에서 같은 id 를 찾아 쓴다. */
+  const card =
+    FIRST_STEP_CARDS.find((c) => c.id === home.data?.footstepCard?.id) ??
+    FIRST_STEP_CARDS[0]
 
   return (
     <HeroPanel
@@ -40,7 +51,10 @@ export default function HomeScreen() {
 
           {/* 제목 오른쪽에 겹쳐 놓이는 바로가기 2개 */}
           <div className="hero__shortcuts">
-            <Link to="/first-step/manage" className="hero__shortcut hero__shortcut--solid">
+            <Link
+              to="/first-step/manage"
+              className="hero__shortcut hero__shortcut--solid"
+            >
               <span className="hero__shortcut-title">
                 내 첫 발자국
                 <br />
@@ -79,7 +93,7 @@ export default function HomeScreen() {
       {/* 오늘의 케어 */}
       <h2 className="home__section">오늘의 케어 하나만 !</h2>
       <section className="home__care">
-        <h3 className="home__care-title">세안하고 크림 한번만 바르기</h3>
+        <h3 className="home__care-title">{today.title}</h3>
         <p className="home__care-desc">피부 부담을 줄이고 회복을 돕는 구성이에요</p>
 
         <Button variant="soft" onClick={() => navigate('/care/start')}>
@@ -90,11 +104,7 @@ export default function HomeScreen() {
           <button type="button" className="home__link">
             다른 방식
           </button>
-          <button
-            type="button"
-            className="home__link"
-            onClick={() => setRejecting(true)}
-          >
+          <button type="button" className="home__link" onClick={() => setRejecting(true)}>
             오늘은 쉬어갈게요
           </button>
         </div>

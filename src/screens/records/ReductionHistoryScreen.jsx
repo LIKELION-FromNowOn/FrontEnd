@@ -13,6 +13,10 @@ import './ReductionHistoryScreen.css'
 export default function ReductionHistoryScreen() {
   const [period, setPeriod] = useState('all')
 
+  /* ⚠️ 아직 배선하지 않았습니다. GET /logs(NOW-LOG-001)는 「완료한 행동」 목록이고,
+     이 화면이 쓰는 「덜어내기 기록」(항목명 + 실행 정도)과 다른 데이터입니다.
+     덜어내기 기록을 저장·조회하는 API 가 명세서 36건에 없습니다. */
+
   const logs = REDUCTION_LOGS.filter(
     (l) =>
       period === 'all' ||

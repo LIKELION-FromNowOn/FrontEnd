@@ -19,7 +19,10 @@ export default function ProfileSettingsScreen() {
 
         <div>
           <p className="profile__name">
-            예니 <span className="profile__pencil" aria-hidden>✎</span>
+            예니{' '}
+            <span className="profile__pencil" aria-hidden>
+              ✎
+            </span>
           </p>
           <p className="profile__desc">내 프로필 정보를 수정하세요</p>
         </div>
@@ -41,7 +44,9 @@ export default function ProfileSettingsScreen() {
 
         <button type="button" className="subpage__row">
           <span className="subpage__row-label">비밀번호</span>
-          <span className="subpage__chevron" aria-hidden>›</span>
+          <span className="subpage__chevron" aria-hidden>
+            ›
+          </span>
         </button>
 
         <div className="subpage__row">
@@ -54,11 +59,15 @@ export default function ProfileSettingsScreen() {
       <div className="subpage__card">
         <button type="button" className="subpage__row">
           <span className="subpage__row-label">로그아웃</span>
-          <span className="subpage__chevron" aria-hidden>›</span>
+          <span className="subpage__chevron" aria-hidden>
+            ›
+          </span>
         </button>
         <button type="button" className="subpage__row">
           <span className="subpage__row-label">회원탈퇴</span>
-          <span className="subpage__chevron" aria-hidden>›</span>
+          <span className="subpage__chevron" aria-hidden>
+            ›
+          </span>
         </button>
       </div>
     </SubPage>

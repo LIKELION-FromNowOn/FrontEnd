@@ -10,7 +10,14 @@ const MENUS = [
     label: '프로필 설정',
     icon: (
       <>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" fill="none" />
+        <circle
+          cx="12"
+          cy="12"
+          r="3"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          fill="none"
+        />
         <path
           d="M12 3.5v2M12 18.5v2M20.5 12h-2M5.5 12h-2M18 6l-1.4 1.4M7.4 16.6 6 18M18 18l-1.4-1.4M7.4 7.4 6 6"
           stroke="currentColor"
@@ -32,7 +39,12 @@ const MENUS = [
           strokeLinejoin="round"
           fill="none"
         />
-        <path d="M10 18.4a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path
+          d="M10 18.4a2 2 0 0 0 4 0"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
       </>
     ),
   },

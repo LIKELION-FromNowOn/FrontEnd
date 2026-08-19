@@ -22,6 +22,14 @@ import './RecordsScreen.css'
 export default function RecordsScreen() {
   const navigate = useNavigate()
   const streak = ACTIVE_STREAK
+
+  /* ⚠️ 아직 배선하지 않았습니다. 이 화면이 쓰는 값이 명세서에 없습니다.
+     GET /logs/summary(NOW-LOG-002)는 「완료 건수 + 카테고리 분포」만 줍니다.
+     H01 시안은 아래 셋을 요구하는데 어느 API 에도 없습니다.
+       · 기록한 날 / 덜어낸 날 / 첫 발자국 이어간 날  (일수 3종)
+       · 이번 주 최빈 컨디션과 그 일수
+       · 이번 주에 자주 덜어낸 항목과 횟수
+     필드가 정해지면 여기만 useApi 로 바꾸면 됩니다. 그때까지는 목으로 그립니다. */
   const recent = REDUCTION_LOGS[0]
   const cond = WEEK_CONDITION_SUMMARY
   const maxCount = Math.max(...WEEK_REDUCED.map((r) => r.count), 1)
@@ -123,10 +131,7 @@ export default function RecordsScreen() {
 
           <ul className="rec__dids">
             {DID_OPTIONS.map((d) => (
-              <li
-                key={d}
-                className={`rec__did${recent.did === d ? ' is-selected' : ''}`}
-              >
+              <li key={d} className={`rec__did${recent.did === d ? ' is-selected' : ''}`}>
                 {d}
               </li>
             ))}
@@ -139,7 +144,9 @@ export default function RecordsScreen() {
       {/* ── 첫 발자국 ── */}
       {streak && (
         <>
-          <h2 className="rec__section rec__section--gap">첫 발자국도 함께 쌓이고 있어요</h2>
+          <h2 className="rec__section rec__section--gap">
+            첫 발자국도 함께 쌓이고 있어요
+          </h2>
           <StreakCard
             variant="cream"
             title={streak.title}

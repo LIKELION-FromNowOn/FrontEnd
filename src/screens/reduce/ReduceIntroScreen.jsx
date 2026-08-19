@@ -55,8 +55,7 @@ export default function ReduceIntroScreen() {
       </ol>
 
       <h2 className="reduce__section">
-        오늘 덜어낼 것
-        <span className="reduce__badge reduce__badge--rec">추천</span>
+        오늘 덜어낼 것<span className="reduce__badge reduce__badge--rec">추천</span>
       </h2>
 
       <div className="reduce__item">

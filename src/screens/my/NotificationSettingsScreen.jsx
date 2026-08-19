@@ -6,9 +6,24 @@ import './NotificationSettingsScreen.css'
 
 /** I03_NotificationSettings — 알림 토글 + 방해금지 시간 */
 const ITEMS = [
-  { key: 'care', title: '오늘 케어 알림', desc: '매일 케어할 내용을 알려드려요.', on: true },
-  { key: 'step', title: '첫 발자국 리마인드', desc: '첫 발자국을 놓치지 않도록 도와드려요.', on: true },
-  { key: 'reduce', title: '덜어내기', desc: '덜어내기 시간에 맞춰 안내드려요.', on: true },
+  {
+    key: 'care',
+    title: '오늘 케어 알림',
+    desc: '매일 케어할 내용을 알려드려요.',
+    on: true,
+  },
+  {
+    key: 'step',
+    title: '첫 발자국 리마인드',
+    desc: '첫 발자국을 놓치지 않도록 도와드려요.',
+    on: true,
+  },
+  {
+    key: 'reduce',
+    title: '덜어내기',
+    desc: '덜어내기 시간에 맞춰 안내드려요.',
+    on: true,
+  },
   { key: 'notice', title: '서비스 공지', desc: null, on: false },
 ]
 
@@ -51,7 +66,10 @@ export default function NotificationSettingsScreen() {
           <p className="noti__desc">설정한 시간에는 알림이 울리지 않아요.</p>
         </div>
         <span className="noti__quiet-value">
-          23:00~7:00 <span className="subpage__chevron" aria-hidden>›</span>
+          23:00~7:00{' '}
+          <span className="subpage__chevron" aria-hidden>
+            ›
+          </span>
         </span>
       </button>
     </SubPage>
