@@ -32,15 +32,8 @@ export const SCREENS = [
     code: 'B02',
     title: '비밀번호 설정',
     kind: 'required',
-    /* 이메일 인증(B03)은 범위 밖이라 흐름에서 뺐다. 이미 가입한 계정이면 로그인으로 간다. */
-    links: ['/auth/login'],
-  },
-  {
-    path: '/auth/login',
-    key: 'authLogin',
-    code: 'B02-1',
-    title: '비밀번호 입력 (로그인)',
-    kind: 'required',
+    /* 이메일 인증(B03)은 범위 밖이라 흐름에서 뺐다.
+       이미 가입한 계정이면 이 화면 안에서 로그인으로 바뀐다. */
     links: [],
   },
   {

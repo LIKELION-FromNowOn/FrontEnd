@@ -8,22 +8,26 @@ import { useAction } from '../../api/useApi'
 import './PasswordSetupScreen.css'
 
 /**
- * B02_Auth/PasswordSetup — 비밀번호 입력. 가입과 로그인이 여기서 갈린다.
+ * B02_Auth/PasswordSetup — 가입과 로그인이 한 화면에서 갈린다.
  *
- * **로그인을 먼저 시도한다.** 이미 가입한 사람에게 「비밀번호를 설정하세요」와
- * 닉네임 칸부터 들이밀면 안 되기 때문이다 — 그 사람은 설정할 게 없다.
+ * **가입을 먼저 시도한다.** 서버가 「없는 계정」과 「틀린 비밀번호」를 똑같은 401 로 주기
+ * 때문에(계정 열거 방지), 로그인을 먼저 걸면 401 을 받은 순간 어느 쪽인지 알 수 없다.
+ * 그 상태에서 「처음 오셨네요」를 띄우면 **비밀번호를 잘못 친 사람에게 거짓말을 하게 된다.**
  *
- *   1. 비밀번호만 받아 로그인 → 200 이면 끝. 여기서 대부분의 재방문이 끝난다.
- *   2. 401 이면 **아직 모른다.** 서버가 「없는 계정」과 「틀린 비밀번호」를 일부러
- *      같은 401 로 준다(계정 열거 방지). 그래서 이때 처음 닉네임을 묻는다.
- *   3. 닉네임을 받아 가입 → 201 이면 새 계정이었던 것.
- *      409 면 계정이 있다는 뜻이므로 아까 401 은 **비밀번호가 틀린 것**이었다.
- *      로그인 화면(B02-1)으로 보내 다시 치게 한다.
+ * 가입은 409 EMAIL_ALREADY_EXISTS 로 「이미 있는 계정」을 **정확히** 알려준다.
+ * 그래서 가입을 먼저 던지고 409 가 오면 그때부터 로그인으로 확정한다.
  *
- * ⚠️ 401 을 「새 계정이구나」로 읽고 곧장 가입시키면 안 된다. 비밀번호를 잘못 친
- *    사람에게 엉뚱한 계정을 만들어 준다. 그래서 3에서 409 를 반드시 확인한다.
+ *   signup 201            새 계정 → 끝
+ *   signup 409 → login 200  이미 있는 계정이고 비밀번호도 맞음 → 끝 (화면을 안 옮긴다)
+ *   signup 409 → login 401  이미 있는 계정인데 비밀번호가 틀림
+ *                           → 화면을 로그인으로 바꾸고 「비밀번호가 올바르지 않습니다」
  *
- * ⚠️ 닉네임 입력이 시안에 없다. 가입에 필수라(없으면 400) 새 계정일 때만 펼친다.
+ * 마지막 갈래에서 닉네임 칸을 감추고 문구를 바꾸는 것이 핵심이다. 이미 있는 계정에
+ * 이름을 계속 물으면 안 된다.
+ *
+ * ⚠️ 닉네임 입력이 시안에 없다. 가입에 필수라(없으면 400) 여기서 같이 받는다.
+ * ⚠️ 닉네임 칸에 autoComplete="off" 를 준다. 브라우저가 비밀번호 옆 글자 칸을
+ *    아이디 칸으로 보고 방금 친 비밀번호를 넣어 버린다.
  */
 const MIN_PASSWORD = 8
 const MAX_PASSWORD = 64
@@ -36,48 +40,52 @@ export default function PasswordSetupScreen() {
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
   const [visible, setVisible] = useState(false)
-  /* 로그인이 401 로 튕긴 뒤에야 닉네임을 묻는다. 그전에는 새 계정인지 알 수 없다. */
-  const [asksNickname, setAsksNickname] = useState(false)
+  /* 'signup' 으로 시작해서, 409 를 받으면 'login' 으로 확정된다. 되돌아가지 않는다. */
+  const [mode, setMode] = useState('signup')
 
   const submitting = useAction(async () => {
-    if (!asksNickname) {
-      try {
-        return await login({ email, password })
-      } catch (err) {
-        if (err?.code !== ERROR.INVALID_CREDENTIALS) throw err
-        /* 없는 계정일 수도, 비밀번호가 틀렸을 수도 있다. 이름을 받아 가입을 시도해 본다. */
-        setAsksNickname(true)
-        return null
-      }
+    if (mode === 'login') return login({ email, password })
+
+    try {
+      return await signup({ email, password, nickname: nickname.trim() })
+    } catch (err) {
+      if (err?.code !== ERROR.EMAIL_ALREADY_EXISTS) throw err
+      /* 이미 있는 계정이다. 여기서부터는 로그인이고, 이름은 더 묻지 않는다.
+         방금 친 비밀번호가 맞을 수도 있으니 한 번은 그대로 시도해 본다 —
+         맞으면 화면을 옮기지 않고 바로 들어간다. */
+      setMode('login')
+      setNickname('')
+      return await login({ email, password })
     }
-    return signup({ email, password, nickname: nickname.trim() })
   })
 
   /* 주소를 직접 치고 들어오면 이메일이 없다. 처음부터 받게 되돌린다. */
   if (!email) return <Navigate to="/auth/email" replace />
 
+  const isLogin = mode === 'login'
   const tooShort = password.length > 0 && password.length < MIN_PASSWORD
   const canSubmit =
     password.length >= MIN_PASSWORD &&
     password.length <= MAX_PASSWORD &&
-    (!asksNickname || nickname.trim().length > 0)
+    (isLogin || nickname.trim().length > 0)
+
+  /**
+   * 로그인 단계의 401 은 「이미 있는 계정인데 비밀번호가 틀렸다」가 확실하다.
+   * 409 를 먼저 받고 온 자리라 계정 존재 여부가 새어나가지 않는다.
+   * 그 밖의 오류는 서버 문장을 그대로 쓴다.
+   */
+  const errorText =
+    submitting.error?.code === ERROR.INVALID_CREDENTIALS
+      ? '비밀번호가 올바르지 않습니다'
+      : submitting.errorText
 
   const onSubmit = async () => {
-    let session
     try {
-      session = await submitting.run()
-    } catch (err) {
-      /* 가입이 409 면 계정이 있다는 뜻이다 — 아까 401 은 비밀번호가 틀린 것이었다.
-         이름을 계속 묻고 있으면 안 되므로 로그인 화면으로 넘긴다. */
-      if (err?.code === ERROR.EMAIL_ALREADY_EXISTS) {
-        navigate('/auth/login', { state: { email } })
-      }
-      // 그 밖의 사유는 버튼 위에 뜬다. 입력은 그대로 두어 고쳐서 다시 누를 수 있게 한다.
+      await submitting.run()
+    } catch {
+      // 사유는 버튼 위에 뜬다. 입력은 그대로 두어 고쳐서 다시 누를 수 있게 한다.
       return
     }
-    /* 로그인이 튕겨서 이름을 물어보기 시작한 차례다. 아직 들여보내지 않는다. */
-    if (!session) return
-    /* 게스트로 고른 것이 계정으로 넘어왔는지에 따라 갈 곳이 다르다. 서버에 물어본다. */
     navigate(await nextScreen(), { replace: true })
   }
 
@@ -85,11 +93,11 @@ export default function PasswordSetupScreen() {
     <Screen
       back
       title={
-        asksNickname ? (
+        isLogin ? (
           <>
-            처음 오셨네요
+            이미 가입된 이메일이에요
             <br />
-            앱에서 부를 이름을 알려주세요
+            비밀번호를 입력하세요
           </>
         ) : (
           <>
@@ -104,15 +112,11 @@ export default function PasswordSetupScreen() {
         <>
           {submitting.error && (
             <p className="screen__hint" role="alert">
-              {submitting.errorText}
+              {errorText}
             </p>
           )}
           <Button disabled={!canSubmit || submitting.pending} onClick={onSubmit}>
-            {submitting.pending
-              ? '확인하는 중…'
-              : asksNickname
-                ? '가입하고 시작하기'
-                : '다음'}
+            {submitting.pending ? '확인하는 중…' : isLogin ? '로그인' : '다음'}
           </Button>
         </>
       }
@@ -122,10 +126,9 @@ export default function PasswordSetupScreen() {
           type={visible ? 'text' : 'password'}
           className="screen__line-input"
           placeholder={`비밀번호 (${MIN_PASSWORD}자 이상)`}
-          readOnly={asksNickname}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          autoComplete="new-password"
+          autoComplete={isLogin ? 'current-password' : 'new-password'}
           maxLength={MAX_PASSWORD}
         />
         <button
@@ -144,23 +147,24 @@ export default function PasswordSetupScreen() {
         </p>
       )}
 
-      {/* 새 계정일 때만 펼친다. 이미 가입한 사람에게는 물을 것이 아니다(위 주석 참고).
-          비밀번호 칸과 붙어 있으면 한 덩어리로 보여서 사이를 띄운다. */}
-      {asksNickname && (
+      {/* 이미 있는 계정이면 이름을 묻지 않는다. 가입할 때만 필요한 값이다. */}
+      {!isLogin && (
         <div className="pw__nickname">
           <label className="screen__field-label" htmlFor="signup-nickname">
             앱에서 부를 이름
           </label>
           <input
             id="signup-nickname"
+            name="signup-nickname"
             type="text"
             className="screen__line-input"
             placeholder="닉네임을 입력하세요"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            autoComplete="nickname"
+            /* 브라우저가 비밀번호 옆 글자 칸을 아이디 칸으로 보고
+               방금 친 비밀번호를 채워 넣는 일이 있었다. 자동완성을 끈다. */
+            autoComplete="off"
             maxLength={20}
-            autoFocus
           />
         </div>
       )}
