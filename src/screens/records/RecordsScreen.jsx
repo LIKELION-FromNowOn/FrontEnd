@@ -36,14 +36,11 @@ export default function RecordsScreen() {
     <HeroPanel
       hero={
         <div className="rec__hero">
+          {/* 「주간 리뷰 보기」를 뺐다(2026-08-21). 넘어가던 화면(H02)에 이제
+              오늘 컨디션만 남아서 「주간 리뷰」라는 이름과 맞지 않았다. */}
           <div className="rec__hero-head">
-            <div>
-              <h1 className="hero__title">이번주 요약</h1>
-              <p className="hero__lead">기록이 쌓일수록 더 나에게 맞게 !</p>
-            </div>
-            <Link to="/records/condition" className="rec__hero-more">
-              주간 리뷰 보기 ›
-            </Link>
+            <h1 className="hero__title">이번주 요약</h1>
+            <p className="hero__lead">기록이 쌓일수록 더 나에게 맞게 !</p>
           </div>
 
           {/* 두 칸이다. 「첫 발자국 이어간 날」은 연속 달성일이라 2026-08-20 에 뺐다. */}

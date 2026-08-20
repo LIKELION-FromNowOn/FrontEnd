@@ -1,17 +1,7 @@
 /* ── 히어로 ────────────────────────────────── */
+/* 오른쪽에 있던 「주간 리뷰 보기」를 빼면서 좌우로 벌릴 이유가 없어졌다. */
 .rec__hero-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.rec__hero-more {
-  flex: none;
-  margin-top: 8px;
-  color: var(--c-brand-on);
-  font-size: 12px;
-  text-decoration: none;
+  display: block;
 }
 
 /* 이번 주 요약 숫자 3개. 분모를 쓰지 않는다 — 「5일/7일」은 곧 달성률이 된다. */
