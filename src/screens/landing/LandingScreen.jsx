@@ -57,10 +57,6 @@ export default function LandingScreen() {
     <div className="lp" id="top">
       {/* ── 상단 네비 ─────────────────────────── */}
       <header className="lp__nav">
-        <a className="lp__logo" href="#top">
-          <span>할래말래</span>
-        </a>
-
         <nav className="lp__menu">
           {NAV.map((n) =>
             n.label === '문의' ? (

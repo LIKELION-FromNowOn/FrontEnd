@@ -28,7 +28,8 @@
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* 왼쪽 로고를 빼서 메뉴만 남았다. 오른쪽에 붙여 둔다. */
+  justify-content: flex-end;
   gap: 24px;
   padding: 14px clamp(20px, 5vw, 72px);
   background: var(--l-cream);
