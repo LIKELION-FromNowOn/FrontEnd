@@ -1,6 +1,7 @@
 import { call, ok } from './client'
 import { clearSession, getSession, setSession } from './session'
 import { forgetMe } from './useMe'
+import { MIN_CARE_ITEMS } from '../screens/options'
 
 /**
  * 인증 API — API 명세서 NOW-AUTH-001 ~ 005 · NOW-MY-001.
@@ -44,8 +45,15 @@ export async function startGuest() {
 }
 
 /**
- * NOW-AUTH-002 · POST /auth/signup — 회원 등록.
- * 게스트로 쓰던 중이면 guestToken 을 같이 보내 그동안의 데이터를 계정으로 옮긴다.
+ * NOW-AUTH-002 · POST /auth/signup — 회원 등록 (201).
+ *
+ * ★ **guestToken 을 반드시 같이 보낸다.**
+ *   게스트로 고른 관리 항목·상태 체크·판정이 새 계정으로 넘어간다.
+ *   안 보내면 빈 계정이 만들어지고 그때까지 한 것이 전부 날아간다.
+ *   응답의 migrated 가 true 면 넘어간 것이다 (2026-08-21 백엔드 실측 확인).
+ *
+ * 400 VALIDATION_FAILED  비밀번호 8~64자 · 닉네임 필수 · 이메일 형식
+ * 409 EMAIL_ALREADY_EXISTS  이미 등록된 이메일
  */
 export async function signup({ email, password, nickname }) {
   const guestToken = getSession()?.userType === 'guest' ? getSession().token : undefined
@@ -56,7 +64,7 @@ export async function signup({ email, password, nickname }) {
       ok({
         token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
         userType: 'member',
-        name: nickname,
+        migrated: Boolean(guestToken),
       }),
   })
   setSession(data)
@@ -64,7 +72,14 @@ export async function signup({ email, password, nickname }) {
   return data
 }
 
-/** NOW-AUTH-003 · POST /auth/login — 이메일 + 비밀번호 (명세서는 이메일만이다. 위 주석 참고) */
+/**
+ * NOW-AUTH-003 · POST /auth/login — 이메일 + 비밀번호.
+ *
+ * ⚠️ **틀린 이유를 갈라서 보여주지 않는다.** 없는 계정이든 비밀번호가 틀렸든
+ *    서버가 똑같이 401 INVALID_CREDENTIALS 를 준다 — 갈라서 알려주면
+ *    「이 이메일은 가입돼 있다」를 확인시켜 주는 셈이라 가입자 목록을 만들 수 있다.
+ *    화면 문구도 「이메일 또는 비밀번호가 올바르지 않습니다」 하나로 둔다.
+ */
 export async function login({ email, password }) {
   const data = await call('NOW-AUTH-003', {
     body: { email, password },
@@ -130,6 +145,29 @@ export function updateProfile({ nickname, email }) {
 /** 앱 진입 시 — 세션이 없으면 게스트로 시작한다 */
 export async function ensureSession() {
   return getSession() ?? (await startGuest())
+}
+
+/**
+ * 인증·진입 뒤에 어느 화면으로 보낼지 (GET /me).
+ *
+ * 명세의 「매일 아침 하루 한 번만 묻는다. 앱을 열 때마다 묻지 않는다」(4차 회의 확정)를
+ * 여기서 지킨다 — hasCheckin 이 true 면 오늘은 이미 물어본 것이라 다시 안 묻는다.
+ * 푸시 알림으로 묻는 기능은 만들기로 한 적이 없다(서버에 푸시 준비가 없다).
+ *
+ *   항목이 최소 개수에 못 미치면  → 관리 항목 선택
+ *   오늘 상태를 아직 안 물었으면  → 오늘 컨디션
+ *   둘 다 됐으면                → 홈
+ */
+export async function nextScreen() {
+  try {
+    const me = await getMe()
+    if ((me?.itemCount ?? 0) < MIN_CARE_ITEMS) return '/onboarding/care-items'
+    if (!me?.hasCheckin) return '/check'
+    return '/home'
+  } catch {
+    // 못 물어봤으면 처음부터 시작한다. 여기서 막히면 앱에 들어갈 수가 없다.
+    return '/onboarding/care-items'
+  }
 }
 
 /**

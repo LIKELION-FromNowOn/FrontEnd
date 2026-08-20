@@ -1,24 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
-import { startGoogleLogin, startGuest } from '../../api/auth'
+import { nextScreen, startGuest } from '../../api/auth'
 import { useAction } from '../../api/useApi'
+import { useComingSoon } from '../../components/useComingSoon'
 import './LoginScreen.css'
 
 /** A01_Auth/Login — 로고 + 캐릭터, 하단 모카 시트에 게스트 진입 */
 export default function LoginScreen() {
   const navigate = useNavigate()
   const guest = useAction(startGuest)
-
-  /**
-   * 구글 로그인.
-   * 백엔드가 붙으면 그쪽으로 넘어가고, 이후 「계정 선택」·「허용」 화면은 구글이 그린다.
-   * 아직 안 붙었으면 흐름만 이어 이메일 입력으로 보낸다.
-   */
-  const onGoogle = () => {
-    const { mocked } = startGoogleLogin()
-    if (mocked) navigate('/auth/email')
-  }
+  /* 구글 로그인은 이번 범위 밖이다 — 노션 NOW-AUTH-003 「이번 범위에 넣지 않는 것」.
+     콘솔 등록이 필요해서 붙이려면 우리 쪽만으로 안 된다. 줄은 남기고 준비 중을 띄운다. */
+  const [comingSoon, notify] = useComingSoon()
 
   /**
    * 게스트로 시작 (NOW-AUTH-001).
@@ -28,7 +22,8 @@ export default function LoginScreen() {
   const onGuest = async () => {
     try {
       await guest.run()
-      navigate('/onboarding/care-items')
+      /* 이어서 쓰던 게스트면 항목·상태가 이미 있을 수 있다. 갈 곳을 서버에 물어본다. */
+      navigate(await nextScreen(), { replace: true })
     } catch {
       // 실패해도 화면은 막지 않는다. 아래에 사유를 띄우고 사용자가 다시 누를 수 있다.
     }
@@ -64,7 +59,7 @@ export default function LoginScreen() {
           </p>
         )}
 
-        <Button variant="cream" onClick={onGoogle}>
+        <Button variant="cream" onClick={() => notify('구글 로그인')}>
           <span className="login__icon" aria-hidden>
             G
           </span>
@@ -76,6 +71,8 @@ export default function LoginScreen() {
           </span>
           이메일로 계속하기
         </Button>
+
+        {comingSoon}
 
         <p className="login__terms">
           계속 진행하면 지금부터의 서비스 약관 및 개인 정보 정책에 동의하는 것으로

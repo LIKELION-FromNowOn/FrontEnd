@@ -21,14 +21,11 @@ export const ENDPOINTS = {
     ...ep('auth', 'POST', '/auth/guest', '게스트 세션 발급'),
     live: true,
   },
-  /* ⚠️ 가입·로그인은 경로가 살아 있는데도 켜지 않는다 — 2026-08-20 실측 이유가 있다.
-     **서버가 비밀번호를 받는다.** 명세서에는 없는 값이다.
-       POST /auth/signup {} → 400 "이메일 · 비밀번호 · 닉네임을 확인해 주세요"
-     요청 본문은 서버에 맞춰 뒀지만(api/auth.js) 성공 응답을 못 봤고,
-     비밀번호가 들어오면 화면 흐름(B02 비밀번호 설정)도 같이 정해야 한다.
-     명세서와 서버 중 어느 쪽이 맞는지 확인되면 그때 이 두 줄을 켠다. */
-  'NOW-AUTH-002': ep('auth', 'POST', '/auth/signup', '회원 등록'),
-  'NOW-AUTH-003': ep('auth', 'POST', '/auth/login', '로그인'),
+  /* ✅ 2026-08-21 — 비밀번호 건이 정리됐다. 시안 B02(비밀번호 설정)를 살리기로 확정됐고
+     (노션 NOW-AUTH-003 맨 아래), 서버 본문·응답도 백엔드가 실측해서 알려줬다.
+     ⚠️ 가입에는 guestToken 을 반드시 실어 보낸다 — 안 보내면 게스트로 한 것이 다 날아간다. */
+  'NOW-AUTH-002': { ...ep('auth', 'POST', '/auth/signup', '회원 등록'), live: true },
+  'NOW-AUTH-003': { ...ep('auth', 'POST', '/auth/login', '로그인'), live: true },
   /* ✅ 2026-08-20 실측 — { loggedOut: true }. 계정 없이 확인할 수 있는 유일한 인증 건이었다. */
   'NOW-AUTH-004': { ...ep('auth', 'POST', '/auth/logout', '로그아웃'), live: true },
   /* ✅ 2026-08-20 실측 — { userId, userType, name, email, currentState,

@@ -1,6 +1,7 @@
 import Character from './ui/Character'
 import { BellIcon, MyIcon } from './ui/Icon'
 import { useNickname } from '../api/useMe'
+import { useComingSoon } from './useComingSoon'
 import './AppHeader.css'
 
 /**
@@ -17,6 +18,9 @@ import './AppHeader.css'
 export default function AppHeader({ nickname, onBrand = false, profile = false }) {
   const fromServer = useNickname()
   const name = nickname ?? fromServer
+  /* 알림은 이번 범위 밖이다 — 푸시를 보낼 준비가 서버에 없고 명세 36건에도 없다.
+     눌러도 아무 일이 안 일어나면 고장 난 것처럼 보이므로 준비 중임을 알린다. */
+  const [comingSoon, notify] = useComingSoon()
 
   return (
     <header className={`appheader${onBrand ? ' appheader--on-brand' : ''}`}>
@@ -27,15 +31,27 @@ export default function AppHeader({ nickname, onBrand = false, profile = false }
 
       <div className="appheader__actions">
         {profile && (
-          <button type="button" className="appheader__icon" aria-label="내 정보">
+          <button
+            type="button"
+            className="appheader__icon"
+            aria-label="내 정보"
+            onClick={() => notify('내 정보 바로가기')}
+          >
             <MyIcon size={18} />
           </button>
         )}
 
-        <button type="button" className="appheader__icon" aria-label="알림">
+        <button
+          type="button"
+          className="appheader__icon"
+          aria-label="알림"
+          onClick={() => notify('알림')}
+        >
           <BellIcon size={20} />
         </button>
       </div>
+
+      {comingSoon}
     </header>
   )
 }

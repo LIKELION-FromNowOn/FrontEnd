@@ -2,11 +2,18 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Screen from '../../components/ui/Screen'
 import Button from '../../components/ui/Button'
+import { ComingSoonBanner } from '../../components/ComingSoon'
 import './EmailVerificationScreen.css'
 
 const LENGTH = 6
 
-/** B03_Auth/EmailVerification — 인증코드 6자리 */
+/**
+ * B03_Auth/EmailVerification — 인증코드 6자리.
+ *
+ * ⚠️ **이번 범위 밖이다** — 노션 NOW-AUTH-003 「이번 범위에 넣지 않는 것」에
+ *    이메일 인증코드가 들어 있다(SMTP 가 없다). 가입 흐름에서 이 화면을 빼서
+ *    B02 다음에 바로 가입이 끝난다. 주소로 직접 들어올 수는 있어 안내만 남긴다.
+ */
 export default function EmailVerificationScreen() {
   const navigate = useNavigate()
   const [code, setCode] = useState('')
@@ -16,6 +23,7 @@ export default function EmailVerificationScreen() {
       back
       title={
         <>
+          <ComingSoonBanner>이메일 인증은 다음 단계에서 준비 중이에요</ComingSoonBanner>
           이메일로 전송된
           <br />
           인증코드를 입력하세요
