@@ -34,7 +34,7 @@ export default function FirstStepListScreen() {
             key={card.id}
             card={card}
             compact
-            onMore={() => navigate('/first-step/detail')}
+            onMore={() => navigate('/first-step/detail', { state: { id: card.id } })}
           />
         ))}
       </div>

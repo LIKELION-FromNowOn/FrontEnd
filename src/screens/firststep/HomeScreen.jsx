@@ -86,6 +86,9 @@ export default function HomeScreen() {
   /** 8건을 돌아가며 보여준다. 끝까지 가면 처음으로 돌아온다. */
   const nextCard = () => setSkip((n) => n + 1)
 
+  /** 어느 카드를 눌렀는지 들고 간다. 안 넘기면 상세가 늘 첫 카드를 그린다. */
+  const openDetail = (id) => navigate('/first-step/detail', { state: { id } })
+
   /** 다른 방식 (NOW-TODAY-002). 한도를 넘기면 서버가 429 REROLL_LIMIT 로 막는다. */
   const onReroll = async () => {
     if (!action) return
@@ -255,9 +258,10 @@ export default function HomeScreen() {
       {card && (
         <>
           <h2 className="home__section">오늘의 첫 발자국</h2>
-          <FirstStepCard card={card} onMore={() => navigate('/first-step/detail')}>
+          <FirstStepCard card={card} onMore={() => openDetail(card.id)}>
             <div className="home__card-actions">
-              <Button variant="soft" onClick={() => navigate('/first-step/detail')}>
+              {/* 상세에 「그다음에 한 일」이 있다. 오늘의 케어 타이머와는 다른 화면이다. */}
+              <Button variant="soft" onClick={() => openDetail(card.id)}>
                 루틴 따라하기
               </Button>
               <button
