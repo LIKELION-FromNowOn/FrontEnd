@@ -30,6 +30,11 @@ export const ENDPOINTS = {
   'NOW-ITEM-002': ep('auth', 'PUT', '/me/items', '내 항목 저장'),
   'NOW-ITEM-003': ep('auth', 'POST', '/me/items/custom', '직접 입력 항목 추가'),
   'NOW-ITEM-004': ep('auth', 'DELETE', '/me/items/{itemId}', '항목 삭제'),
+  /* ⚠️ 서버는 정상인데 아직 켜지 않는다 — 2026-08-20 실측으로 확인한 것.
+     우리 징후 목록은 시안 문구(약 27개)라 서버의 징후 id(sig_01…sig_14)가 없다.
+     한글 이름을 signalIds 로 보내면 서버가 **200 에 signalScore 0** 을 돌려준다.
+     오류가 아니라 조용히 0 이 되는 형태라, 켜 두면 전환 제안이 영영 안 뜬다.
+     GET /signals 컨트롤러가 붙어 실제 id 를 받는 순간 이 두 줄을 켠다. */
   'NOW-STATE-001': ep('auth', 'POST', '/checkins', '상태 체크 제출'),
   'NOW-STATE-002': ep('auth', 'GET', '/checkins/latest', '최근 상태 조회'),
   'NOW-STATE-003': ep('auth', 'POST', '/state/transition', '상태 전환 응답'),
@@ -39,7 +44,9 @@ export const ENDPOINTS = {
   'NOW-MASTER-002': ep('master', 'GET', '/care-items', '관리 항목 마스터 조회'),
   'NOW-MASTER-003': ep('master', 'GET', '/signals', '이상 징후 조회'),
 
-  // ── 요구사항 No.26 · 덜어내기 판정 3건 (송원석) ──
+  /* ── 요구사항 No.26 · 덜어내기 판정 3건 (송원석) ──
+     서버는 준비됐지만 앞 단계(PUT /me/items)가 없어 지금 켜면 400·404 만 온다.
+     오류 봉투 파싱을 확인할 때만 잠깐 켜고 다시 끈다. */
   'NOW-SUB-001': ep('subtract', 'POST', '/subtract/evaluate', '덜어내기 판정'),
   'NOW-SUB-002': ep('subtract', 'GET', '/subtract/result', '판정 결과 조회'),
   'NOW-SUB-003': ep('subtract', 'POST', '/subtract/{itemId}/revert', '판정 되돌리기'),

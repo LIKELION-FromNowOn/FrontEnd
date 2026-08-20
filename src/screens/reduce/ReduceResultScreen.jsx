@@ -123,7 +123,7 @@ export default function ReduceResultScreen() {
                 </span>
 
                 {/* keep·excluded는 되돌릴 판정이 없어 버튼을 띄우지 않는다 */}
-                {canRevert(it.verdict) && (
+                {canRevert(it) && (
                   <button
                     type="button"
                     className="rresult__revert"

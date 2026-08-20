@@ -108,8 +108,12 @@ export async function call(apiId, { path, query, body, mock, signal } = {}) {
 }
 
 /**
- * 500 이 오면 서버 장애가 아니라 **주소 오타이거나 아직 없는 API** 일 가능성이 높다.
- * 없는 경로에 404 가 아니라 500 을 주는 결함이 서버에 있다 (핸드오프 5장 ①, 수정 예정).
- * 고쳐지면 404 로 바뀌므로 이 함수만 지우면 된다.
+ * 경로가 틀린 것인지 구분한다.
+ *
+ * 2026-08-20 서버가 고쳐져 없는 경로는 404 NOT_FOUND 로 온다(전에는 500 이었다).
+ *   NOT_FOUND            경로가 틀렸다
+ *   EVALUATION_NOT_FOUND 경로는 맞고 판정이 아직 없다
+ * 둘을 구분할 수 있어서 500 이 뜨면 이제는 진짜 서버 문제로 보고 알리면 된다.
  */
-export const looksLikeWrongUrl = (err) => err instanceof ApiError && err.status === 500
+export const looksLikeWrongUrl = (err) =>
+  err instanceof ApiError && err.code === 'NOT_FOUND'

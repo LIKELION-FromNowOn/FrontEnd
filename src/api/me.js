@@ -69,32 +69,52 @@ export function deleteMyItem(itemId) {
 /**
  * NOW-STATE-001 · POST /checkins — 상태 체크 제출.
  * 규칙 기반이고 AI 가 아니다. 상태값 unknown 을 허용한다.
- * signalStrength 가 임계값을 넘으면 transitionSuggested 가 true 로 온다.
+ *
+ * 요청은 고른 징후의 **id 목록**(signalIds)과 직접 입력(customSignals)으로 나뉜다.
+ * signalScore 가 threshold 를 넘으면 transitionProposed 가 true 로 오고,
+ * reasons 에 그렇게 본 근거가 담긴다 — 근거 없는 전환 제안은 띄우지 않는다.
  */
-export function submitCheckin({ condition, signals, note }) {
+export function submitCheckin({ condition, signalIds = [], customSignals = [] }) {
   return call('NOW-STATE-001', {
-    body: { state: condition, signals, note },
+    body: { state: condition, signalIds, customSignals },
     mock: () =>
       ok({
-        checkinId: 'ck_101',
+        checkinId: 'ck_01M0EHT5PWE74PQBN3HCP0Z6YR',
         state: condition,
-        signalStrength: 3,
-        transitionSuggested: false,
-        checkedAt: new Date().toISOString(),
+        signalScore: 8,
+        threshold: 5,
+        maxScore: 25,
+        transitionProposed: true,
+        proposedState: 'drained',
+        reasons: [
+          '하고 싶은 게 없다',
+          '잠들기까지 오래 걸린다',
+          '쉬어도 회복되지 않는다',
+        ],
+        recommendationPaused: false,
+        judgeStrength: 'high',
       }),
   })
 }
 
-/** NOW-STATE-002 · GET /checkins/latest — 판정 전 반드시 있어야 한다 */
+/**
+ * NOW-STATE-002 · GET /checkins/latest — 판정 전 반드시 있어야 한다.
+ *
+ * ⚠️ **고른 징후 목록(signalIds)은 오지 않는다.** 명세서에 그 필드가 없고 서버도 안 준다.
+ * 화면에 징후를 되살려야 하면 명세서를 먼저 고쳐야 한다(2026-08-20 PM 확인 요청 중).
+ */
 export function getLatestCheckin() {
   return call('NOW-STATE-002', {
     mock: () =>
       ok({
-        checkinId: 'ck_101',
+        checkinId: 'ck_01M0EHT5PWE74PQBN3HCP0Z6YR',
         state: 'normal',
-        signals: ['건조함', '잠이 부족해요'],
-        signalStrength: 3,
-        checkedAt: new Date().toISOString(),
+        signalScore: 8,
+        threshold: 5,
+        transitionProposed: true,
+        recommendationPaused: false,
+        judgeStrength: 'high',
+        createdAt: new Date().toISOString(),
       }),
   })
 }

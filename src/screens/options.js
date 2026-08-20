@@ -15,11 +15,26 @@ const item = (name, freqEditable = true) => ({ name, freqEditable })
 export const CARE_ITEM_GROUPS = [
   {
     title: '세안 · 클렌징',
-    items: ['폼 클렌저', '약산성 클렌저', '오일/밤 클렌저', '각질 케어', '클렌징 워터/미셀라', '스크럽/필링'].map((n) => item(n)),
+    items: [
+      '폼 클렌저',
+      '약산성 클렌저',
+      '오일/밤 클렌저',
+      '각질 케어',
+      '클렌징 워터/미셀라',
+      '스크럽/필링',
+    ].map((n) => item(n)),
   },
   {
     title: '보습 · 진정',
-    items: ['토너·에센스', '수분팩', '세럼·앰플', '진정팩', '크림·로션', '미스트', '오일·페이셜 오일'].map((n) => item(n)),
+    items: [
+      '토너·에센스',
+      '수분팩',
+      '세럼·앰플',
+      '진정팩',
+      '크림·로션',
+      '미스트',
+      '오일·페이셜 오일',
+    ].map((n) => item(n)),
   },
   {
     title: '자외선 차단',
@@ -27,7 +42,9 @@ export const CARE_ITEM_GROUPS = [
   },
   {
     title: '집중 케어',
-    items: ['트러블 케어', '나이트 케어', '립 케어', '수면팩', '아이 케어'].map((n) => item(n)),
+    items: ['트러블 케어', '나이트 케어', '립 케어', '수면팩', '아이 케어'].map((n) =>
+      item(n),
+    ),
   },
   {
     // 빈도를 받지 않는 항목들. 앱이 판정하지 않는 영역이라 강도를 조절하지 않는다.
@@ -81,11 +98,25 @@ export const SIGNAL_GROUPS = [
   },
   {
     label: '수면',
-    items: ['잠이 부족해요', '너무 많이 잤어요', '푹 잤어요', '잠을 설쳤어요', '자주 깼어요'],
+    items: [
+      '잠이 부족해요',
+      '너무 많이 잤어요',
+      '푹 잤어요',
+      '잠을 설쳤어요',
+      '자주 깼어요',
+    ],
   },
   {
     label: '마음',
-    items: ['불안해요', '무기력해요', '기분이 가라앉아요', '답답해요', '예민해요', '기분이 좋아요', '마음이 편안해요'],
+    items: [
+      '불안해요',
+      '무기력해요',
+      '기분이 가라앉아요',
+      '답답해요',
+      '예민해요',
+      '기분이 좋아요',
+      '마음이 편안해요',
+    ],
   },
   {
     label: '관계·생활',
@@ -116,14 +147,22 @@ export const VERDICT_LABEL = {
 }
 
 /**
- * 되돌리기 버튼 노출 규칙 (NOW-SUB-007).
+ * 되돌리기 버튼을 띄울지 (NOW-SUB-003).
+ *
+ * **서버가 `revertable` 로 직접 알려준다**(2026-08-20 실측). 있으면 그 값을 그대로 쓴다 —
+ * 이미 되돌린 항목처럼 프론트가 알 수 없는 사정까지 서버가 반영해서 내려주기 때문.
+ *
+ * 없을 때(목·구버전 응답)만 판정으로 추론한다.
  *   keep     — 이미 「그대로」라 되돌릴 것이 없음
  *   excluded — 앱이 판단하지 않은 것이라 되돌릴 판정이 없음.
  *              클리닉 안내가 앱 제안보다 우선한다는 안전 원칙이라 사용자가 뒤집을 수 없다.
- * 되돌리면 keep으로 고정되고 다음 판정에서도 기억한다.
+ * 되돌리면 keep 으로 고정되고 다음 판정에서도 기억한다(persisted).
  */
-export const canRevert = (verdict) =>
-  verdict === 'simplify' || verdict === 'reduce' || verdict === 'skip'
+export const canRevert = (item) => {
+  if (item?.revertable != null) return item.revertable
+  const verdict = typeof item === 'string' ? item : item?.verdict
+  return verdict === 'simplify' || verdict === 'reduce' || verdict === 'skip'
+}
 
 /** G02 덜어내기 결과 — 판정 필터 */
 export const REDUCE_FILTERS = [
@@ -269,7 +308,11 @@ export const LOG_DAYS = [
   {
     date: '8월 18일',
     logs: [
-      { logId: 'lg_770', title: '세안하고 크림 한번만 바르기', categoryName: '피부·홈케어' },
+      {
+        logId: 'lg_770',
+        title: '세안하고 크림 한번만 바르기',
+        categoryName: '피부·홈케어',
+      },
     ],
   },
   {
@@ -342,9 +385,27 @@ export const WEEK_REDUCED = [
  * did 는 DID_OPTIONS 중 사용자가 고른 값이고, 아직 안 골랐으면 null 이다.
  */
 export const REDUCTION_LOGS = [
-  { logId: 'rl_003', date: '8월 18일', title: '레티놀 덜어내기', did: '추천대로 했어요', period: 'week' },
-  { logId: 'rl_002', date: '8월 15일', title: '미스트 덜어내기', did: '조금 바꿨어요', period: 'week' },
-  { logId: 'rl_001', date: '8월 6일', title: '레티놀 덜어내기', did: '거의 못 했어요', period: 'month' },
+  {
+    logId: 'rl_003',
+    date: '8월 18일',
+    title: '레티놀 덜어내기',
+    did: '추천대로 했어요',
+    period: 'week',
+  },
+  {
+    logId: 'rl_002',
+    date: '8월 15일',
+    title: '미스트 덜어내기',
+    did: '조금 바꿨어요',
+    period: 'week',
+  },
+  {
+    logId: 'rl_001',
+    date: '8월 6일',
+    title: '레티놀 덜어내기',
+    did: '거의 못 했어요',
+    period: 'month',
+  },
 ]
 
 /** H03 기간 필터 */
@@ -408,7 +469,8 @@ export const FIRST_STEP_CARDS = [
     quote: '아침에 눈을 뜨면 물 한 잔부터 마셨어요',
     who: '26세·직장인·익명',
     body: '하루에 물을 많이 마셔야 한다는 건 알고 있었지만, 2L 마시기 같은 목표를 세우면 오후가 되어서야 물을 거의 안 마셨다는 걸 깨닫곤 했어요. 그래서 하루 전체 양을 신경 쓰는 대신 아침에 일어난 직후 물 한 잔을 마시는 것만 첫 목표로 만들었어요.',
-    point: '큰 숫자를 채우려고 애쓰기보다, 이미 매일 하는 행동에 아주 작은 습관 하나를 붙여보세요.',
+    point:
+      '큰 숫자를 채우려고 애쓰기보다, 이미 매일 하는 행동에 아주 작은 습관 하나를 붙여보세요.',
     situation:
       '하루에 2L를 마셔야 한다고 정해두니 오후쯤 절반도 못 마신 게 보였고, 그걸 확인할 때마다 오늘도 실패했다는 기분이 들었어요.',
     firstStep: '일어나자마자 머리맡에 둔 물 한 잔을 마셨어요',
@@ -423,7 +485,8 @@ export const FIRST_STEP_CARDS = [
     quote: '아침에 일어나면 커튼부터 열어봤어요',
     who: '31세·프리랜서·익명',
     body: '아침을 좀 더 개운하게 시작하고 싶어서 일찍 일어나기, 산책하기 같은 계획을 세워봤지만 며칠을 넘기기 어려웠어요. 그래서 일어나는 시간을 바꾸는 대신, 눈을 뜨면 커튼을 열고 잠깐 햇빛을 보는 것만 첫 목표로 정했어요.',
-    point: '완벽한 아침 루틴을 만들려고 하기보다, 감각이 깨어나는 신호가 될 행동 하나만 정해보세요.',
+    point:
+      '완벽한 아침 루틴을 만들려고 하기보다, 감각이 깨어나는 신호가 될 행동 하나만 정해보세요.',
     situation:
       '일찍 일어나기와 산책을 한꺼번에 시작했다가 사흘 만에 다 놓쳤어요. 기상 시간을 바꾸는 일 자체가 제일 어려웠거든요.',
     firstStep: '눈을 뜨면 침대에서 손을 뻗어 커튼을 열었어요',

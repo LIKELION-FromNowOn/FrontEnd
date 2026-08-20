@@ -20,10 +20,7 @@
  */
 const DEFAULT_BASE = 'http://1.201.116.42:8080/api/v1'
 
-export const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_BASE).replace(
-  /\/$/,
-  '',
-)
+export const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_BASE).replace(/\/$/, '')
 
 /**
  * 구글 로그인 시작 주소.

@@ -20,17 +20,39 @@ export default function ConditionScreen() {
   const master = useApi(getSignals)
   const submitting = useAction(submitCheckin)
 
-  const groups = master.data?.signals?.length
-    ? [...new Map(master.data.signals.map((s) => [s.group, []])).keys()].map((label) => ({
+  /* 마스터가 붙으면 서버 징후로, 아직이면 시안 문구로 그린다. */
+  const serverSignals = master.data?.signals ?? []
+  const groups = serverSignals.length
+    ? [...new Set(serverSignals.map((x) => x.group))].map((label) => ({
         label,
-        items: master.data.signals.filter((s) => s.group === label).map((s) => s.name),
+        items: serverSignals.filter((x) => x.group === label).map((x) => x.name),
       }))
     : SIGNAL_GROUPS
+
+  /**
+   * 고른 징후를 서버가 아는 id 와 모르는 문구로 가른다.
+   *
+   * 이름을 signalIds 로 보내면 서버가 오류 대신 **signalScore 0** 을 돌려준다.
+   * 조용히 0 이 되면 전환 제안이 영영 안 떠서, 아는 것만 id 로 보내고
+   * 나머지는 직접 입력(customSignals)으로 넘긴다.
+   */
+  const splitSignals = () => {
+    const byName = new Map(serverSignals.map((x) => [x.name, x.signalId]))
+    const ids = []
+    const custom = []
+    for (const name of signals) {
+      const id = byName.get(name)
+      if (id) ids.push(id)
+      else custom.push(name)
+    }
+    if (etc.trim()) custom.push(etc.trim())
+    return { signalIds: ids, customSignals: custom }
+  }
 
   /** 상태·징후 제출 (NOW-STATE-001). 판정 점수의 입력값이라 컨디션은 반드시 하나 골라야 한다. */
   const onSubmit = async () => {
     try {
-      await submitting.run({ condition, signals: [...signals], note: etc })
+      await submitting.run({ condition, ...splitSignals() })
       navigate('/check/analyzing')
     } catch {
       // 실패 사유는 버튼 위에 뜬다. 고른 값은 그대로 두어 다시 누를 수 있게 한다.
