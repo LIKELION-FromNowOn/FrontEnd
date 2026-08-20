@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SubPage from '../../components/SubPage'
+import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import { changePassword } from '../../api/auth'
 import { useMe } from '../../api/useMe'
@@ -29,6 +30,7 @@ export default function ChangePasswordScreen() {
 
   const [current, setCurrent] = useState('')
   const [next, setNext] = useState('')
+  const [visible, setVisible] = useState(false)
   const saving = useAction(changePassword)
 
   const canSubmit = current.length >= MIN && next.length >= MIN && next.length <= MAX
@@ -51,7 +53,6 @@ export default function ChangePasswordScreen() {
   return (
     <SubPage
       title="비밀번호 변경"
-      lead={isGuest ? '가입하시면 비밀번호를 정할 수 있어요' : undefined}
       footer={
         <>
           {saving.error && (
@@ -69,35 +70,60 @@ export default function ChangePasswordScreen() {
         </>
       }
     >
+      <div className="acct__talk">
+        <Character variant="face" width={92} />
+        <p className="acct__bubble">
+          {isGuest ? '가입하면 정할 수 있어요!' : '새 비밀번호를 정해주세요!'}
+        </p>
+      </div>
+
       {!isGuest && (
         <>
-          <label className="acct__label" htmlFor="pw-current">
-            지금 비밀번호
-          </label>
-          <input
-            id="pw-current"
-            type="password"
-            className="screen__line-input"
-            placeholder="지금 쓰는 비밀번호"
-            value={current}
-            onChange={(e) => setCurrent(e.target.value)}
-            autoComplete="current-password"
-            maxLength={MAX}
-          />
+          {/* 지금 비밀번호를 먼저 묻는다. 토큰만으로 바꾸게 두면 토큰이 새는 순간 끝이다. */}
+          <div className="acct__field">
+            <label className="acct__label" htmlFor="pw-current">
+              지금 비밀번호
+            </label>
+            <div className="acct__line">
+              <input
+                id="pw-current"
+                type="password"
+                className="acct__input"
+                placeholder="지금 쓰는 비밀번호"
+                value={current}
+                onChange={(e) => setCurrent(e.target.value)}
+                autoComplete="current-password"
+                maxLength={MAX}
+              />
+            </div>
+          </div>
 
-          <label className="acct__label acct__label--gap" htmlFor="pw-next">
-            새 비밀번호
-          </label>
-          <input
-            id="pw-next"
-            type="password"
-            className="screen__line-input"
-            placeholder={`새 비밀번호 (${MIN}자 이상)`}
-            value={next}
-            onChange={(e) => setNext(e.target.value)}
-            autoComplete="new-password"
-            maxLength={MAX}
-          />
+          <div className="acct__field">
+            <label className="acct__label" htmlFor="pw-next">
+              새 비밀번호
+            </label>
+            <div className="acct__line">
+              <input
+                id="pw-next"
+                type={visible ? 'text' : 'password'}
+                className="acct__input"
+                placeholder="새로 쓸 비밀번호"
+                value={next}
+                onChange={(e) => setNext(e.target.value)}
+                autoComplete="new-password"
+                maxLength={MAX}
+              />
+              <button
+                type="button"
+                className="acct__eye"
+                onClick={() => setVisible((v) => !v)}
+                aria-label={visible ? '비밀번호 숨기기' : '비밀번호 표시'}
+              >
+                {visible ? '◉' : '◎'}
+              </button>
+            </div>
+            <p className="acct__help">{MIN}자 이상으로 정해주세요</p>
+          </div>
         </>
       )}
     </SubPage>

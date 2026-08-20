@@ -59,40 +59,62 @@ export default function WithdrawScreen() {
           ) : !confirmed ? (
             <Button onClick={() => setConfirmed(true)}>그래도 탈퇴할게요</Button>
           ) : (
-            <Button disabled={!password || leaving.pending} onClick={onWithdraw}>
+            /* 되돌릴 수 없는 동작이라 기본 CTA 와 다르게 보이도록 테두리형을 쓴다 */
+            <Button
+              variant="outline"
+              disabled={!password || leaving.pending}
+              onClick={onWithdraw}
+            >
               {leaving.pending ? '처리하는 중…' : '탈퇴하기'}
             </Button>
           )}
         </>
       }
     >
-      <p className="acct__warn">
-        탈퇴하면 계정이 사라지고 <strong>되돌릴 수 없습니다.</strong>
-      </p>
-      <p className="acct__note">
-        계정 정보는 삭제됩니다. 같은 이메일로 다시 가입하실 수 있어요.
-      </p>
-
-      {isGuest && (
-        <p className="acct__note">게스트로 쓰고 계셔서 탈퇴할 계정이 없어요.</p>
-      )}
+      {/* 떠나는 자리라 캐릭터로 붙잡지 않는다. 사실만 담백하게 둔다. */}
+      <section className="acct__warn">
+        <h2 className="acct__warn-title">
+          탈퇴하면
+          <br />
+          되돌릴 수 없어요
+        </h2>
+        <ul className="acct__facts">
+          <li className="acct__fact">계정 정보가 삭제됩니다</li>
+          <li className="acct__fact">같은 이메일로 다시 가입하실 수 있어요</li>
+          {isGuest && (
+            <li className="acct__fact">
+              게스트로 쓰고 계셔서 지금은 탈퇴할 계정이 없어요
+            </li>
+          )}
+        </ul>
+      </section>
 
       {/* 확인을 한 번 받은 뒤에야 비밀번호를 묻는다. 실수로 지워지면 안 되는 자리다. */}
       {!isGuest && confirmed && (
-        <>
-          <label className="acct__label acct__label--gap" htmlFor="withdraw-pw">
+        <div className="acct__field">
+          <label className="acct__label" htmlFor="withdraw-pw">
             비밀번호 확인
           </label>
-          <input
-            id="withdraw-pw"
-            type="password"
-            className="screen__line-input"
-            placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
-        </>
+          <div className="acct__line">
+            <input
+              id="withdraw-pw"
+              type="password"
+              className="acct__input"
+              placeholder="비밀번호를 입력하세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+          </div>
+        </div>
+      )}
+
+      {!isGuest && !confirmed && (
+        <p className="acct__note">
+          그동안 쌓은 기록은 다시 볼 수 없게 됩니다.
+          <br />
+          그래도 괜찮으시면 아래에서 이어가 주세요.
+        </p>
       )}
     </SubPage>
   )
