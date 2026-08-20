@@ -56,3 +56,11 @@
   font-size: 13px;
   color: var(--c-text-faint);
 }
+
+/* 저장이 막혔을 때. 게스트에게는 오류가 아니라 안내에 가까운 문장이 온다. */
+.nick__hint {
+  margin: 0 0 10px;
+  color: var(--c-text-brown);
+  font-size: 12px;
+  text-align: center;
+}

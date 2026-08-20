@@ -212,7 +212,7 @@ export function revertSubtract(itemId, evaluationId) {
  *   categoryId   care · sleep · move · eat · mind · life · med (GET /categories 의 id)
  *   limit        1~100, 기본 30
  *
- * ⚠️ 서버는 아직 404 다(2026-08-20 실측). 명세는 확정됐지만 배포 전이라 목으로 돈다.
+ * ✅ 2026-08-20 저녁부터 실서버로 간다. 확정된 형태 그대로 온다.
  */
 export function getLogs({ from, to, categoryId, limit } = {}) {
   const query = {
@@ -249,7 +249,9 @@ export function groupLogsByDay(logs) {
  *
  * 2026-08-20 H01 용으로 네 가지가 붙는다(김민정) —
  * daysRecorded · daysSubtracted · topState · topSubtracted.
- * ⚠️ 아직 404 라 목으로 돈다. 화면은 toWeekSummary 를 거쳐 읽는다.
+ * ✅ 실서버로 간다. 화면은 toWeekSummary 를 거쳐 읽는다.
+ * ⚠️ 다만 daysRecorded 와 topState 는 아직 0 · null 로 온다(백엔드가 상태 기록 쪽 대기 중).
+ *    값이 비는 것이지 형태가 틀린 게 아니라 화면은 안 깨진다.
  *
  * period 는 week · month 두 가지고 **서버 기본값은 month 다.**
  * 여기 기본값이 week 인 것은 부르는 곳이 H01 「이번주 요약」 하나라서인데,
@@ -267,7 +269,7 @@ export function getLogSummary(period = 'week') {
  * 기록 요약을 H01 이 그리는 모양으로 정리한다.
  *
  * 이 함수가 있는 이유는 하나다 — **`topState` · `topSubtracted` 의 생김새를 아직 못 봤다.**
- * 이름만 전달받았고 서버가 404 라 실측을 못 했다. 그래서 올 법한 형태를 다 받아 둔다.
+ * 서버가 아직 null 로 주고 있어서 실제 형태를 못 봤다. 그래서 올 법한 형태를 다 받아 둔다.
  *   topState       'low'  또는  { state:'low', days:4, totalDays:7 }
  *   topSubtracted  [{ name, count }]  또는  [{ itemId, name, count }]
  * 형태가 확정되면 여기만 고치면 화면은 그대로다.

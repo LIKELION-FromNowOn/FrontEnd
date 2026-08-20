@@ -19,7 +19,8 @@ import './RecordsScreen.css'
  *   만든다    기록한 날 · 덜어낸 날 · 최빈 컨디션 · 자주 덜어낸 항목 · 덜어내기 기록
  *   안 만든다 **이어간 날(연속 달성일)** · 달성률 — 추후 개선사항으로 넘겼다
  *
- * ⚠️ GET /logs/summary 는 아직 404 라 목으로 돈다. 판정 기록(NOW-SUB-004)은 실연동이다.
+ * ✅ GET /logs/summary · GET /subtract/history 둘 다 실연동이다.
+ * ⚠️ 다만 「기록한 날」과 「최빈 컨디션」은 서버가 아직 0 · null 로 준다. 화면은 그대로 받아 넘긴다.
  */
 export default function RecordsScreen() {
   const navigate = useNavigate()
