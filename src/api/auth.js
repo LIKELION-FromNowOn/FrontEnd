@@ -50,7 +50,8 @@ export async function startGuest() {
  * ★ **guestToken 을 반드시 같이 보낸다.**
  *   게스트로 고른 관리 항목·상태 체크·판정이 새 계정으로 넘어간다.
  *   안 보내면 빈 계정이 만들어지고 그때까지 한 것이 전부 날아간다.
- *   응답의 migrated 가 true 면 넘어간 것이다 (2026-08-21 백엔드 실측 확인).
+ *   응답의 migrated 는 **옮겨온 개수**다 — { items, checkins, logs }.
+ *   참·거짓이 아니라서 개수가 0 이어도 객체가 온다.
  *
  * 400 VALIDATION_FAILED  비밀번호 8~64자 · 닉네임 필수 · 이메일 형식
  * 409 EMAIL_ALREADY_EXISTS  이미 등록된 이메일
@@ -64,7 +65,11 @@ export async function signup({ email, password, nickname }) {
       ok({
         token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
         userType: 'member',
-        migrated: Boolean(guestToken),
+        /* ⚠️ migrated 는 참·거짓이 아니라 **옮겨온 개수**다 (백엔드 AuthSignupRes.Migrated).
+           if (res.migrated) 로 쓰면 개수가 0 이어도 true 라 「옮겨왔다」로 읽힌다. */
+        migrated: guestToken
+          ? { items: 3, checkins: 1, logs: 1 }
+          : { items: 0, checkins: 0, logs: 0 },
       }),
   })
   setSession(data)

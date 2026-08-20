@@ -8,6 +8,7 @@ import { SCREENS } from './screens/registry'
 import LoginScreen from './screens/auth/LoginScreen'
 import EmailInputScreen from './screens/auth/EmailInputScreen'
 import PasswordSetupScreen from './screens/auth/PasswordSetupScreen'
+import LoginPasswordScreen from './screens/auth/LoginPasswordScreen'
 import EmailVerificationScreen from './screens/auth/EmailVerificationScreen'
 import CareItemsScreen from './screens/onboarding/CareItemsScreen'
 import ConditionScreen from './screens/dailycheck/ConditionScreen'
@@ -39,6 +40,7 @@ const REAL = {
   login: <LoginScreen />,
   authEmail: <EmailInputScreen />,
   authPassword: <PasswordSetupScreen />,
+  authLogin: <LoginPasswordScreen />,
   authVerify: <EmailVerificationScreen />,
   careItems: <CareItemsScreen />,
   condition: <ConditionScreen />,

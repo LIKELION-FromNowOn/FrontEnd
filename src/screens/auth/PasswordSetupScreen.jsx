@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Screen from '../../components/ui/Screen'
 import Button from '../../components/ui/Button'
-import { login, nextScreen, signup } from '../../api/auth'
+import { nextScreen, signup } from '../../api/auth'
 import { ERROR } from '../../api/errors'
 import { useAction } from '../../api/useApi'
 import './PasswordSetupScreen.css'
@@ -11,8 +11,8 @@ import './PasswordSetupScreen.css'
  * B02_Auth/PasswordSetup — 비밀번호(+닉네임) 설정.
  *
  * **가입과 로그인이 여기서 갈린다.**
- *   가입을 먼저 시도한다 → 201 이면 끝
- *   409 EMAIL_ALREADY_EXISTS 면 이미 있는 계정이므로 같은 비밀번호로 로그인한다
+ *   가입을 시도한다 → 201 이면 끝
+ *   409 EMAIL_ALREADY_EXISTS 면 이미 있는 계정이므로 로그인 화면(B02-1)으로 보낸다
  *
  * 순서가 반대면 안 된다. 로그인을 먼저 시도하면 비밀번호를 잘못 친 사람에게
  * 401 이 오는데, 서버가 「없는 계정」과 「틀린 비밀번호」를 **일부러 구분해 주지 않으므로**
@@ -33,15 +33,9 @@ export default function PasswordSetupScreen() {
   const [nickname, setNickname] = useState('')
   const [visible, setVisible] = useState(false)
 
-  const submitting = useAction(async () => {
-    try {
-      return await signup({ email, password, nickname: nickname.trim() })
-    } catch (err) {
-      /* 이미 있는 계정이면 가입이 아니라 로그인이다. 그 밖의 오류는 그대로 올린다. */
-      if (err?.code !== ERROR.EMAIL_ALREADY_EXISTS) throw err
-      return await login({ email, password })
-    }
-  })
+  const submitting = useAction(() =>
+    signup({ email, password, nickname: nickname.trim() }),
+  )
 
   /* 주소를 직접 치고 들어오면 이메일이 없다. 처음부터 받게 되돌린다. */
   if (!email) return <Navigate to="/auth/email" replace />
@@ -55,8 +49,14 @@ export default function PasswordSetupScreen() {
   const onSubmit = async () => {
     try {
       await submitting.run()
-    } catch {
-      // 사유는 버튼 위에 뜬다. 입력은 그대로 두어 고쳐서 다시 누를 수 있게 한다.
+    } catch (err) {
+      /* 이미 있는 계정이면 가입이 아니라 로그인이다. 비밀번호를 다시 받는 화면으로 보낸다 —
+         여기서 친 비밀번호로 몰래 로그인하지 않는다. 가입하려고 방금 지은 것과
+         예전에 쓰던 것이 다를 수 있고, 말없이 실패하면 이유를 알 수 없다. */
+      if (err?.code === ERROR.EMAIL_ALREADY_EXISTS) {
+        navigate('/auth/login', { state: { email } })
+      }
+      // 그 밖의 사유는 버튼 위에 뜬다. 입력은 그대로 두어 고쳐서 다시 누를 수 있게 한다.
       return
     }
     /* 게스트로 고른 것이 계정으로 넘어왔는지에 따라 갈 곳이 다르다. 서버에 물어본다. */
