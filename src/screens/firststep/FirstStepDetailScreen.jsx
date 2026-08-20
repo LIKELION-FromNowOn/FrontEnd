@@ -3,7 +3,6 @@ import HeroPanel from '../../components/HeroPanel'
 import Button from '../../components/ui/Button'
 import { getFootsteps } from '../../api/records'
 import { useApi } from '../../api/useApi'
-import { useComingSoon } from '../../components/useComingSoon'
 import './FirstStepDetailScreen.css'
 
 /**
@@ -15,6 +14,10 @@ import './FirstStepDetailScreen.css'
  *
  * ⚠️ 예전에는 시안 상수의 **첫 카드**를 고정으로 그렸다. 어느 카드를 눌러도 같은 내용이
  *    떴다는 뜻이다(2026-08-21). 이제 넘어올 때 받은 id 로 GET /footsteps 에서 찾는다.
+ *
+ * ⚠️ **시작·완료 버튼을 두지 않는다** — 명세 NOW-STEP-005 「완료 버튼이 없다.
+ *    기록에 쌓지 않는다」. 첫 발자국은 하는 것이 아니라 참고할 사례다.
+ *    따라가기를 저장하는 API 가 없는 것도 그래서다. 「준비 중」도 아니고 원래 없는 것이다.
  */
 export default function FirstStepDetailScreen() {
   const navigate = useNavigate()
@@ -23,12 +26,6 @@ export default function FirstStepDetailScreen() {
   const footsteps = useApi(getFootsteps)
   const cards = footsteps.data?.footsteps ?? []
   const card = cards.find((c) => c.id === wanted) ?? cards[0] ?? null
-
-  /* 「루틴 따라하기」를 저장하는 API 가 없다. 홈의 「이어가는 첫 발자국」을 채울
-     streak 도 서버가 주지 않는다. 그래서 눌러도 갈 곳이 없다 —
-     예전에는 오늘의 케어 타이머(/care/start)로 보냈는데, 첫 발자국과 오늘의 케어는
-     다른 것이라 엉뚱한 화면이 떴다. 준비 중으로 알린다. */
-  const [comingSoon, notify] = useComingSoon()
 
   if (!card) {
     return (
@@ -78,11 +75,13 @@ export default function FirstStepDetailScreen() {
           </ol>
         </section>
 
-        <Button variant="soft" onClick={() => notify('루틴 따라하기')}>
-          루틴 따라하기
+        {/* 첫 발자국은 「하는 것」이 아니라 참고할 사례다 —
+            명세 NOW-STEP-005 「완료 버튼이 없다. 기록에 쌓지 않는다」.
+            그래서 시작·완료 버튼을 두지 않는다. 읽고 닫는 자리다.
+            예전에는 오늘의 케어 타이머(/care/start)로 보냈는데 아예 다른 것이었다. */}
+        <Button variant="soft" onClick={() => navigate(-1)}>
+          닫기
         </Button>
-
-        {comingSoon}
       </div>
     </HeroPanel>
   )
