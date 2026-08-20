@@ -121,13 +121,6 @@ export default function MyScreen() {
                 </p>
               )}
             </div>
-            <div className="my__stat">
-              <p className="my__stat-label">첫 발자국</p>
-              {/* ⚠️ 진행 중인 첫 발자국 개수를 주는 API 가 없다.
-                  「1개」가 박혀 있어서 모든 사용자에게 같은 값이 떴다(2026-08-21).
-                  숫자를 지어내는 대신 비어 있다고 적는다 — 라벨만 남으면 덜 만든 것처럼 보인다. */}
-              <p className="my__stat-value my__stat-value--empty">아직 없어요</p>
-            </div>
           </div>
         </div>
 

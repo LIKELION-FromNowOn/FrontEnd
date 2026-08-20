@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import SubPage from '../../components/SubPage'
 import Chip from '../../components/ui/Chip'
-import WeekConditionChart from '../../components/WeekConditionChart'
 import { getLatestCheckin, getMyItems } from '../../api/me'
 import { ERROR } from '../../api/errors'
 import { useApi } from '../../api/useApi'
@@ -83,8 +82,8 @@ export default function ConditionHubScreen() {
       )}
 
       {/* ── 이번 주 컨디션 ── */}
-      <h2 className="chub__section chub__section--gap">이번 주 컨디션</h2>
-      <WeekConditionChart />
+      {/* ⚠️ 「이번 주 컨디션」 그래프를 뺐다(2026-08-21). 날짜별 컨디션을 주는 API 가 없고
+          명세에도 없다 — NOW-LOG-002 는 daysRecorded·topState 만 준다. 안 올 것이다. */}
     </SubPage>
   )
 }

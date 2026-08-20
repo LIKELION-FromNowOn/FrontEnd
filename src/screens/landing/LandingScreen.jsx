@@ -46,7 +46,6 @@ const PAINS = [
 // 해결 카드 3장 — 문구 미정
 
 export default function LandingScreen() {
-
   return (
     <div className="lp" id="top">
       {/* ── 상단 네비 ─────────────────────────── */}
@@ -154,7 +153,6 @@ export default function LandingScreen() {
           </div>
         </div>
       </footer>
-
     </div>
   )
 }

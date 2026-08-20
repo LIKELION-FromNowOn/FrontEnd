@@ -82,7 +82,10 @@ export default function ReduceRecordScreen() {
         </div>
 
         <div className="rrec__cta">
-          <Button onClick={() => navigate('/home')}>기록 저장하기</Button>
+          {/* ⚠️ 「기록 저장하기」 버튼을 뺐다(2026-08-21).
+              「실행 정도」를 저장하는 API 를 만들지 않기로 정해졌다 — 명세 36건에 없다.
+              아무 데도 안 보내는 버튼이 남아 있으면 눌러본 사람이 저장된 줄 안다. */}
+          <Button onClick={() => navigate('/home')}>닫기</Button>
         </div>
       </div>
     </div>

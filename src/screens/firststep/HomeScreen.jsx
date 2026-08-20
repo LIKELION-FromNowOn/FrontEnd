@@ -5,7 +5,6 @@ import RejectSheet from '../../components/RejectSheet'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
-import StreakCard from '../../components/StreakCard'
 import { getHome, getToday, rejectToday, rerollToday } from '../../api/today'
 import { getFootsteps } from '../../api/records'
 import { ERROR } from '../../api/errors'
@@ -55,11 +54,6 @@ export default function HomeScreen() {
   /* 오늘 이미 끝낸 경우. 다시 시작·다른 방식을 띄우면 기록이 두 번 남는다. */
   const done = action?.status === 'done'
 
-  /* ⚠️ 「이어가는 첫 발자국」을 채울 값이 **어느 API 에도 없다.**
-     GET /home 응답에 streak 이 없다(2026-08-20 실측). 서버가 안 주면 카드를 띄우지 않는다 —
-     시안 값으로 대신 그리면 시작한 적 없는 루틴이 「1일차」로 뜬다.
-     필드가 생기면 이 한 줄만 고치면 된다. */
-  const streak = home.data?.streak ?? null
   /**
    * 오늘의 첫 발자국.
    *
@@ -144,17 +138,12 @@ export default function HomeScreen() {
               </span>
             </Link>
             <Link to="/condition" className="hero__shortcut hero__shortcut--tint">
-              {/* 루틴 카드가 없는 날은 홈이 허전해서 시안이 문구를 두 줄로 늘린다 */}
+              {/* 「이어가는 첫 발자국」 카드가 없어져서 홈이 허전하다.
+                  시안의 두 줄 문구를 그대로 쓴다. */}
               <span className="hero__shortcut-title">
-                오늘의 컨디션
-                {!streak && (
-                  <>
-                    {' '}
-                    및
-                    <br />
-                    관리 항목
-                  </>
-                )}
+                오늘의 컨디션 및
+                <br />
+                관리 항목
               </span>
               <span className="hero__shortcut-arrow" aria-hidden>
                 ›
@@ -240,19 +229,6 @@ export default function HomeScreen() {
           </>
         )}
       </section>
-
-      {/* 이어가는 첫 발자국 — 따라가는 루틴이 있을 때만 */}
-      {streak && (
-        <>
-          <h2 className="home__section">이어가는 첫 발자국</h2>
-          <StreakCard
-            title={streak.title}
-            day={streak.day}
-            total={streak.total}
-            onContinue={() => navigate('/care/start')}
-          />
-        </>
-      )}
 
       {/* 오늘의 첫 발자국 — 사례를 못 받았으면 카드를 통째로 뺀다 */}
       {card && (

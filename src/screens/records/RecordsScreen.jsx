@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import HeroPanel from '../../components/HeroPanel'
-import StreakCard from '../../components/StreakCard'
 import { getLogSummary, getSubtractHistory, toWeekSummary } from '../../api/records'
 import { useApi } from '../../api/useApi'
 import { VERDICT_LABEL } from '../options'
@@ -23,13 +22,6 @@ import './RecordsScreen.css'
  * ⚠️ 다만 「기록한 날」과 「최빈 컨디션」은 서버가 아직 0 · null 로 준다. 화면은 그대로 받아 넘긴다.
  */
 export default function RecordsScreen() {
-  const navigate = useNavigate()
-  /* ⚠️ 「이어가는 첫 발자국」을 채울 값이 **어느 API 에도 없다.**
-     GET /home 응답에 streak 이 없다(2026-08-21 실측). 시안 값으로 대신 그리면
-     시작한 적 없는 루틴이 모든 사용자에게 「1일차」로 똑같이 뜬다.
-     서버가 주기 전까지는 카드를 띄우지 않는다. 필드가 생기면 이 한 줄만 고치면 된다. */
-  const streak = null
-
   /* period 를 적어서 부른다 — 서버 기본값은 month 이고 이 화면은 주 단위다.
      기본값에 기대면 어느 쪽 기본값인지 읽는 사람이 매번 확인해야 한다. */
   const summary = useApi(weekSummary)
@@ -137,22 +129,6 @@ export default function RecordsScreen() {
         </Link>
       ) : (
         <p className="rec__empty">아직 덜어내기 기록이 없어요</p>
-      )}
-
-      {/* ── 첫 발자국 ── */}
-      {streak && (
-        <>
-          <h2 className="rec__section rec__section--gap">
-            첫 발자국도 함께 쌓이고 있어요
-          </h2>
-          <StreakCard
-            variant="cream"
-            title={streak.title}
-            day={streak.day}
-            total={streak.total}
-            onContinue={() => navigate('/care/start')}
-          />
-        </>
       )}
     </HeroPanel>
   )
