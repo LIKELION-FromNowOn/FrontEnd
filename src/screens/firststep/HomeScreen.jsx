@@ -80,6 +80,19 @@ export default function HomeScreen() {
   /** 8건을 돌아가며 보여준다. 끝까지 가면 처음으로 돌아온다. */
   const nextCard = () => setSkip((n) => n + 1)
 
+  /**
+   * 히어로 바로가기가 갈 곳 — 가장 최근 판정의 결과 화면.
+   *
+   * 기록 탭에서 「최근 덜어내기 기록 → 자세히 보기」를 눌렀을 때와 같은 화면이다.
+   * 홈 응답이 오늘 판정의 evaluationId 를 이미 주므로 따로 부르지 않는다.
+   * ⚠️ 아직 판정을 안 했으면 그 값이 없다. 그때는 목록으로 보낸다 —
+   *    evaluationId 없이 결과 화면을 열면 오늘 판정을 새로 만들어 버린다.
+   */
+  const evaluationId = home.data?.subtract?.evaluationId ?? null
+  const recentEvaluation = evaluationId
+    ? `/reduce/result?evaluationId=${evaluationId}`
+    : '/records/reductions'
+
   /** 어느 카드를 눌렀는지 들고 간다. 안 넘기면 상세가 늘 첫 카드를 그린다. */
   const openDetail = (id) => navigate('/first-step/detail', { state: { id } })
 
@@ -124,14 +137,11 @@ export default function HomeScreen() {
 
           {/* 제목 오른쪽에 겹쳐 놓이는 바로가기 2개 */}
           <div className="hero__shortcuts">
-            <Link
-              to="/first-step/manage"
-              className="hero__shortcut hero__shortcut--solid"
-            >
+            <Link to={recentEvaluation} className="hero__shortcut hero__shortcut--solid">
               <span className="hero__shortcut-title">
-                내 첫 발자국
+                최근 덜어내기
                 <br />
-                관리하기
+                기록
               </span>
               <span className="hero__shortcut-arrow" aria-hidden>
                 ›
