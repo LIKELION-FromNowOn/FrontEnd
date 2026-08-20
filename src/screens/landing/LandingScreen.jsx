@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Character from '../../components/ui/Character'
 import DecorLines from './DecorLines'
 import FlipCard from './FlipCard'
-import ContactModal from './ContactModal'
 import './LandingScreen.css'
 
 /**
@@ -15,9 +13,7 @@ import './LandingScreen.css'
  */
 const NAV = [
   { href: '#top', label: '홈' },
-  { href: '#character', label: '캐릭터' },
   { href: '#features', label: '기능 소개' },
-  { href: '#contact', label: '문의' },
 ]
 
 // 기능 소개 카드 3장 — 앞면/뒷면 문구 미정
@@ -50,29 +46,17 @@ const PAINS = [
 // 해결 카드 3장 — 문구 미정
 
 export default function LandingScreen() {
-  const [contactOpen, setContactOpen] = useState(false)
 
   return (
     <div className="lp" id="top">
       {/* ── 상단 네비 ─────────────────────────── */}
       <header className="lp__nav">
         <nav className="lp__menu">
-          {NAV.map((n) =>
-            n.label === '문의' ? (
-              <button
-                key={n.label}
-                type="button"
-                className="lp__menu-link"
-                onClick={() => setContactOpen(true)}
-              >
-                {n.label}
-              </button>
-            ) : (
-              <a key={n.label} className="lp__menu-link" href={n.href}>
-                {n.label}
-              </a>
-            ),
-          )}
+          {NAV.map((n) => (
+            <a key={n.label} className="lp__menu-link" href={n.href}>
+              {n.label}
+            </a>
+          ))}
         </nav>
       </header>
 
@@ -193,17 +177,9 @@ export default function LandingScreen() {
             <Character variant="face" width={24} />
             <span>할래말래</span>
           </div>
-          <button
-            type="button"
-            className="lp__footer-link"
-            onClick={() => setContactOpen(true)}
-          >
-            문의하기
-          </button>
         </div>
       </footer>
 
-      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
     </div>
   )
 }
