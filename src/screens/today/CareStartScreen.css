@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 4px var(--sp-screen) 24px;
+  /* 위 여백을 좌우와 같은 값으로 둔다. 4px 이던 때는 뒤로가기 화살표가
+     화면 꼭대기에 붙어서 옆 여백과 어긋나 보였다. */
+  padding: var(--sp-screen) var(--sp-screen) 24px;
   background: var(--c-bg);
 }
 
