@@ -22,9 +22,21 @@ const NAV = [
 
 // 기능 소개 카드 3장 — 앞면/뒷면 문구 미정
 const FEATURES = [
-  { id: 1, front: '천천히', back: '내 속도에 맞춰 준비할 수 있도록' },
-  { id: 2, front: '꾸준히', back: '작은 관리가 자연스럽게 이어지도록' },
-  { id: 3, front: '편안하게', back: '부담 없이 내 상태를 살피며 회복할 수 있도록' },
+  {
+    id: 1,
+    front: '나의 컨디션 알기',
+    back: '오늘 내 피부가 어떤 상태인지 먼저 확인해요.',
+  },
+  {
+    id: 2,
+    front: '덜어내기',
+    back: '지금 하지 않아도 되는 관리와 피해야 할 행동을 덜어내요.',
+  },
+  {
+    id: 3,
+    front: '첫발자국',
+    back: '지금의 나에게 필요한 관리부터 하나씩 시작해요.',
+  },
 ]
 
 // 사용자 고민 말풍선
@@ -46,7 +58,6 @@ export default function LandingScreen() {
       {/* ── 상단 네비 ─────────────────────────── */}
       <header className="lp__nav">
         <a className="lp__logo" href="#top">
-          <Character variant="face" width={26} />
           <span>할래말래</span>
         </a>
 
