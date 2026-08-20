@@ -136,17 +136,19 @@ export const ENDPOINTS = {
     ...ep('today', 'DELETE', '/me/plans/{planId}', '예정 삭제'),
     live: true,
   },
-  /* ⚠️ 아직 404 NOT_FOUND 다 — 경로 자체가 없다 (2026-08-20 실측). */
-  'NOW-HOME-001': ep('today', 'GET', '/home', '홈 집계 조회'),
+  /* ✅ 2026-08-20 저녁 실측 — 열렸다.
+     ⚠️ 응답에 `streak` 이 없다. 「이어가는 첫 발자국」을 채울 값이 아직 어디에도 없다. */
+  'NOW-HOME-001': { ...ep('today', 'GET', '/home', '홈 집계 조회'), live: true },
 
   /* ── 요구사항 No.27 · 첫 발자국·기록 3건 (김민정) ──
      ✅ 첫 발자국은 살아 있고 응답 형태가 목과 그대로 맞는다(2026-08-20 실측).
      ⚠️ 기록 2건은 아직 404 NOT_FOUND 다 — 경로가 없다. */
   'NOW-STEP-001': { ...ep('log', 'GET', '/footsteps', '첫 발자국 조회'), live: true },
-  /* ⚠️ 명세는 2026-08-20 에 확정됐지만 **아직 404 다**(실측). 확정과 배포는 다른 일이라
-     응답 형태만 목에 맞춰 두고 스위치는 그대로 둔다. 배포되면 이 두 줄만 켜면 된다. */
-  'NOW-LOG-001': ep('log', 'GET', '/logs', '기록 조회'),
-  'NOW-LOG-002': ep('log', 'GET', '/logs/summary', '기록 요약 조회'),
+  /* ✅ 2026-08-20 저녁 실측 — 둘 다 열렸다. 확정본 형태 그대로 온다.
+     daysRecorded 와 topState 는 아직 0·null 로 온다(백엔드가 CheckinPort 를 기다리는 중).
+     값이 비는 것이지 형태가 틀린 게 아니라 화면은 안 깨진다. */
+  'NOW-LOG-001': { ...ep('log', 'GET', '/logs', '기록 조회'), live: true },
+  'NOW-LOG-002': { ...ep('log', 'GET', '/logs/summary', '기록 요약 조회'), live: true },
 
   /* ── 요구사항 No.28 · 안내문 원문 1건 (송원석) ──
      ✅ 살아 있다. PUT /me/care 의 noteLines 가 여기 lines 로 그대로 나온다. */

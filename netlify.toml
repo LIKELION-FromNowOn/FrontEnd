@@ -1,0 +1,22 @@
+# Netlify 배포 설정.
+#
+# 이 파일이 없으면 배포할 때마다 웹 화면에서 빌드 명령·폴더를 손으로 넣어야 하고,
+# 사람마다 다르게 넣으면 「내 컴퓨터에선 되는데」가 생긴다. 저장소에 박아 둔다.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # 로컬과 같은 메이저 버전으로 고정한다. Vite 8 은 구버전 Node 에서 빌드가 깨진다.
+  NODE_VERSION = "24"
+
+# 새로고침·직접 진입 시 404 를 막는 SPA 설정은 public/_redirects 에 있고
+# 빌드하면 dist/_redirects 로 그대로 복사된다. 여기에 또 쓰면 두 곳이 어긋난다.
+#
+# ⚠️ API 프록시 설정은 두지 않는다.
+#    백엔드가 2026-08-20 에 https 를 붙여서(https://fromnowon.duckdns.org) 브라우저가
+#    직접 부를 수 있게 됐다. 프록시는 그때까지 쓰려던 우회책이었다.
+#
+# ⚠️ 배포 주소가 정해지면 백엔드 CORS_ORIGINS 에 반드시 추가해야 한다.
+#    없으면 배포본에서 API 가 전부 403 이다.

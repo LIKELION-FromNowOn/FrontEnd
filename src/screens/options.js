@@ -350,37 +350,34 @@ export const LOG_ENTRIES = [
 ]
 
 /**
- * 기록 요약 — 분모를 만들지 않으므로 건수와 분포만 있다.
+ * 기록 요약 — 2026-08-20 저녁 실측 형태 그대로.
  *
- * 2026-08-20 H01 이 쓸 네 가지가 붙기로 했다(김민정).
- *   daysRecorded   기록한 날
- *   daysSubtracted 덜어낸 날
- *   topState       최빈 컨디션
- *   topSubtracted  자주 덜어낸 항목
+ * 분모를 만들지 않으므로 건수와 분포만 있다.
  *
- * ⚠️ **아래 네 필드의 생김새는 아직 확인 못 했다.** 서버가 404 라 실측을 못 했고
- *    이름만 전달받았다. 그래서 화면은 toWeekSummary(api/records.js)를 거쳐 읽는다 —
- *    topState 가 문자열로 오든 객체로 오든 둘 다 받게 해 뒀다.
- *    실제 형태가 오면 이 목과 그 함수만 고치면 된다.
+ * ⚠️ 개수 필드 이름은 `totalCount` 다. `total` 이 아니다.
+ * ⚠️ `sentence` 는 **서버가 써서 주는 요약 문장**이다. 화면에서 짓지 않는다.
+ *    지금 시안에 이 문장을 놓을 자리가 없어서 아직 어디에도 안 띄운다.
+ * ⚠️ `daysRecorded` 와 `topState` 는 아직 0 · null 로 온다 —
+ *    백엔드가 상태 기록 쪽(CheckinPort)을 기다리는 중이다. 값이 비는 것이지 형태가 틀린 게 아니다.
+ * ⚠️ 시안의 컨디션 꼬리표(「조금 예민」 등)에 해당하는 필드는 **서버에 없다.**
+ *    한때 목에 두었던 topSignals 를 지웠다 — 없는 것을 목에 두면 있는 줄 알게 된다.
  */
 export const LOG_SUMMARY = {
-  total: 4,
+  totalCount: 4,
   byCategory: [
-    { categoryName: '피부·홈케어', count: 2 },
-    { categoryName: '수면', count: 1 },
-    { categoryName: '마음', count: 1 },
+    { categoryId: 'care', categoryName: '피부 · 홈케어', count: 2 },
+    { categoryId: 'sleep', categoryName: '수면', count: 1 },
+    { categoryId: 'mind', categoryName: '마음', count: 1 },
   ],
+  sentence: '이번 주에는 피부 · 홈케어를 가장 많이 챙겼습니다.',
   daysRecorded: 5,
   daysSubtracted: 2,
+  /* 실서버는 아직 null 이다. 형태를 못 봐서 문자열·객체 둘 다 받게 해 뒀다(toWeekSummary). */
   topState: { state: 'low', days: 4, totalDays: 7 },
   topSubtracted: [
     { itemId: 'cr4', name: '고기능성 · 각질 관리', count: 4 },
     { itemId: 'mv1', name: '헬스장 가기', count: 1 },
   ],
-  /* 시안의 컨디션 카드에 붙는 징후 꼬리표.
-     ⚠️ 백엔드가 알려준 네 가지에 **이건 없다.** 확인 요청해 둔 상태라 목에만 둔다.
-     화면은 서버 응답에서만 읽으므로, 안 오면 꼬리표가 안 뜰 뿐 지어내지는 않는다. */
-  topSignals: ['조금 예민', '따가움', '잠 부족'],
 }
 
 /**

@@ -82,15 +82,8 @@ export default function RecordsScreen() {
                 </span>
               )}
             </p>
-            {week.signals.length > 0 && (
-              <ul className="rec__tags">
-                {week.signals.map((s) => (
-                  <li key={s} className="rec__tag">
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            )}
+            {/* 시안에는 여기에 「조금 예민 · 따가움」 같은 꼬리표가 붙는데,
+                그 값을 주는 필드가 서버에 없다(2026-08-20 실측 확인). 지어내지 않고 비워 둔다. */}
           </div>
           <span className="rec__cond-emoji" aria-hidden>
             {week.state.emoji}

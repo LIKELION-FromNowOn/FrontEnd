@@ -28,8 +28,10 @@ export default defineConfig({
      * **배포 주소가 나오면 백엔드 CORS_ORIGINS 에 반드시 넣어야 한다.**
      */
     proxy: {
+      /* 2026-08-20 https 로 옮겼다. changeOrigin 이 Host 헤더를 대상 도메인으로 바꿔 주므로
+         인증서(Let's Encrypt) 검증이 그대로 통과한다. */
       '/api': {
-        target: 'http://1.201.116.42:8080',
+        target: 'https://fromnowon.duckdns.org',
         changeOrigin: true,
         /**
          * 여기 있던 `headers: { Origin: 'http://localhost:5173' }` 는 지웠다.

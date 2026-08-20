@@ -16,9 +16,14 @@
 /**
  * .env 파일은 gitignore 대상이라 다른 사람 환경이나 배포 빌드에서 비어 있을 수 있다.
  * 비밀이 아닌 값이므로 기본값을 둬서 「환경변수를 안 넣어서 조용히 안 되는」 상황을 없앤다.
- * 도메인이 붙으면 .env.production 과 이 줄을 같이 바꾼다.
+ *
+ * ⚠️ **Netlify 빌드가 실제로 쓰는 값은 이 줄이다.** .env.production 은 커밋되지 않는다.
+ *
+ * 2026-08-20 https 로 옮겼다. 배포본은 https 로 서비스되는데 백엔드가 http 면
+ * 브라우저가 요청을 **차단한다**(mixed content). 그래서 이 줄이 http 면 배포본이 통째로 죽는다.
+ * 예전 주소(http://1.201.116.42:8080)도 아직 살아 있지만 배포에서는 쓸 수 없다.
  */
-const DEFAULT_BASE = 'http://1.201.116.42:8080/api/v1'
+const DEFAULT_BASE = 'https://fromnowon.duckdns.org/api/v1'
 
 export const API_BASE = (import.meta.env.VITE_API_BASE || DEFAULT_BASE).replace(/\/$/, '')
 

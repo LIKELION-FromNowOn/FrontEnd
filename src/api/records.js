@@ -273,6 +273,9 @@ export function getLogSummary(period = 'week') {
  *
  * ⚠️ 「이어간 날(연속 달성일)」과 달성률은 만들지 않는다 — 2026-08-20 결정.
  *    여기서 계산해 주지도 않는다. 계산해 두면 언젠가 화면에 붙는다.
+ *
+ * ⚠️ 시안의 컨디션 꼬리표에 해당하는 값은 **서버에 없다**(2026-08-20 실측으로 확인).
+ *    한때 topSignals 로 받아 두었는데 없는 필드라 지웠다.
  */
 export function toWeekSummary(summary) {
   if (!summary) return null
@@ -301,9 +304,6 @@ export function toWeekSummary(summary) {
       name: r.name,
       count: r.count ?? 0,
     })),
-    /* 징후 꼬리표는 서버가 줄지 아직 모른다(확인 요청 중).
-       안 오면 빈 배열이라 화면에서 그 줄이 사라진다. 화면이 대신 지어내지 않는다. */
-    signals: summary.topSignals ?? [],
   }
 }
 

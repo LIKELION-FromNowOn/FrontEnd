@@ -7,9 +7,9 @@ import Button from '../../components/ui/Button'
 import FirstStepCard from '../../components/FirstStepCard'
 import StreakCard from '../../components/StreakCard'
 import { getHome, getToday, rejectToday, rerollToday } from '../../api/today'
+import { getFootsteps } from '../../api/records'
 import { ERROR } from '../../api/errors'
 import { useApi, useAction } from '../../api/useApi'
-import { ACTIVE_STREAK, FIRST_STEP_CARDS } from '../options'
 import './HomeScreen.css'
 
 /**
@@ -26,6 +26,10 @@ export default function HomeScreen() {
   /* 홈은 한 번에 집계해서 받는다(NOW-HOME-001). 여러 번 부르면 첫 화면이 느려진다.
      실패하면 목으로 계속 그린다 — 첫 화면이 비면 앱이 죽은 것처럼 보인다. */
   const home = useApi(getHome)
+  /* 홈은 오늘 보여줄 사례의 **id 와 요약만** 준다. 본문은 사례 목록에서 같은 id 를 찾는다.
+     ⚠️ 시안 상수로 찾으면 안 된다 — 서버 id 는 fs_101 꼴이고 상수 id 는 'water' 꼴이라
+     늘 못 찾고 첫 카드로 떨어진다. 서버가 고른 것과 다른 카드가 뜬다(2026-08-20 실측). */
+  const footsteps = useApi(getFootsteps)
 
   /* 오늘의 케어 카드만 GET /today 로 따로 받는다(NOW-TODAY-001).
      홈 집계가 아직 목이라 거기서 온 actionId 로 다른 방식·쉬어가기를 부르면
@@ -48,11 +52,13 @@ export default function HomeScreen() {
   /* 오늘 이미 끝낸 경우. 다시 시작·다른 방식을 띄우면 기록이 두 번 남는다. */
   const done = action?.status === 'done'
 
-  const streak = home.data ? home.data.streak : ACTIVE_STREAK
-  /* 홈 응답의 footstepCard 는 요약만 온다. 카드 본문은 사례 목록에서 같은 id 를 찾아 쓴다. */
-  const card =
-    FIRST_STEP_CARDS.find((c) => c.id === home.data?.footstepCard?.id) ??
-    FIRST_STEP_CARDS[0]
+  /* ⚠️ 「이어가는 첫 발자국」을 채울 값이 **어느 API 에도 없다.**
+     GET /home 응답에 streak 이 없다(2026-08-20 실측). 서버가 안 주면 카드를 띄우지 않는다 —
+     시안 값으로 대신 그리면 시작한 적 없는 루틴이 「1일차」로 뜬다.
+     필드가 생기면 이 한 줄만 고치면 된다. */
+  const streak = home.data?.streak ?? null
+  const cards = footsteps.data?.footsteps ?? []
+  const card = cards.find((c) => c.id === home.data?.footstepCard?.id) ?? cards[0] ?? null
 
   /** 다른 방식 (NOW-TODAY-002). 한도를 넘기면 서버가 429 REROLL_LIMIT 로 막는다. */
   const onReroll = async () => {
@@ -191,7 +197,9 @@ export default function HomeScreen() {
               <button
                 type="button"
                 className="home__link"
-                disabled={todayApi.loading || rerolling.pending || action?.rerollLeft === 0}
+                disabled={
+                  todayApi.loading || rerolling.pending || action?.rerollLeft === 0
+                }
                 onClick={onReroll}
               >
                 {rerolling.pending ? '고르는 중…' : '다른 방식'}
@@ -222,18 +230,22 @@ export default function HomeScreen() {
         </>
       )}
 
-      {/* 오늘의 첫 발자국 */}
-      <h2 className="home__section">오늘의 첫 발자국</h2>
-      <FirstStepCard card={card} onMore={() => navigate('/first-step/detail')}>
-        <div className="home__card-actions">
-          <Button variant="soft" onClick={() => navigate('/first-step/detail')}>
-            루틴 따라하기
-          </Button>
-          <button type="button" className="home__link home__link--center">
-            다른 첫발자국 카드 추천받기
-          </button>
-        </div>
-      </FirstStepCard>
+      {/* 오늘의 첫 발자국 — 사례를 못 받았으면 카드를 통째로 뺀다 */}
+      {card && (
+        <>
+          <h2 className="home__section">오늘의 첫 발자국</h2>
+          <FirstStepCard card={card} onMore={() => navigate('/first-step/detail')}>
+            <div className="home__card-actions">
+              <Button variant="soft" onClick={() => navigate('/first-step/detail')}>
+                루틴 따라하기
+              </Button>
+              <button type="button" className="home__link home__link--center">
+                다른 첫발자국 카드 추천받기
+              </button>
+            </div>
+          </FirstStepCard>
+        </>
+      )}
 
       {rejecting && (
         /* 사유는 다음 추천에 반영될 뿐 실패로 저장되지 않는다 (NOW-TODAY-005) */
