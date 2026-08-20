@@ -216,12 +216,13 @@
   aspect-ratio: 372 / 270;
 }
 
+/* 카드가 넓은데 글자가 작아 허전했다. 카드 폭을 따라 같이 커지게 둔다. */
 .lp__card-front {
-  font-size: 22px;
+  font-size: clamp(22px, 2.1vw, 28px);
   font-weight: 700;
 }
 .lp__card-back {
-  font-size: 15px;
+  font-size: clamp(15px, 1.4vw, 18px);
   line-height: 1.7;
 }
 
