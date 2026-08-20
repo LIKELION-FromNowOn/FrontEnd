@@ -98,7 +98,12 @@ export default function ProfileSettingsScreen() {
             ›
           </span>
         </button>
-        <button type="button" className="subpage__row" onClick={() => notify('회원탈퇴')}>
+        {/* 2026-08-21 DELETE /me 가 생겨서 준비 중을 걷어냈다. */}
+        <button
+          type="button"
+          className="subpage__row"
+          onClick={() => navigate('/my/withdraw')}
+        >
           <span className="subpage__row-label">회원탈퇴</span>
           <span className="subpage__chevron" aria-hidden>
             ›
