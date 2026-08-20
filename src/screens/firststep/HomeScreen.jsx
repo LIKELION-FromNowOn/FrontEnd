@@ -48,7 +48,10 @@ export default function HomeScreen() {
        409 NO_EVALUATION → 덜어내기를 아직 안 했다
        200 + data: null  → 판정은 했는데 남은 항목이 없다 (첫 발자국으로) */
   const needsSubtract = todayApi.error?.code === ERROR.NO_EVALUATION
-  const noCandidate = !todayApi.loading && !todayApi.error && action == null
+  /* ⚠️ 「행동이 없다」를 error 없음 + null 로만 보면 안 된다.
+     NO_EVALUATION 이 아닌 다른 오류(관리 항목 부족 등)일 때 아래 가지로 떨어져
+     action.title 을 읽다가 홈이 통째로 죽었다(2026-08-21).
+     아래 렌더는 !action 하나로 본다 — 없으면 없는 것이다. */
   /* 오늘 이미 끝낸 경우. 다시 시작·다른 방식을 띄우면 기록이 두 번 남는다. */
   const done = action?.status === 'done'
 
@@ -57,8 +60,31 @@ export default function HomeScreen() {
      시안 값으로 대신 그리면 시작한 적 없는 루틴이 「1일차」로 뜬다.
      필드가 생기면 이 한 줄만 고치면 된다. */
   const streak = home.data?.streak ?? null
+  /**
+   * 오늘의 첫 발자국.
+   *
+   * 홈 응답의 footstepCard 는 **서버가 오늘의 케어와 같은 카테고리로 골라 둔 것**이다.
+   * 「다른 카드」는 전용 API 가 없다(2026-08-21 백엔드 확인) — GET /footsteps 가
+   * 8건을 통째로 주므로 그 안에서 다음 것으로 넘긴다. 서버를 다시 부르지 않는다.
+   * 새로고침하면 skip 이 0 으로 돌아가 서버가 고른 카드로 되돌아온다.
+   *
+   * ⚠️ 추천을 쉬는 날(rest)에는 footstepCard 가 null 로 온다. 그날은 카드를 안 띄운다 —
+   *    아무거나 대신 보여주면 서버가 쉬라고 한 날에 앱이 계속 권하는 꼴이 된다.
+   */
+  const [skip, setSkip] = useState(0)
+
   const cards = footsteps.data?.footsteps ?? []
-  const card = cards.find((c) => c.id === home.data?.footstepCard?.id) ?? cards[0] ?? null
+  const picked = home.data?.footstepCard ?? null
+  const resting = Boolean(home.data) && picked == null
+
+  const startAt = Math.max(
+    0,
+    cards.findIndex((c) => c.id === picked?.id),
+  )
+  const card = resting || !cards.length ? null : cards[(startAt + skip) % cards.length]
+
+  /** 8건을 돌아가며 보여준다. 끝까지 가면 처음으로 돌아온다. */
+  const nextCard = () => setSkip((n) => n + 1)
 
   /** 다른 방식 (NOW-TODAY-002). 한도를 넘기면 서버가 429 REROLL_LIMIT 로 막는다. */
   const onReroll = async () => {
@@ -153,6 +179,20 @@ export default function HomeScreen() {
               덜어내기 하러 가기
             </Button>
           </>
+        ) : todayApi.loading ? (
+          <h3 className="home__care-title">오늘의 케어를 고르는 중…</h3>
+        ) : !action || rested ? (
+          <>
+            <h3 className="home__care-title">
+              {rested ? '오늘은 여기까지 해도 괜찮아요' : '오늘 드릴 케어가 없어요'}
+            </h3>
+            <p className="home__care-desc">
+              {/* 덜어내기 말고 다른 이유로 못 받았으면 서버가 준 문장을 그대로 띄운다 */}
+              {todayApi.error
+                ? todayApi.errorText
+                : '대신 아래 첫 발자국 카드를 한번 읽어보셔도 좋아요'}
+            </p>
+          </>
         ) : done ? (
           <>
             <h3 className="home__care-title">{action.title}</h3>
@@ -161,27 +201,12 @@ export default function HomeScreen() {
               기록 보러 가기
             </Button>
           </>
-        ) : noCandidate || rested ? (
-          <>
-            <h3 className="home__care-title">
-              {rested ? '오늘은 여기까지 해도 괜찮아요' : '오늘 드릴 케어가 없어요'}
-            </h3>
-            <p className="home__care-desc">
-              대신 아래 첫 발자국 카드를 한번 읽어보셔도 좋아요
-            </p>
-          </>
         ) : (
           <>
-            <h3 className="home__care-title">
-              {todayApi.loading ? '오늘의 케어를 고르는 중…' : action.title}
-            </h3>
+            <h3 className="home__care-title">{action.title}</h3>
             <p className="home__care-desc">피부 부담을 줄이고 회복을 돕는 구성이에요</p>
 
-            <Button
-              variant="soft"
-              disabled={todayApi.loading}
-              onClick={() => navigate('/care/start')}
-            >
+            <Button variant="soft" onClick={() => navigate('/care/start')}>
               시작하기
             </Button>
 
@@ -196,9 +221,7 @@ export default function HomeScreen() {
               <button
                 type="button"
                 className="home__link"
-                disabled={
-                  todayApi.loading || rerolling.pending || action?.rerollLeft === 0
-                }
+                disabled={rerolling.pending || action.rerollLeft === 0}
                 onClick={onReroll}
               >
                 {rerolling.pending ? '고르는 중…' : '다른 방식'}
@@ -206,7 +229,6 @@ export default function HomeScreen() {
               <button
                 type="button"
                 className="home__link"
-                disabled={todayApi.loading}
                 onClick={() => setRejecting(true)}
               >
                 오늘은 쉬어갈게요
@@ -238,7 +260,12 @@ export default function HomeScreen() {
               <Button variant="soft" onClick={() => navigate('/first-step/detail')}>
                 루틴 따라하기
               </Button>
-              <button type="button" className="home__link home__link--center">
+              <button
+                type="button"
+                className="home__link home__link--center"
+                disabled={cards.length < 2}
+                onClick={nextCard}
+              >
                 다른 첫발자국 카드 추천받기
               </button>
             </div>
