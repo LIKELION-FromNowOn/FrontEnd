@@ -168,7 +168,7 @@
 
 .lp__intro-line {
   margin: 0 0 14px;
-  font-size: clamp(20px, 2.6vw, 34px);
+  font-size: clamp(22px, 2.9vw, 38px);
   font-weight: 700;
   color: var(--l-brown);
 }
@@ -211,7 +211,9 @@
 }
 
 .lp__cards .flipcard {
-  aspect-ratio: 372 / 394;
+  /* 시안은 거의 정사각(372:394)이었는데 앞면에 제목 한 줄뿐이라 속이 비어 보였다.
+     가로는 그대로 두고 세로만 줄인다. */
+  aspect-ratio: 372 / 270;
 }
 
 .lp__card-front {
@@ -239,7 +241,7 @@
 
 .lp__problem-line {
   margin: 0 0 14px;
-  font-size: clamp(20px, 2.6vw, 34px);
+  font-size: clamp(22px, 2.9vw, 38px);
   font-weight: 700;
   color: var(--l-brown);
 }
@@ -281,11 +283,15 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.35);
-  font-size: clamp(13px, 1.4vw, 16px);
+  /* 원 안이라 여백이 넉넉한데 글자가 작아 잘 안 읽혔다. 한 단계 키운다. */
+  font-size: clamp(16px, 1.9vw, 22px);
   font-weight: 600;
   line-height: 1.6;
   text-align: center;
   white-space: pre-line;
+  /* 키운 글자가 원 가장자리에 닿지 않게 */
+  padding: 0 14px;
+  box-sizing: border-box;
   color: var(--l-brown);
   transition: transform 0.3s ease;
 }
