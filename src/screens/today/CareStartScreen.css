@@ -60,8 +60,9 @@
 }
 
 /* 채워지는 테두리. 가운데를 마스크로 파내 링만 남긴다.
-   글자는 이 안에 두면 함께 지워지므로 형제로 올린다. */
+   글자는 이 안에 두면 함께 지워지므로 형제로 두고, 같은 격자 칸에 겹쳐 올린다. */
 .carestart__ring {
+  grid-area: 1 / 1;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -77,22 +78,37 @@
   );
 }
 
-.carestart__time,
-.carestart__unit {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+/**
+ * 숫자 + 「남았어요」.
+ *
+ * 링과 **같은 격자 칸**(1/1)에 겹쳐 올리고, 둘 사이는 흐름에 맡긴다.
+ *
+ * 예전에는 각각 position:absolute 에 top:38% · 57% 로 앉혀 놨는데,
+ * 숫자는 40px 고정(줄 높이까지 58px)이고 자리는 다이얼 높이의 %라서
+ * 화면이 좁아 다이얼이 작아지면 두 글자가 겹쳤다 — 375px 화면에서 22px 겹침(2026-08-21).
+ * 세로로 쌓아 두면 글자 크기나 화면 크기가 바뀌어도 겹칠 수가 없다.
+ */
+.carestart__readout {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
+
 .carestart__time {
-  top: 38%;
-  font-size: 40px;
+  /* 다이얼 안에 들어가야 해서 화면 폭을 따라간다. 「60:00」처럼 길어져도 넘치지 않는다. */
+  font-size: clamp(30px, 11vw, 44px);
   font-weight: 800;
+  line-height: 1;
   color: var(--c-text-brown);
   letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums; /* 초가 바뀔 때 폭이 흔들리지 않게 */
 }
+
 .carestart__unit {
-  top: 57%;
   font-size: 12px;
+  line-height: 1;
   color: var(--c-text-muted);
 }
 

@@ -234,8 +234,12 @@ export default function CareStartScreen() {
             style={{ '--progress': progress }}
             aria-hidden
           />
-          <span className="carestart__time">{mmss(shown)}</span>
-          <span className="carestart__unit">{done ? '다 됐어요' : '남았어요'}</span>
+          {/* 링 위에 겹쳐 올리되, 숫자와 문구는 서로 **흐름대로** 쌓는다.
+              둘을 각각 %로 앉히면 글자 크기·화면 크기에 따라 겹친다. */}
+          <div className="carestart__readout">
+            <span className="carestart__time">{mmss(shown)}</span>
+            <span className="carestart__unit">{done ? '다 됐어요' : '남았어요'}</span>
+          </div>
         </div>
 
         {!running && (
