@@ -2,6 +2,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import HeroPanel from '../../components/HeroPanel'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
+import { getSubtractResult } from '../../api/records'
+import { useApi } from '../../api/useApi'
+import { VERDICT_LABEL } from '../options'
 import './ReduceIntroScreen.css'
 
 /** G01_ReduceIntro — 덜어내기 시작 화면 */
@@ -12,8 +15,16 @@ const STEPS = [
   { no: 3, label: '덜어내기 쉬운 항목을 골랐어요', to: '/reduce/result' },
 ]
 
+/* 「덜어낼 것」으로 보여줄 판정. 그대로 두기(keep)와 판정 제외는 뺀다. */
+const TRIMMED = ['simplify', 'reduce', 'skip']
+
 export default function ReduceIntroScreen() {
   const navigate = useNavigate()
+
+  /* 오늘 판정이 있으면 그 결과를 보여준다. 아직 안 했으면 404 가 오고 안내로 받는다.
+     ⚠️ 여기서 evaluate 를 부르지 않는다 — 소개 화면을 열었을 뿐인데 판정이 생기면 안 된다. */
+  const result = useApi(getSubtractResult)
+  const trimmed = (result.data?.results ?? []).filter((r) => TRIMMED.includes(r.verdict))
 
   return (
     <HeroPanel
@@ -77,10 +88,25 @@ export default function ReduceIntroScreen() {
         오늘 덜어낼 것<span className="reduce__badge reduce__badge--rec">추천</span>
       </h2>
 
-      <div className="reduce__item">
-        <span className="reduce__item-name">레티놀</span>
-        <span className="reduce__badge reduce__badge--reduce">덜어내기</span>
-      </div>
+      {result.loading ? (
+        <p className="reduce__empty" role="status">
+          불러오는 중…
+        </p>
+      ) : trimmed.length > 0 ? (
+        trimmed.map((it) => (
+          <div key={it.itemId} className="reduce__item">
+            <span className="reduce__item-name">{it.name}</span>
+            <span className="reduce__badge reduce__badge--reduce">
+              {VERDICT_LABEL[it.verdict]}
+            </span>
+          </div>
+        ))
+      ) : (
+        /* 판정을 아직 안 했거나(404) 덜어낼 것이 없을 때. 예시 항목을 지어내지 않는다. */
+        <p className="reduce__empty">
+          {result.error ? '아직 덜어내기를 하지 않으셨어요' : '오늘은 덜어낼 것이 없어요'}
+        </p>
+      )}
 
       <div className="reduce__cta">
         <Button onClick={() => navigate('/reduce/result')}>덜어내기 결과보기</Button>
