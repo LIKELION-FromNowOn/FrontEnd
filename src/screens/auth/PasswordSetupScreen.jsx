@@ -113,20 +113,23 @@ export default function PasswordSetupScreen() {
         </p>
       )}
 
-      {/* 시안에 없는 줄이다. 가입에 필수라 여기서 같이 받는다(위 주석 참고). */}
-      <label className="screen__field-label" htmlFor="signup-nickname">
-        앱에서 부를 이름
-      </label>
-      <input
-        id="signup-nickname"
-        type="text"
-        className="screen__line-input"
-        placeholder="닉네임을 입력하세요"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-        autoComplete="nickname"
-        maxLength={20}
-      />
+      {/* 시안에 없는 줄이다. 가입에 필수라 여기서 같이 받는다(위 주석 참고).
+          비밀번호 칸과 붙어 있으면 한 덩어리로 보여서 사이를 띄운다. */}
+      <div className="pw__nickname">
+        <label className="screen__field-label" htmlFor="signup-nickname">
+          앱에서 부를 이름
+        </label>
+        <input
+          id="signup-nickname"
+          type="text"
+          className="screen__line-input"
+          placeholder="닉네임을 입력하세요"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          autoComplete="nickname"
+          maxLength={20}
+        />
+      </div>
     </Screen>
   )
 }
