@@ -48,7 +48,6 @@ const PAINS = [
 ]
 
 // 해결 카드 3장 — 문구 미정
-const SOLUTIONS = [1, 2, 3]
 
 export default function LandingScreen() {
   const [contactOpen, setContactOpen] = useState(false)
@@ -160,11 +159,6 @@ export default function LandingScreen() {
         <h2 className="lp__solution-title">
           천천히 <em>지금부터</em>가 해결합니다
         </h2>
-        <div className="lp__solution-cards">
-          {SOLUTIONS.map((n) => (
-            <article key={n} className="lp__solution-card" />
-          ))}
-        </div>
       </section>
 
       {/* ── 앱 미리보기 ───────────────────────── */}

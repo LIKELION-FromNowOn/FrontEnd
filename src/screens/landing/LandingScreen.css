@@ -326,14 +326,16 @@
 }
 
 /* ── 해결 ──────────────────────────────────── */
+/* 빈 카드 3장을 걷어내서 제목만 남았다. 아래 여백을 위와 맞춰 줄인다 —
+   그대로 두면 제목 밑이 휑해서 뭔가 빠진 것처럼 보인다. */
 .lp__solution {
-  padding: clamp(50px, 7vw, 90px) clamp(20px, 5vw, 72px) clamp(60px, 8vw, 110px);
+  padding: clamp(50px, 7vw, 90px) clamp(20px, 5vw, 72px);
   background: var(--l-sand-deep);
 }
 
 .lp__solution-title {
   max-width: 1180px;
-  margin: 0 auto clamp(28px, 4vw, 56px);
+  margin: 0 auto;
   font-size: clamp(22px, 2.8vw, 36px);
   font-weight: 800;
   color: var(--l-brown);
@@ -341,20 +343,6 @@
 .lp__solution-title em {
   font-style: normal;
   color: var(--l-yellow-deep);
-}
-
-.lp__solution-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-  max-width: 1180px;
-  margin: 0 auto;
-}
-
-.lp__solution-card {
-  aspect-ratio: 340 / 190;
-  border-radius: 12px;
-  background: var(--l-cream);
 }
 
 /* ── 앱 미리보기 ───────────────────────────── */
