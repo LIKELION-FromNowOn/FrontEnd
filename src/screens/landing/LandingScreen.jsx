@@ -145,31 +145,6 @@ export default function LandingScreen() {
         </h2>
       </section>
 
-      {/* ── 앱 미리보기 ───────────────────────── */}
-      <section className="lp__preview">
-        <div className="lp__phone">
-          <div className="lp__phone-top">
-            <p className="lp__phone-title">지금부터</p>
-            <p className="lp__phone-sub">
-              오늘 상태를 판정하여 피부 관리를
-              <br />
-              조정해 주는 서비스
-            </p>
-            <Character variant="fullCircle" width={130} />
-          </div>
-
-          <div className="lp__phone-sheet">
-            <p className="lp__phone-guest">게스트</p>
-            <span className="lp__phone-btn">구글로 계속하기</span>
-            <span className="lp__phone-btn">이메일로 계속하기</span>
-            <p className="lp__phone-terms">
-              계속 진행하면 지금부터의 서비스 약관 및 개인 정보 정책에 동의하는 것으로
-              간주됩니다.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* ── 푸터 ──────────────────────────────── */}
       <footer className="lp__footer" id="contact">
         <div className="lp__footer-inner">
