@@ -77,6 +77,9 @@
        화면 아래로 밀려 잘린다. */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    /* 위로 넘겨 스크롤할 때 이 요소의 흰 배경이 갈색 히어로 위로 드러나던 것을 막는다.
+       스크롤이 바깥 페이지로 넘어가는 것도 같이 막힌다. index.css 의 같은 속성 참고. */
+    overscroll-behavior: none;
   }
 
   .shell__aside {
