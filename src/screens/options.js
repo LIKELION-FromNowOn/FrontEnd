@@ -287,15 +287,21 @@ export const TODAY_ACTION = {
 }
 
 /**
- * 오늘의 행동을 미룰 때 고르는 사유 (NOW-TODAY-008 POST /today/reject).
+ * 오늘의 행동을 미룰 때 고르는 사유 (NOW-TODAY-005 POST /today/reject).
  * 「다른 행동 요청」과 달리 이유가 남고, 실패로 기록하지 않는다.
+ *
+ * ⚠️ **서버가 받는 값은 `time` · `fit` · `none` 셋뿐이다** (2026-08-20 배포 확정).
+ *    시안에 있던 다섯 개(지쳤어요·시간 없어요·상황이 아니에요·안 맞아요·이미 했어요)를
+ *    그대로 보내면 400 이 난다. 뜻이 가까운 쪽으로 접어서 셋으로 줄였다.
+ *      지쳤어요 · 지금 할 상황이 아니에요 → none (이유를 특정하지 않음)
+ *      시간이 없어요                     → time
+ *      나에게 맞지 않아요                → fit
+ *    「이미 했어요」는 거절이 아니라 완료라서 뺐다 — 그건 POST /today/complete 쪽 일이다.
  */
 export const REJECT_REASONS = [
-  { key: 'tired', label: '오늘은 너무 지쳤어요' },
-  { key: 'no_time', label: '시간이 없어요' },
-  { key: 'not_now', label: '지금 할 상황이 아니에요' },
-  { key: 'not_fit', label: '나에게 맞지 않아요' },
-  { key: 'already', label: '이미 했어요' },
+  { key: 'time', label: '시간이 없어요' },
+  { key: 'fit', label: '나에게 맞지 않아요' },
+  { key: 'none', label: '오늘은 그냥 쉬고 싶어요' },
 ]
 
 /**
@@ -303,32 +309,60 @@ export const REJECT_REASONS = [
  *
  * 완료한 것만 남긴다. 달성률·연속일은 만들지 않는다 —
  * 비율을 만들면 못 한 날이 드러나고, 끊기는 순간이 부담이 되기 때문(명세서 「하지 않는 것」).
+ *
+ * ⚠️ 2026-08-20 확정 — 서버는 **날짜로 묶지 않고 평평한 배열**을 준다.
+ *    항목마다 date 가 붙고 형식은 `YYYY-MM-DD` 다. 「8월 18일」로 적는 것도,
+ *    날짜별로 묶는 것도 화면 몫이다(api/records.js 의 groupLogsByDay · utils/date.js).
  */
-export const LOG_DAYS = [
+export const LOG_ENTRIES = [
   {
-    date: '8월 18일',
-    logs: [
-      {
-        logId: 'lg_770',
-        title: '세안하고 크림 한번만 바르기',
-        categoryName: '피부·홈케어',
-      },
-    ],
+    logId: 'lg_770',
+    date: '2026-08-18',
+    categoryId: 'care',
+    categoryName: '피부 · 홈케어',
+    title: '세안하고 크림 한번만 바르기',
+    usedTimer: true,
   },
   {
-    date: '8월 17일',
-    logs: [
-      { logId: 'lg_769', title: '자기 전 알람 하나만 남기기', categoryName: '수면' },
-      { logId: 'lg_768', title: '물 한 잔 마시기', categoryName: '식사·영양' },
-    ],
+    logId: 'lg_769',
+    date: '2026-08-17',
+    categoryId: 'sleep',
+    categoryName: '수면',
+    title: '자기 전 알람 하나만 남기기',
+    usedTimer: false,
   },
   {
-    date: '8월 15일',
-    logs: [{ logId: 'lg_764', title: '창문 열고 3분 서 있기', categoryName: '마음' }],
+    logId: 'lg_768',
+    date: '2026-08-17',
+    categoryId: 'eat',
+    categoryName: '식사 · 영양',
+    title: '물 한 잔 마시기',
+    usedTimer: false,
+  },
+  {
+    logId: 'lg_764',
+    date: '2026-08-15',
+    categoryId: 'mind',
+    categoryName: '마음',
+    title: '창문 열고 3분 서 있기',
+    usedTimer: true,
   },
 ]
 
-/** 기록 요약 — 분모를 만들지 않으므로 건수와 분포만 있다 */
+/**
+ * 기록 요약 — 분모를 만들지 않으므로 건수와 분포만 있다.
+ *
+ * 2026-08-20 H01 이 쓸 네 가지가 붙기로 했다(김민정).
+ *   daysRecorded   기록한 날
+ *   daysSubtracted 덜어낸 날
+ *   topState       최빈 컨디션
+ *   topSubtracted  자주 덜어낸 항목
+ *
+ * ⚠️ **아래 네 필드의 생김새는 아직 확인 못 했다.** 서버가 404 라 실측을 못 했고
+ *    이름만 전달받았다. 그래서 화면은 toWeekSummary(api/records.js)를 거쳐 읽는다 —
+ *    topState 가 문자열로 오든 객체로 오든 둘 다 받게 해 뒀다.
+ *    실제 형태가 오면 이 목과 그 함수만 고치면 된다.
+ */
 export const LOG_SUMMARY = {
   total: 4,
   byCategory: [
@@ -336,6 +370,17 @@ export const LOG_SUMMARY = {
     { categoryName: '수면', count: 1 },
     { categoryName: '마음', count: 1 },
   ],
+  daysRecorded: 5,
+  daysSubtracted: 2,
+  topState: { state: 'low', days: 4, totalDays: 7 },
+  topSubtracted: [
+    { itemId: 'cr4', name: '고기능성 · 각질 관리', count: 4 },
+    { itemId: 'mv1', name: '헬스장 가기', count: 1 },
+  ],
+  /* 시안의 컨디션 카드에 붙는 징후 꼬리표.
+     ⚠️ 백엔드가 알려준 네 가지에 **이건 없다.** 확인 요청해 둔 상태라 목에만 둔다.
+     화면은 서버 응답에서만 읽으므로, 안 오면 꼬리표가 안 뜰 뿐 지어내지는 않는다. */
+  topSignals: ['조금 예민', '따가움', '잠 부족'],
 }
 
 /**
@@ -352,63 +397,27 @@ export const LOG_UNLOCK = {
 /**
  * H01 기록 홈 — 이번 주 요약 (NOW-LOG-002 GET /logs/summary).
  *
- * 세 숫자는 전부 「한 일」의 개수다. 분모가 없다 —
+ * 두 숫자는 전부 「한 일」의 개수다. 분모가 없다 —
  * 「5일/7일」처럼 쓰면 못 한 이틀이 드러나므로 명세서가 금지한 달성률이 된다.
+ *
+ * ⚠️ 2026-08-20 「첫 발자국 이어간 날」을 **뺐다.**
+ *    연속 달성일이라 명세서의 「하지 않는 것」에 걸린다 — 끊기는 순간이 부담이 되기 때문이다.
+ *    달성률과 함께 추후 개선사항으로 넘겼다. 되살리자는 말이 나오면 이 결정을 먼저 확인할 것.
+ *    (아래 「첫 발자국도 함께 쌓이고 있어요」 카드는 다른 것이다 —
+ *     따라가는 중인 루틴의 진행이지 며칠 연속 해냈는지를 세는 자리가 아니다.)
  */
 export const WEEK_SUMMARY = [
   { key: 'recorded', label: '기록한 날', days: 5 },
   { key: 'reduced', label: '덜어낸 날', days: 2 },
-  { key: 'streak', label: '첫 발자국\n이어간 날', days: 5 },
-]
-
-/**
- * H01 이번 주 컨디션 요약.
- * 가장 자주 답한 컨디션 하나와, 그 주에 많이 고른 신호를 함께 보여준다.
- */
-export const WEEK_CONDITION_SUMMARY = {
-  label: '조금 예민',
-  emoji: '😕',
-  // 「7일 중 4일」은 달성률이 아니라 최빈값의 근거라 분모를 써도 된다
-  daysOfWeek: 4,
-  totalDays: 7,
-  signals: ['조금 예민', '따가움', '잠 부족'],
-}
-
-/** H01 이번 주에 자주 덜어낸 항목 */
-export const WEEK_REDUCED = [
-  { name: '레티놀', count: 4 },
-  { name: '미스트', count: 1 },
-]
-
-/**
- * H03 최근 덜어내기 기록 (NOW-LOG-001 GET /logs).
- * did 는 DID_OPTIONS 중 사용자가 고른 값이고, 아직 안 골랐으면 null 이다.
- */
-export const REDUCTION_LOGS = [
-  {
-    logId: 'rl_003',
-    date: '8월 18일',
-    title: '레티놀 덜어내기',
-    did: '추천대로 했어요',
-    period: 'week',
-  },
-  {
-    logId: 'rl_002',
-    date: '8월 15일',
-    title: '미스트 덜어내기',
-    did: '조금 바꿨어요',
-    period: 'week',
-  },
-  {
-    logId: 'rl_001',
-    date: '8월 6일',
-    title: '레티놀 덜어내기',
-    did: '거의 못 했어요',
-    period: 'month',
-  },
 ]
 
 /** H03 기간 필터 */
+/**
+ * ⚠️ 2026-08-20 여기 있던 목 셋을 지웠다 — 쓰는 곳이 없어졌고, 남겨 두면 고쳐도 화면이 안 바뀐다.
+ *   WEEK_CONDITION_SUMMARY → LOG_SUMMARY.topState · topSignals (GET /logs/summary)
+ *   WEEK_REDUCED           → LOG_SUMMARY.topSubtracted        (GET /logs/summary)
+ *   REDUCTION_LOGS         → api/records.js 의 SUBTRACT_HISTORY (GET /subtract/history)
+ */
 export const REDUCTION_FILTERS = [
   { key: 'all', label: '전체' },
   { key: 'week', label: '이번 주' },
@@ -438,7 +447,14 @@ export const COACH_MOCK_ANSWER = {
   generatedBy: 'rule+llm',
 }
 
-/** 케어 코치 답변 수위 배지 */
+/**
+ * 케어 코치 답변 수위 배지.
+ *
+ * ⚠️ **`level` 이 아예 없는 응답이 있다.** 안내문에서 못 찾으면 서버가 `level` 없이
+ *    `basis: { type: "none" }` 만 준다 (2026-08-20 실측). 그때는 배지를 띄우지 않는다 —
+ *    「해도 된다/안 된다」를 판단한 것이 아니라 판단할 근거가 없다는 뜻이라, 아무 배지나
+ *    붙이면 서버가 하지 않은 말을 화면이 하게 된다.
+ */
 export const COACH_LEVEL = {
   no: { label: '오늘은 쉬어요', tone: 'stop' },
   soft: { label: '가볍게라면', tone: 'soft' },

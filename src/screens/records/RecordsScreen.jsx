@@ -1,38 +1,39 @@
 import { Link, useNavigate } from 'react-router-dom'
 import HeroPanel from '../../components/HeroPanel'
 import StreakCard from '../../components/StreakCard'
-import {
-  ACTIVE_STREAK,
-  REDUCTION_LOGS,
-  WEEK_CONDITION_SUMMARY,
-  WEEK_REDUCED,
-  WEEK_SUMMARY,
-  DID_OPTIONS,
-} from '../options'
+import { getLogSummary, getSubtractHistory, toWeekSummary } from '../../api/records'
+import { useApi } from '../../api/useApi'
+import { ACTIVE_STREAK, VERDICT_LABEL } from '../options'
+import { formatDay } from '../../utils/date'
 import './RecordsScreen.css'
 
 /**
- * H01_RecordHome — 기록 탭 첫 화면 (NOW-LOG-001 · 002).
+ * H01_RecordHome — 기록 탭 첫 화면 (NOW-LOG-002 · NOW-SUB-004).
  *
- * 세 숫자·막대·목록 어디에도 분모를 두지 않는다. 명세서의 「하지 않는 것」이다.
+ * 숫자·막대·목록 어디에도 분모를 두지 않는다. 명세서의 「하지 않는 것」이다.
  *   달성률   비율을 만들면 못 한 날이 드러난다
  *   연속일   끊기는 순간이 부담이 된다
  *   미완료   하지 못한 것은 아예 저장하지 않는다
+ *
+ * 2026-08-20 로 이 화면이 만들 것이 정해졌다.
+ *   만든다    기록한 날 · 덜어낸 날 · 최빈 컨디션 · 자주 덜어낸 항목 · 덜어내기 기록
+ *   안 만든다 **이어간 날(연속 달성일)** · 달성률 — 추후 개선사항으로 넘겼다
+ *
+ * ⚠️ GET /logs/summary 는 아직 404 라 목으로 돈다. 판정 기록(NOW-SUB-004)은 실연동이다.
  */
 export default function RecordsScreen() {
   const navigate = useNavigate()
   const streak = ACTIVE_STREAK
 
-  /* ⚠️ 아직 배선하지 않았습니다. 이 화면이 쓰는 값이 명세서에 없습니다.
-     GET /logs/summary(NOW-LOG-002)는 「완료 건수 + 카테고리 분포」만 줍니다.
-     H01 시안은 아래 셋을 요구하는데 어느 API 에도 없습니다.
-       · 기록한 날 / 덜어낸 날 / 첫 발자국 이어간 날  (일수 3종)
-       · 이번 주 최빈 컨디션과 그 일수
-       · 이번 주에 자주 덜어낸 항목과 횟수
-     필드가 정해지면 여기만 useApi 로 바꾸면 됩니다. 그때까지는 목으로 그립니다. */
-  const recent = REDUCTION_LOGS[0]
-  const cond = WEEK_CONDITION_SUMMARY
-  const maxCount = Math.max(...WEEK_REDUCED.map((r) => r.count), 1)
+  /* period 를 적어서 부른다 — 서버 기본값은 month 이고 이 화면은 주 단위다.
+     기본값에 기대면 어느 쪽 기본값인지 읽는 사람이 매번 확인해야 한다. */
+  const summary = useApi(weekSummary)
+  /* 최근 한 건만 있으면 되는 자리라 목록을 통째로 받지 않는다 */
+  const history = useApi(recentOne)
+
+  const week = toWeekSummary(summary.data)
+  const recent = history.data?.history?.[0] ?? null
+  const maxCount = Math.max(...(week?.reduced ?? []).map((r) => r.count), 1)
 
   return (
     <HeroPanel
@@ -49,8 +50,9 @@ export default function RecordsScreen() {
             </Link>
           </div>
 
+          {/* 두 칸이다. 「첫 발자국 이어간 날」은 연속 달성일이라 2026-08-20 에 뺐다. */}
           <ul className="rec__stats">
-            {WEEK_SUMMARY.map((s) => (
+            {(week?.stats ?? []).map((s) => (
               <li key={s.key} className="rec__stat">
                 <span className="rec__stat-label">{s.label}</span>
                 <strong className="rec__stat-days">{s.days}일</strong>
@@ -68,26 +70,35 @@ export default function RecordsScreen() {
         </Link>
       </div>
 
-      <section className="rec__card rec__cond">
-        <div className="rec__cond-text">
-          <p className="rec__cond-title">
-            {cond.label}
-            <span className="rec__cond-days">
-              {cond.totalDays}일 중 {cond.daysOfWeek}일
-            </span>
-          </p>
-          <ul className="rec__tags">
-            {cond.signals.map((s) => (
-              <li key={s} className="rec__tag">
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <span className="rec__cond-emoji" aria-hidden>
-          {cond.emoji}
-        </span>
-      </section>
+      {week?.state ? (
+        <section className="rec__card rec__cond">
+          <div className="rec__cond-text">
+            <p className="rec__cond-title">
+              {week.state.label}
+              {/* 「7일 중 4일」은 달성률이 아니라 최빈값의 근거다. 값이 올 때만 띄운다. */}
+              {week.state.days != null && week.state.totalDays != null && (
+                <span className="rec__cond-days">
+                  {week.state.totalDays}일 중 {week.state.days}일
+                </span>
+              )}
+            </p>
+            {week.signals.length > 0 && (
+              <ul className="rec__tags">
+                {week.signals.map((s) => (
+                  <li key={s} className="rec__tag">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <span className="rec__cond-emoji" aria-hidden>
+            {week.state.emoji}
+          </span>
+        </section>
+      ) : (
+        <p className="rec__empty">이번 주에 답한 컨디션이 아직 없어요</p>
+      )}
 
       {/* ── 이번 주 덜어낸 것 ── */}
       <h2 className="rec__section rec__section--gap">이번 주 덜어낸 것</h2>
@@ -96,8 +107,8 @@ export default function RecordsScreen() {
         <p className="rec__card-label">이번 주에 자주 덜어냈어요</p>
 
         <ul className="rec__bars">
-          {WEEK_REDUCED.map((r) => (
-            <li key={r.name} className="rec__bar-row">
+          {(week?.reduced ?? []).map((r) => (
+            <li key={r.key} className="rec__bar-row">
               <span className="rec__bar-name">{r.name}</span>
               <span className="rec__bar-track">
                 <span
@@ -120,23 +131,13 @@ export default function RecordsScreen() {
       </div>
 
       {recent ? (
-        <section className="rec__card rec__card--cream">
-          <p className="rec__log-date">
-            {recent.date}
-            <span className="rec__log-sub">
-              {cond.totalDays}일 중 {WEEK_SUMMARY[1].days}일을 덜어냈어요
-            </span>
-          </p>
-          <p className="rec__log-title">{recent.title}</p>
-
-          <ul className="rec__dids">
-            {DID_OPTIONS.map((d) => (
-              <li key={d} className={`rec__did${recent.did === d ? ' is-selected' : ''}`}>
-                {d}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Link
+          to={`/reduce/result?evaluationId=${recent.evaluationId}`}
+          className="rec__card rec__card--cream rec__log-link"
+        >
+          <p className="rec__log-date">{formatDay(recent.date)}</p>
+          <p className="rec__log-title">{verdictLine(recent.summary)}</p>
+        </Link>
       ) : (
         <p className="rec__empty">아직 덜어내기 기록이 없어요</p>
       )}
@@ -158,4 +159,21 @@ export default function RecordsScreen() {
       )}
     </HeroPanel>
   )
+}
+
+/** H01 은 이번 주 요약이다. 서버 기본값(month)에 기대지 않고 적어 보낸다. */
+const weekSummary = () => getLogSummary('week')
+
+/** 목록에 한 건만 쓰는 자리라 limit 을 1 로 줄여 부른다 */
+const recentOne = () => getSubtractHistory({ limit: 1 })
+
+/**
+ * 판정 개수를 한 줄로 — 「그대로 2 · 방식만 1 · 줄이기 1」.
+ * 0 인 것은 빼고 판정 라벨은 VERDICT_LABEL 을 그대로 쓴다(화면에서 다시 짓지 않는다).
+ */
+function verdictLine(summary) {
+  const parts = Object.entries(VERDICT_LABEL)
+    .filter(([key]) => (summary?.[key] ?? 0) > 0)
+    .map(([key, label]) => `${label} ${summary[key]}`)
+  return parts.length ? parts.join(' · ') : '덜어낸 항목이 없어요'
 }

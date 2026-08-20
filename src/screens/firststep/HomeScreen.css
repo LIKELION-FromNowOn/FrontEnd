@@ -61,6 +61,13 @@
   color: var(--c-text-muted);
 }
 
+/* 다른 방식이 서버에서 막혔을 때 (하루 3회 한도 등) */
+.home__care-error {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--c-text-brown);
+}
+
 .home__care-links {
   display: flex;
   justify-content: space-between;
@@ -76,6 +83,10 @@
   color: var(--c-text-muted);
   font-size: 10px;
   cursor: pointer;
+}
+.home__link:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 .home__link--center {
   display: block;

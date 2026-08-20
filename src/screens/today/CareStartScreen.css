@@ -27,6 +27,14 @@
   padding-top: 18px;
 }
 
+/* 타이머 대신 안내만 띄우는 상태(덜어내기 전 · 후보 없음 · 오류).
+   가운데 큰 다이얼이 빠지는 자리라 세로로 모아 준다. */
+.carestart__body--empty {
+  justify-content: center;
+  gap: 4px;
+  padding-bottom: 24px;
+}
+
 .carestart__category {
   margin: 0 0 8px;
   font-size: 12px;

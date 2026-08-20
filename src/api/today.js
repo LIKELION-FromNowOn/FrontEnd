@@ -24,7 +24,14 @@ const endOfToday = () => {
   return d.toISOString()
 }
 
-/** NOW-TODAY-001 · GET /today — 오늘의 행동 조회. 없으면 이 시점에 만들어 준다. */
+/**
+ * NOW-TODAY-001 · GET /today — 오늘의 행동 조회. 없으면 이 시점에 만들어 준다.
+ *
+ * 결과가 없는 경우가 **두 가지**고 화면이 가야 할 곳이 서로 다르다.
+ *   409 NO_EVALUATION  덜어내기를 아직 안 했다      → 덜어내기로 보낸다
+ *   200 + data: null   판정은 했는데 남은 항목이 없다 → 첫 발자국 카드로 보낸다
+ * 둘을 같이 묶으면 「덜어내기를 하라」는 말을 이미 한 사람에게 또 하게 된다.
+ */
 export function getToday() {
   return call('NOW-TODAY-001', {
     mock: () =>
@@ -43,17 +50,23 @@ export function getToday() {
   })
 }
 
-/** NOW-TODAY-002 · POST /today/reroll — 다른 행동 요청. 직전 추천은 제외된다. */
-export function rerollToday() {
+/**
+ * NOW-TODAY-002 · POST /today/reroll — 다른 행동 요청. 직전 추천은 제외된다.
+ * 하루 3회까지고 넘기면 429 REROLL_LIMIT 이다. 남은 횟수는 응답의 rerollLeft 를 그대로 쓴다.
+ */
+export function rerollToday(actionId) {
   return call('NOW-TODAY-002', {
+    body: { actionId },
     mock: () =>
       ok({
         actionId: 'ac_993',
-        categoryId: 'sleep',
-        categoryName: '수면',
-        title: '오늘 밤 알람을 하나만 맞추기',
-        durationSec: 180,
-        sourceItemId: 'sl_002',
+        categoryId: 'move',
+        categoryName: '몸 움직이기',
+        title: '헬스장에 다녀오기',
+        /* 일부러 오늘의 행동(240초)과 크게 다른 값을 둔다.
+           화면이 시간을 상수로 들고 있으면 여기서 바로 드러난다(서버 예시: 헬스장 3600). */
+        durationSec: 3600,
+        sourceItemId: 'mv_003',
         status: 'pending',
         rerollLeft: REROLL_LIMIT - 1,
         generatedBy: 'llm',
@@ -62,7 +75,10 @@ export function rerollToday() {
   })
 }
 
-/** NOW-TODAY-003 · POST /today/start — 타이머 시작. durationSec 은 서버가 정한다. */
+/**
+ * NOW-TODAY-003 · POST /today/start — 타이머 시작. durationSec 은 서버가 정한다.
+ * 없는 행동이면 404 ACTION_NOT_FOUND, 이미 완료했으면 409 ALREADY_COMPLETED 다.
+ */
 export function startTimer(actionId) {
   return call('NOW-TODAY-003', {
     body: { actionId },
@@ -84,6 +100,7 @@ export function startTimer(actionId) {
 /**
  * NOW-TODAY-004 · POST /today/complete — 완료 처리.
  * 만료 전에도 완료할 수 있다(4차 확정). timerId 는 타이머 없이 완료하면 null.
+ * 두 번 누르면 409 ALREADY_COMPLETED 다 — 화면에서 조용히 삼키지 말고 문장을 띄운다.
  */
 export function completeToday({ actionId, timerId = null }) {
   return call('NOW-TODAY-004', {
@@ -103,6 +120,9 @@ export function completeToday({ actionId, timerId = null }) {
 /**
  * NOW-TODAY-005 · POST /today/reject — 거절 사유 기록.
  * 다음 추천에 반영될 뿐 **실패로 저장하지 않는다.**
+ *
+ * ⚠️ reason 은 `time` · `fit` · `none` 세 가지뿐이다 (2026-08-20 확정).
+ *    화면 문구는 여러 개여도 보내는 값은 이 셋으로 접어서 보낸다 — options.js 의 REJECT_REASONS.
  */
 export function rejectToday({ actionId, reason }) {
   return call('NOW-TODAY-005', {
@@ -132,6 +152,8 @@ export function getHome() {
               text: '3일간 각질·고기능성 관리는 피해 주세요',
               sent: 2,
               daysLeft: 1,
+              /* 코치·예정이 낱말로 맞춰 보는 값이다. PUT /me/care 로 저장할 때 같이 넣어야 한다. */
+              keywords: ['각질', '필링', '스크럽', '고기능성', '레티놀'],
             },
           ],
           hasNote: true,

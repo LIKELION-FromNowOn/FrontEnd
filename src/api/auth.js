@@ -4,12 +4,18 @@ import { clearSession, getSession, setSession } from './session'
 /**
  * 인증 API — API 명세서 NOW-AUTH-001 ~ 005 · NOW-MY-001.
  *
- * 명세서의 인증에는 **비밀번호도, 인증코드도, 구글 로그인도 없다.**
- *   게스트로 시작 → (원하면) 이메일+닉네임으로 가입 → 이후 이메일만으로 로그인
+ * ⚠️ **명세서와 서버가 다르다 — 서버는 비밀번호를 받는다** (2026-08-20 실측).
+ *      POST /auth/signup {} → 400 "이메일 · 비밀번호 · 닉네임을 확인해 주세요"
+ *      POST /auth/login  {} → 400 "이메일 형식이 올바르지 않습니다"
+ *      오류 코드에도 INVALID_CREDENTIALS(401 이메일·비밀번호 불일치)가 있다.
+ *    명세서는 「게스트 → 이메일+닉네임 가입 → 이메일만으로 로그인」이라 비밀번호가 없다.
+ *    서버 쪽이 나중이므로 요청 본문은 서버에 맞춰 두었고, **확인 요청해 둔 상태다.**
+ *    그래서 signup·login 은 아직 실연동으로 켜지 않는다(live.js 참고).
+ *
  * 계정 키는 이메일이고 화면에 보이는 것은 닉네임이다. 실명은 받지 않는다.
  *
- * ⚠️ 화면 B01~B03(비밀번호 설정·이메일 인증)은 명세서에 없는 흐름이다.
- *    팀 확인 전까지 화면은 그대로 두고, 여기서는 명세서에 있는 것만 만들어 둔다.
+ * ⚠️ 화면 B01~B03(비밀번호 설정·이메일 인증)은 명세서에 없는 흐름인데,
+ *    서버가 비밀번호를 받는다면 B02 는 오히려 필요한 화면이 된다. 같이 확인 중이다.
  *
  * mock 값은 명세서의 응답 예시와 같은 모양으로 맞춰 두었다.
  * live.js 의 해당 줄을 true 로 바꾸면 그대로 서버 응답으로 대체된다.
@@ -39,11 +45,11 @@ export async function startGuest() {
  * NOW-AUTH-002 · POST /auth/signup — 회원 등록.
  * 게스트로 쓰던 중이면 guestToken 을 같이 보내 그동안의 데이터를 계정으로 옮긴다.
  */
-export async function signup({ email, nickname }) {
+export async function signup({ email, password, nickname }) {
   const guestToken = getSession()?.userType === 'guest' ? getSession().token : undefined
 
   const data = await call('NOW-AUTH-002', {
-    body: { email, nickname, ...(guestToken ? { guestToken } : null) },
+    body: { email, password, nickname, ...(guestToken ? { guestToken } : null) },
     mock: () =>
       ok({
         token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
@@ -55,10 +61,10 @@ export async function signup({ email, nickname }) {
   return data
 }
 
-/** NOW-AUTH-003 · POST /auth/login — 이메일만으로 로그인 */
-export async function login({ email }) {
+/** NOW-AUTH-003 · POST /auth/login — 이메일 + 비밀번호 (명세서는 이메일만이다. 위 주석 참고) */
+export async function login({ email, password }) {
   const data = await call('NOW-AUTH-003', {
-    body: { email },
+    body: { email, password },
     mock: () =>
       ok({
         token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
@@ -77,7 +83,8 @@ export async function login({ email }) {
  */
 export async function logout() {
   try {
-    await call('NOW-AUTH-004', { mock: () => ok(null) })
+    /* 서버는 { loggedOut: true } 를 준다 (2026-08-20 실측). */
+    await call('NOW-AUTH-004', { mock: () => ok({ loggedOut: true }) })
   } finally {
     clearSession()
   }

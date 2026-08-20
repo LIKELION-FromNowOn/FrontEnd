@@ -260,3 +260,9 @@
   font-size: 13px;
   text-align: center;
 }
+
+/* 최근 덜어내기 기록 카드는 그 판정으로 넘어가는 링크다 */
+.rec__log-link {
+  display: block;
+  text-decoration: none;
+}

@@ -4,13 +4,16 @@ import { REJECT_REASONS } from '../screens/options'
 import './RejectSheet.css'
 
 /**
- * 오늘은 쉬어갈게요 — 거절 사유 고르기 (NOW-TODAY-008 · POST /today/reject).
+ * 오늘은 쉬어갈게요 — 거절 사유 고르기 (NOW-TODAY-005 · POST /today/reject).
  *
  * 「다른 행동 요청」(NOW-TODAY-002)과 다른 점은 이유가 남는다는 것뿐이다.
  * 실패로 저장하지 않는다 — 하지 못한 것은 기록하지 않는 것이 이 서비스의 전제라
  * 화면 문구에도 「괜찮다」는 말을 먼저 둔다.
+ *
+ * 서버는 reason 을 반드시 받는다(time·fit·none). 그래서 「말하지 않고 쉬어갈게요」도
+ * null 이 아니라 `none` 을 보낸다 — null 로 보내면 400 이다.
  */
-export default function RejectSheet({ onClose, onSubmit }) {
+export default function RejectSheet({ onClose, onSubmit, pending, errorText }) {
   const [picked, setPicked] = useState(null)
 
   return (
@@ -42,12 +45,23 @@ export default function RejectSheet({ onClose, onSubmit }) {
           ))}
         </ul>
 
-        <Button disabled={!picked} onClick={() => onSubmit?.(picked)}>
-          보내기
+        {errorText && (
+          <p className="rsheet__error" role="alert">
+            {errorText}
+          </p>
+        )}
+
+        <Button disabled={!picked || pending} onClick={() => onSubmit?.(picked)}>
+          {pending ? '보내는 중…' : '보내기'}
         </Button>
 
-        {/* 이유를 말하지 않을 자유도 남긴다 */}
-        <button type="button" className="rsheet__skip" onClick={() => onSubmit?.(null)}>
+        {/* 이유를 말하지 않을 자유도 남긴다 — 값은 'none' 으로 보낸다 */}
+        <button
+          type="button"
+          className="rsheet__skip"
+          disabled={pending}
+          onClick={() => onSubmit?.('none')}
+        >
           말하지 않고 쉬어갈게요
         </button>
       </div>

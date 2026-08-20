@@ -20,13 +20,17 @@ export default function ConditionScreen() {
   const master = useApi(getSignals)
   const submitting = useAction(submitCheckin)
 
-  /* 마스터가 붙으면 서버 징후로, 아직이면 시안 문구로 그린다. */
+  /* 마스터가 붙으면 서버 징후로, 실패하면 시안 문구로 그린다.
+     ✅ 2026-08-20 실측 — 서버가 14건을 5그룹(피부·수면·마음·관계·생활)으로 준다.
+     그룹 순서도 서버가 `groups` 로 알려주므로 화면에서 다시 정하지 않는다. */
   const serverSignals = master.data?.signals ?? []
   const groups = serverSignals.length
-    ? [...new Set(serverSignals.map((x) => x.group))].map((label) => ({
-        label,
-        items: serverSignals.filter((x) => x.group === label).map((x) => x.name),
-      }))
+    ? (master.data?.groups ?? [...new Set(serverSignals.map((x) => x.group))]).map(
+        (label) => ({
+          label,
+          items: serverSignals.filter((x) => x.group === label).map((x) => x.name),
+        }),
+      )
     : SIGNAL_GROUPS
 
   /**
@@ -35,9 +39,12 @@ export default function ConditionScreen() {
    * 이름을 signalIds 로 보내면 서버가 오류 대신 **signalScore 0** 을 돌려준다.
    * 조용히 0 이 되면 전환 제안이 영영 안 떠서, 아는 것만 id 로 보내고
    * 나머지는 직접 입력(customSignals)으로 넘긴다.
+   *
+   * 직접 입력은 개당 customWeight(2점), customMax(5점)까지만 더해진다 — 서버가 정하는 값이다.
    */
   const splitSignals = () => {
-    const byName = new Map(serverSignals.map((x) => [x.name, x.signalId]))
+    // ⚠️ 식별자 필드 이름은 `id` 다 (`signalId` 아님 — 2026-08-20 실측)
+    const byName = new Map(serverSignals.map((x) => [x.name, x.id]))
     const ids = []
     const custom = []
     for (const name of signals) {

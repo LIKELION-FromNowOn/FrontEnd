@@ -20,18 +20,46 @@ export const ERROR = {
   CANNOT_REVERT_EXCLUDED: 'CANNOT_REVERT_EXCLUDED', // 409 판정 제외는 되돌릴 수 없음
   RECOMMENDATION_PAUSED: 'RECOMMENDATION_PAUSED', // 409
   LLM_UNAVAILABLE: 'LLM_UNAVAILABLE', // 503 폴백 결과가 같이 온다
-  TEXT_REJECTED: 'TEXT_REJECTED', // 400 응답 재생성됨
+  /* 400 — 자유 입력에서 위기 문구가 감지되면 **AI 를 부르기 전에** 서버가 막는다.
+     예전처럼 「응답을 다시 만든다」가 아니라 그 입력이 통째로 거절된 것이다. */
+  TEXT_REJECTED: 'TEXT_REJECTED', // 400 위기 문구 감지 — 입력 거절
 
   NO_CHECKIN: 'NO_CHECKIN', // 409 상태 체크를 먼저
 
   /**
-   * 명세서에는 있는데 해당 API 가 아직 없어서 지금은 안 나오는 것.
-   * 붙으면 나오므로 방어는 그대로 둔다.
+   * 인증 · 프로필 · 상태 전환 — 2026-08-20 백엔드 전달분.
    *
-   * ⚠️ NO_EVALUATION 은 빼야 한다 — 판정 결과가 없을 때 서버가 내는 것은
-   *    EVALUATION_NOT_FOUND(404) 다 (2026-08-20 실측).
+   * 앞의 셋(가입·로그인)은 **화면이 아직 목이고 실측도 안 했다.**
+   * 확인하려면 실제 계정을 만들어야 해서 전달받은 값을 그대로 적었다.
+   * 뒤의 넷은 실서버로 확인했다 — 응답 코드까지 아래 주석과 같다.
    */
-  TIMER_ALREADY_RUNNING: 'TIMER_ALREADY_RUNNING', // POST /today/start
+  EMAIL_ALREADY_EXISTS: 'EMAIL_ALREADY_EXISTS', // 409 이미 가입된 이메일
+  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS', // 401 이메일·비밀번호 불일치
+  USER_NOT_FOUND: 'USER_NOT_FOUND', // 404 없는 사용자
+  NO_FIELDS: 'NO_FIELDS', // 400 PATCH /me 에 고칠 값이 없음 (실측)
+  GUEST_FORBIDDEN: 'GUEST_FORBIDDEN', // 403 게스트가 못 하는 일 (실측)
+  CHECKIN_NOT_FOUND: 'CHECKIN_NOT_FOUND', // 404 없는 checkinId (실측)
+  NO_PROPOSAL: 'NO_PROPOSAL', // 409 제안된 전환이 없음 — 이미 답했을 때도 이것 (실측)
+
+  /**
+   * 오늘의 행동 4종 — 2026-08-20 배포분에서 확정된 것(백엔드 「지금 배포본이 확정본」).
+   *
+   * ⚠️ NO_EVALUATION 은 한 번 뺐다가 되살렸다.
+   *    GET /subtract/result 처럼 판정 「결과 조회」가 없을 때는 EVALUATION_NOT_FOUND(404)이고,
+   *    GET /today 처럼 판정을 「아직 안 한」 상태는 NO_EVALUATION(409)이다.
+   *    둘은 다른 상황이라 둘 다 들고 있어야 한다.
+   *
+   * ⚠️ NO_EVALUATION(409) 과 `data: null`(200) 도 다르다.
+   *    409 는 덜어내기를 아직 안 한 것 → 덜어내기로 보낸다.
+   *    200 + data:null 은 판정은 했는데 남은 후보가 없는 것 → 첫 발자국 카드로 보낸다.
+   */
+  NO_EVALUATION: 'NO_EVALUATION', // 409 GET /today — 덜어내기를 먼저
+  ALREADY_COMPLETED: 'ALREADY_COMPLETED', // 409 이미 완료한 행동
+  REROLL_LIMIT: 'REROLL_LIMIT', // 429 오늘 다시 받기 한도(하루 3회)
+  ACTION_NOT_FOUND: 'ACTION_NOT_FOUND', // 404 행동을 찾을 수 없음
+
+  /* TIMER_ALREADY_RUNNING 은 뺐다 — 서버가 보내지 않는다(2026-08-20 백엔드 확인).
+     명세서에만 있던 값이라 방어해 둘 이유가 없다. */
 }
 
 /**
@@ -56,9 +84,21 @@ export const ERROR_TEXT = {
   [ERROR.ALREADY_REVERTED]: '이미 되돌린 항목이에요',
   [ERROR.CANNOT_REVERT_EXCLUDED]: '앱이 판단하지 않는 항목이라 되돌릴 수 없어요',
   [ERROR.RECOMMENDATION_PAUSED]: '지금은 추천을 쉬고 있어요',
-  [ERROR.TIMER_ALREADY_RUNNING]: '이미 진행 중인 타이머가 있어요',
+  [ERROR.EMAIL_ALREADY_EXISTS]: '이미 가입된 이메일이에요',
+  [ERROR.INVALID_CREDENTIALS]: '이메일이나 비밀번호를 다시 확인해 주세요',
+  [ERROR.USER_NOT_FOUND]: '계정을 찾을 수 없어요',
+  [ERROR.NO_FIELDS]: '바꿀 내용을 입력해 주세요',
+  [ERROR.GUEST_FORBIDDEN]: '가입하시면 쓸 수 있어요',
+  [ERROR.CHECKIN_NOT_FOUND]: '오늘 상태 체크를 찾을 수 없어요',
+  /* 이미 답한 제안에 또 답해도 이것이 온다. 「없다」보다 「끝났다」에 가까운 문장으로 둔다. */
+  [ERROR.NO_PROPOSAL]: '지금은 답할 제안이 없어요',
   [ERROR.LLM_UNAVAILABLE]: '준비된 내용으로 대신 보여드릴게요',
-  [ERROR.TEXT_REJECTED]: '다시 만들어 볼게요',
+  [ERROR.NO_EVALUATION]: '먼저 덜어내기를 해주세요',
+  [ERROR.ALREADY_COMPLETED]: '이미 완료한 행동이에요',
+  [ERROR.REROLL_LIMIT]: '오늘은 더 바꿀 수 없어요',
+  [ERROR.ACTION_NOT_FOUND]: '행동을 찾을 수 없어요',
+  /* 위기 문구는 화면에서 사유를 자세히 적지 않는다. 서버 문장이 오면 그쪽을 그대로 쓴다. */
+  [ERROR.TEXT_REJECTED]: '이 내용은 담아드리기 어려워요',
 }
 
 /** 화면에 띄울 문장 하나 — 서버 문장 우선, 없으면 기본 문구 */

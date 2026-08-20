@@ -82,6 +82,17 @@
   color: var(--c-brand-on);
 }
 
+/* 거절이 서버에서 막혔을 때 (이미 완료한 행동 등). 보내기 버튼 바로 위에 둔다. */
+.rsheet__error {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 12px;
+}
+
 .rsheet__skip {
   display: block;
   width: 100%;
