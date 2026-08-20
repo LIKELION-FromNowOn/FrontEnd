@@ -1,11 +1,18 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { TABS } from '../screens/registry'
+import { HomeIcon, ReduceIcon, RecordIcon, MyIcon } from '../components/ui/Icon'
 import './TabLayout.css'
 
 /**
- * 탭 화면(오늘·기록·예정·마이) 공용 레이아웃.
- * 상단 콘텐츠(Outlet)는 화면마다 바뀌고, 하단 탭바는 유지된다.
+ * 메인 4탭 레이아웃 — 홈 · 덜어내기 · 기록 · 마이.
+ * 콘텐츠(Outlet)만 바뀌고 하단 탭바는 유지된다.
  */
+const TABS = [
+  { to: '/home', label: '홈', Icon: HomeIcon },
+  { to: '/reduce', label: '덜어내기', Icon: ReduceIcon },
+  { to: '/records', label: '기록', Icon: RecordIcon },
+  { to: '/my', label: '마이', Icon: MyIcon },
+]
+
 export default function TabLayout() {
   return (
     <div className="tabl">
@@ -14,16 +21,14 @@ export default function TabLayout() {
       </div>
 
       <nav className="tabl__bar">
-        {TABS.map((t) => (
+        {TABS.map(({ to, label, Icon }) => (
           <NavLink
-            key={t.path}
-            to={t.path}
-            end={t.path === '/'}
-            className={({ isActive }) =>
-              `tabl__tab${isActive ? ' is-active' : ''}`
-            }
+            key={to}
+            to={to}
+            className={({ isActive }) => `tabl__tab${isActive ? ' is-active' : ''}`}
           >
-            {t.tab}
+            <Icon size={22} />
+            <span className="tabl__label">{label}</span>
           </NavLink>
         ))}
       </nav>

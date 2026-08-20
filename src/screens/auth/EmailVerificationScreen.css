@@ -1,0 +1,61 @@
+.verify__email {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--c-text-muted);
+}
+
+.verify__boxes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* 화면 밖으로 빼지 않고 칸 위에 투명하게 겹쳐 둔다 */
+.verify__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  color: transparent;
+  caret-color: var(--c-text);
+  font: inherit;
+  letter-spacing: 0;
+  z-index: 1;
+}
+.verify__input:focus {
+  outline: none;
+}
+
+.verify__box {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: var(--r-field);
+  background: var(--c-accent-soft);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.verify__resend {
+  display: block;
+  margin: 0 auto;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--c-text-faint);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.verify__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

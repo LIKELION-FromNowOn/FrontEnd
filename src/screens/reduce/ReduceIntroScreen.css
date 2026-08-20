@@ -1,0 +1,115 @@
+/* 히어로 배치는 components/HeroPanel.css 의 hero__layout · hero__aside · hero__figure 가
+   맡는다. 홈과 같은 짜임이라 여기서 좌표를 다시 정하지 않는다. */
+
+.reduce__notice {
+  margin: 0 0 18px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--c-text);
+}
+
+/* 번호 스텝 카드 */
+.reduce__steps {
+  margin: 0 0 26px;
+  padding: 4px 0;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  list-style: none;
+}
+.reduce__steps li + li {
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.reduce__step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  text-decoration: none;
+}
+
+/* 번호 오른쪽 문구. 화살표를 오른쪽 끝에 붙여 두려고 남는 폭을 이 줄이 먹는다. */
+.reduce__step-label {
+  flex: 1;
+  margin-left: 12px;
+  font-size: 13px;
+  color: var(--c-text-brown);
+}
+
+.reduce__step-no {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--c-brand-pale);
+  color: var(--c-text-brown);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reduce__step-arrow {
+  color: var(--c-text-muted);
+  font-size: 16px;
+}
+
+/* 섹션 제목 + 배지 */
+.reduce__section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.reduce__badge {
+  display: inline-grid;
+  place-items: center;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--c-badge-on);
+}
+.reduce__badge--rec {
+  background: var(--c-badge-rec);
+}
+.reduce__badge--reduce {
+  background: var(--c-badge-reduce-bg);
+}
+
+/* 덜어낼 항목 행 */
+.reduce__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+}
+
+.reduce__item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.reduce__cta {
+  margin-top: 20px;
+}
+
+/* 판정을 아직 안 했을 때. 예시 항목을 지어내지 않는다. */
+.reduce__empty {
+  margin: 0;
+  padding: 22px 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  text-align: center;
+}

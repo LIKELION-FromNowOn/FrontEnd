@@ -1,0 +1,76 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--c-surface);
+}
+
+.login__hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px var(--sp-screen);
+  text-align: center;
+}
+
+.login__logo {
+  margin: 0 0 10px;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--c-text);
+}
+
+.login__tagline {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--c-text-muted);
+}
+
+.login__character {
+  margin-top: 40px;
+}
+
+/* 하단 모카 시트 */
+.login__sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px var(--sp-screen) max(22px, env(safe-area-inset-bottom));
+  border-radius: 28px 28px 0 0;
+  background: var(--c-brand);
+  text-align: center;
+}
+
+.login__sheet-label {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.login__icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  font-size: 14px;
+}
+
+.login__terms {
+  margin: 4px auto 0;
+  max-width: 300px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--c-brand-on);
+  word-break: keep-all; /* 한글 단어 중간에서 끊기지 않게 */
+}
+
+/* 게스트 시작 실패 사유 — 서버가 준 문장을 그대로 띄운다 */
+.login__error {
+  margin: 4px 0 0;
+  color: var(--c-brand-on);
+  font-size: 12px;
+  text-align: center;
+}

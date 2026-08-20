@@ -1,0 +1,112 @@
+/* 2열 그리드 대신 세로 목록 — 체크 시 아래로 빈도 칩이 펼쳐지기 때문 */
+.careitems__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 빈도 칩이 펼쳐진 줄은 두 칸을 다 쓴다 */
+.careitems__row:has(.careitems__freq) {
+  grid-column: 1 / -1;
+}
+
+.careitems__freq {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 4px 25px;
+}
+
+.careitems__freq-chip {
+  padding: 5px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+.careitems__freq-chip.is-selected {
+  border-color: var(--c-brand);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+  font-weight: 600;
+}
+
+/* 아직 빈도를 안 고른 줄 표시 */
+.careitems__freq.is-missing .careitems__freq-chip {
+  border-color: var(--c-brand-pale);
+}
+
+.careitems__hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--c-text-brown);
+}
+
+/* ── 직접 입력 (NOW-ITEM-003 · 004) ──────────────
+   목록 저장(PUT)과 경로가 달라서 적자마자 따로 서버에 만든다.
+   그래서 「추가」 버튼이 하나 더 붙고, 만들어진 항목이 아래에 쌓인다. */
+.careitems__add {
+  display: block;
+  width: 100%;
+  margin: 10px 0 4px;
+  padding: 10px;
+  border: 1px dashed var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: none;
+  color: var(--c-text-brown);
+  font-size: 13px;
+  cursor: pointer;
+}
+.careitems__add:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.careitems__customs {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.careitems__custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+}
+
+.careitems__custom-name {
+  flex: 1;
+  font-size: 13px;
+  color: var(--c-text-brown);
+}
+
+.careitems__custom-cat {
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+.careitems__custom-del {
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.careitems__custom-del:disabled {
+  opacity: 0.45;
+  cursor: default;
+}

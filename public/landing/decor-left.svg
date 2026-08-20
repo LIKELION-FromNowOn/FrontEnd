@@ -1,0 +1,31 @@
+<svg width="758" height="1202" viewBox="0 0 758 1202" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 224 0)" fill="#F3E7D7"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 283 53)" fill="#F3E7D7"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 340 106)" fill="#F3E7D7"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 381 159)" fill="#E7D7BE"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 449 212)" fill="#E7D7BE"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 486 265)" fill="#E7D7BE"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 548 318)" fill="#D6BAA2"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 609 371)" fill="#D6BAA2"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 696 424)" fill="#CAA491"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 735 477)" fill="#CAA491"/>
+<rect width="672" height="36" rx="18" transform="matrix(-1 0 0 1 758 530)" fill="url(#paint0_linear_193_549)" fill-opacity="0.8"/>
+<rect width="642" height="36" rx="18" transform="matrix(-1 0 0 1 758 583)" fill="#916942"/>
+<rect width="672" height="36" rx="18" transform="matrix(-1 0 0 1 758 636)" fill="#764413" fill-opacity="0.8"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 735 689)" fill="#764413" fill-opacity="0.9"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 696 742)" fill="#764413" fill-opacity="0.9"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 609 795)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 548 848)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 486 901)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 381 1007)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 340 1060)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 283 1113)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 224 1166)" fill="#764413"/>
+<rect width="885" height="36" rx="18" transform="matrix(-1 0 0 1 449 954)" fill="#764413"/>
+<defs>
+<linearGradient id="paint0_linear_193_549" x1="336" y1="0" x2="336" y2="36" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CAA491"/>
+<stop offset="1" stop-color="#764413"/>
+</linearGradient>
+</defs>
+</svg>

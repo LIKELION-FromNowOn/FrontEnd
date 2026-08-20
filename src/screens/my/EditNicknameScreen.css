@@ -1,0 +1,66 @@
+.nick__talk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 60px;
+}
+
+/* 말풍선 — 왼쪽에 삼각 꼬리 */
+.nick__bubble {
+  position: relative;
+  margin: 0;
+  padding: 18px 22px;
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 15px;
+  font-weight: 700;
+}
+.nick__bubble::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 8px solid var(--c-cream);
+}
+
+.nick__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1.5px solid var(--c-text);
+}
+
+.nick__input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  color: var(--c-text);
+  font: inherit;
+  font-size: 17px;
+}
+.nick__input:focus {
+  outline: none;
+}
+.nick__input::placeholder {
+  color: var(--c-text-faint);
+}
+
+.nick__count {
+  flex: none;
+  font-size: 13px;
+  color: var(--c-text-faint);
+}
+
+/* 저장이 막혔을 때. 게스트에게는 오류가 아니라 안내에 가까운 문장이 온다. */
+.nick__hint {
+  margin: 0 0 10px;
+  color: var(--c-text-brown);
+  font-size: 12px;
+  text-align: center;
+}

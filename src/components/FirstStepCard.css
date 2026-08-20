@@ -1,0 +1,86 @@
+.fscard {
+  position: relative;
+  padding: 18px 16px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.fscard__more {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.fscard__quote {
+  margin: 10px 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--c-text-brown);
+}
+
+.fscard__who {
+  margin: 0;
+  font-size: 10px;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+
+.fscard__rule {
+  margin: 12px 0;
+  border: 0;
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.fscard__body {
+  margin: 0 0 14px;
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--c-text);
+}
+
+.fscard--compact .fscard__body {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fscard__point {
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.fscard__point-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+/* 시안의 포인트 앞 아이콘 자리 */
+.fscard__point-title::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-brand-pale);
+}
+
+.fscard__point-text {
+  margin: 0;
+  padding-left: 17px;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--c-text-muted);
+}

@@ -1,0 +1,153 @@
+import { Link } from 'react-router-dom'
+import { useMe } from '../../api/useMe'
+import { CONDITIONS } from '../options'
+import AppHeader from '../../components/AppHeader'
+import Character from '../../components/ui/Character'
+import './MyScreen.css'
+
+/** I01_MyPage — 프로필 요약 + 설정 메뉴 */
+const MENUS = [
+  {
+    to: '/my/profile',
+    label: '프로필 설정',
+    icon: (
+      <>
+        <circle
+          cx="12"
+          cy="12"
+          r="3"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          fill="none"
+        />
+        <path
+          d="M12 3.5v2M12 18.5v2M20.5 12h-2M5.5 12h-2M18 6l-1.4 1.4M7.4 16.6 6 18M18 18l-1.4-1.4M7.4 7.4 6 6"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+  },
+  {
+    to: '/my/notifications',
+    label: '알림 설정',
+    icon: (
+      <>
+        <path
+          d="M12 3.5a5.5 5.5 0 0 0-5.5 5.5v3.6L5 15.8h14l-1.5-3.2V9A5.5 5.5 0 0 0 12 3.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          fill="none"
+        />
+        <path
+          d="M10 18.4a2 2 0 0 0 4 0"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </>
+    ),
+  },
+  {
+    to: '/my/guide',
+    label: '서비스 안내',
+    icon: (
+      <path
+        d="M4 5.5h5.5a2.5 2.5 0 0 1 2.5 2.5v11a2 2 0 0 0-2-2H4v-11ZM20 5.5h-5.5A2.5 2.5 0 0 0 12 8v11a2 2 0 0 1 2-2h6v-11Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    ),
+  },
+  {
+    to: '/my/contact',
+    label: '문의하기',
+    icon: (
+      <>
+        <path
+          d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9l-5 4v-13.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          fill="none"
+        />
+        <circle cx="8.5" cy="10" r="1" fill="currentColor" />
+        <circle cx="12" cy="10" r="1" fill="currentColor" />
+        <circle cx="15.5" cy="10" r="1" fill="currentColor" />
+      </>
+    ),
+  },
+]
+
+export default function MyScreen() {
+  const me = useMe()
+  /* 상태값은 서버가 주고 문구는 우리 상수에서 찾는다 */
+  const state = CONDITIONS.find((c) => c.key === me?.currentState) ?? null
+
+  return (
+    <div className="my">
+      <AppHeader />
+
+      <div className="my__body">
+        <div className="my__name">
+          <span>{me?.name || '게스트'}</span>
+          <Link to="/my/nickname" className="my__edit" aria-label="닉네임 수정">
+            ✎
+          </Link>
+        </div>
+
+        {/* 캐릭터가 크림 카드 위로 걸쳐 있는 구조 */}
+        <div className="my__profile">
+          <div className="my__character">
+            <Character variant="fullCircle" width={150} />
+          </div>
+
+          <div className="my__stats">
+            <div className="my__stat">
+              <p className="my__stat-label">
+                오늘
+                <br />
+                나의 컨디션
+              </p>
+              {/* GET /me 의 currentState. 아직 답하지 않았으면 빈 칸으로 둔다. */}
+              {state && (
+                <p className="my__stat-value">
+                  {state.emoji}{' '}
+                  {state.label.replace(/\s*\p{Extended_Pictographic}+\s*$/u, '')}
+                </p>
+              )}
+            </div>
+
+            <div className="my__stat">
+              <p className="my__stat-label">첫 발자국</p>
+              {/* ⚠️ 진행 중인 개수를 주는 API 가 없다 — NOW-STEP-005 가
+                  「완료 버튼이 없다. 기록에 쌓지 않는다」라 셀 것이 없다.
+                  그래도 칸은 남긴다. .my__stats 가 2열이라 한 칸만 두면 카드가 깨지고,
+                  캐릭터가 가운데를 덮는 구조라 좌우 균형이 무너진다.
+                  숫자를 지어내는 대신 비어 있다고 적는다. */}
+              <p className="my__stat-value my__stat-value--empty">아직 없어요</p>
+            </div>
+          </div>
+        </div>
+
+        <nav className="my__menus">
+          {MENUS.map((m) => (
+            <Link key={m.to} to={m.to} className="my__menu">
+              <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden>
+                {m.icon}
+              </svg>
+              <span className="my__menu-label">{m.label}</span>
+              <span className="my__menu-chevron" aria-hidden>
+                ›
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </div>
+  )
+}

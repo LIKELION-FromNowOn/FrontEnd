@@ -1,0 +1,106 @@
+/* 바텀시트. 화면에 고정해 두고, 넓은 화면(웹)에서는 기기 프레임 폭에 맞춰 가운데로 모은다.
+   부모에 positioned 조상이 없어서 absolute로는 스크롤 끝에 붙어버리므로 fixed를 쓴다. */
+.rsheet {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.rsheet__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgb(32 32 32 / 0.35);
+  cursor: pointer;
+}
+
+.rsheet__panel {
+  position: relative;
+  width: 100%;
+  padding: 12px var(--sp-screen) max(20px, env(safe-area-inset-bottom));
+  border-radius: var(--r-panel) var(--r-panel) 0 0;
+  background: var(--c-cream);
+}
+
+/* 웹에서는 기기 프레임(390px) 안에 들어가도록 폭을 맞춘다 */
+@media (min-width: 900px) {
+  .rsheet__panel {
+    width: 390px;
+    margin: 0 auto;
+  }
+}
+
+.rsheet__handle {
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: 0 auto 18px;
+  border-radius: var(--r-pill);
+  background: var(--c-brand);
+}
+
+.rsheet__title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.rsheet__lead {
+  margin: 0 0 20px;
+  color: var(--c-text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.rsheet__list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.rsheet__reason {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-surface);
+  color: var(--c-text-brown);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.rsheet__reason.is-selected {
+  border-color: var(--c-brand);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+}
+
+/* 거절이 서버에서 막혔을 때 (이미 완료한 행동 등). 보내기 버튼 바로 위에 둔다. */
+.rsheet__error {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 12px;
+}
+
+.rsheet__skip {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}

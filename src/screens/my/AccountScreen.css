@@ -1,0 +1,153 @@
+/* ── 비밀번호 변경 · 회원 탈퇴 공용 ──────────────
+   시안이 없는 두 화면이라 앱의 다른 화면에서 쓰던 말투를 그대로 가져왔다.
+     · 캐릭터 + 말풍선        닉네임 수정(EditNicknameScreen)
+     · 밑줄 하나짜리 입력칸    닉네임 수정 · 이메일 입력
+     · 크림 카드              프로필 설정 · 코치
+   새 색이나 새 모양을 만들지 않았다. 시안이 오면 이 파일만 고치면 된다. */
+
+/* ── 캐릭터 + 말풍선 ── */
+.acct__talk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 40px;
+}
+
+.acct__bubble {
+  position: relative;
+  margin: 0;
+  padding: 18px 22px;
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.acct__bubble::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 8px solid var(--c-cream);
+}
+
+/* ── 밑줄 입력칸 ── */
+.acct__field {
+  margin-bottom: 28px;
+}
+.acct__field:last-of-type {
+  margin-bottom: 0;
+}
+
+.acct__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+}
+
+.acct__line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1.5px solid var(--c-text);
+}
+
+.acct__input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  color: var(--c-text);
+  font: inherit;
+  font-size: 17px;
+}
+.acct__input:focus {
+  outline: none;
+}
+.acct__input::placeholder {
+  color: var(--c-text-faint);
+}
+
+/* 눈 아이콘 — 비밀번호 보기 */
+.acct__eye {
+  flex: none;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--c-text-faint);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.acct__help {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--c-text-faint);
+}
+
+/* ── 회원 탈퇴 ──
+   떠나는 자리라 캐릭터로 붙잡지 않는다. 담백하게 사실만 둔다. */
+.acct__warn {
+  margin: 12px 0 16px;
+  padding: 24px 22px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.acct__warn-title {
+  margin: 0 0 14px;
+  color: var(--c-text-brown);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.acct__facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.acct__fact {
+  position: relative;
+  padding-left: 14px;
+  color: var(--c-text-brown);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.acct__fact::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--c-border-strong);
+}
+
+.acct__note {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* 저장·탈퇴가 막혔을 때 */
+.acct__hint {
+  margin: 0 0 10px;
+  color: var(--c-text-brown);
+  font-size: 12px;
+  text-align: center;
+}

@@ -1,0 +1,62 @@
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  cursor: pointer;
+}
+
+/* 실제 input은 숨기되 접근성/키보드 포커스는 유지 */
+.check__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.check__box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--c-border);
+  border-radius: 4px;
+  background: var(--c-surface);
+}
+
+/* 체크 표시 — 사각형의 두 변만 남기고 45도 회전 */
+.check__box::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  margin-top: -2px;
+  border: solid var(--c-brand-on);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.check__input:checked + .check__box {
+  border-color: var(--c-brand);
+  background: var(--c-brand);
+}
+.check__input:checked + .check__box::after {
+  opacity: 1;
+}
+
+.check__input:focus-visible + .check__box {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+}
+
+.check__label {
+  font-size: 13px;
+  color: var(--c-text);
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+}

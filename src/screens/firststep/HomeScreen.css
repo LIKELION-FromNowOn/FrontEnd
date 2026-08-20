@@ -1,0 +1,76 @@
+/* 히어로 배치는 components/HeroPanel.css 의 hero__layout · hero__aside · hero__figure 가
+   맡는다. 덜어내기와 같은 짜임이라 여기서 좌표를 다시 정하지 않는다.
+   예전에는 두 화면이 각자 좌표를 들고 있어서 캐릭터 크기도 카드 폭도 서로 달랐다. */
+
+/* ── 섹션 제목 ─────────────────────────────── */
+.home__section {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+.home__section:not(:first-child) {
+  margin-top: 26px;
+}
+
+/* ── 오늘의 케어 카드 ───────────────────────── */
+.home__care {
+  padding: 22px 18px 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  text-align: center;
+}
+
+.home__care-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.home__care-desc {
+  margin: 0 0 18px;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* 다른 방식이 서버에서 막혔을 때 (하루 3회 한도 등) */
+.home__care-error {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--c-text-brown);
+}
+
+.home__care-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--c-border-cream);
+}
+
+.home__link {
+  padding: 2px 4px;
+  border: 0;
+  background: none;
+  color: var(--c-text-muted);
+  font-size: 10px;
+  cursor: pointer;
+}
+.home__link:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.home__link--center {
+  display: block;
+  margin: 10px auto 0;
+}
+
+/* 「이어가는 첫 발자국」 카드는 첫 발자국 관리 화면과 공용이라
+   components/StreakCard.css 로 옮겼습니다. */
+
+/* ── 첫 발자국 카드 하단 ────────────────────── */
+.home__card-actions {
+  margin-top: 16px;
+}

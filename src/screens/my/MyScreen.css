@@ -1,0 +1,117 @@
+.my {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--c-bg);
+}
+
+.my__body {
+  flex: 1;
+  padding: 20px var(--sp-screen) 24px;
+}
+
+/* 닉네임 + 연필 */
+.my__name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.my__edit {
+  color: var(--c-text-faint);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* 캐릭터가 크림 카드 위로 걸치는 구조 */
+.my__profile {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.my__character {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.my__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  /* 캐릭터 아래쪽만 덮도록 위로 끌어올린다 */
+  margin-top: -66px;
+  padding: 22px 18px 20px;
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.my__stat {
+  text-align: center;
+}
+/* 캐릭터가 가운데를 차지하므로 좌우로 밀어준다 */
+.my__stat:first-child {
+  padding-right: 42px;
+}
+.my__stat:last-child {
+  padding-left: 42px;
+}
+
+.my__stat-label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--c-text-brown);
+}
+
+.my__stat-value {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--c-text-brown);
+}
+.my__stat-value strong {
+  font-size: 15px;
+}
+
+/* 설정 메뉴 */
+.my__menus {
+  display: flex;
+  flex-direction: column;
+}
+
+.my__menu {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 6px;
+  color: var(--c-text-brown);
+  text-decoration: none;
+}
+.my__menu + .my__menu {
+  border-top: 1px solid var(--c-border);
+}
+
+.my__menu-label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.my__menu-chevron {
+  color: var(--c-text-brown);
+  font-size: 18px;
+}
+
+/* 아직 서버가 주지 않는 값. 숫자 자리와 구분되게 흐리게 둔다. */
+.my__stat-value--empty {
+  color: var(--c-text-muted);
+  font-weight: 400;
+}

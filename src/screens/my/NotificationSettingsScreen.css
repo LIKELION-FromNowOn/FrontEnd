@@ -1,0 +1,50 @@
+.noti__card {
+  padding: 10px 0;
+  margin-bottom: 22px;
+}
+
+.noti__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+}
+
+.noti__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.noti__desc {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* 방해금지 시간 */
+.noti__quiet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.noti__quiet-value {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--c-text-muted);
+}

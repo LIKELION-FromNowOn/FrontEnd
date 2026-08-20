@@ -22,9 +22,7 @@ export default function StubScreen({ meta, showBack = false }) {
           </button>
         )}
         <h1 className="stub__title">{meta.title}</h1>
-        <span className="stub__badge">
-          {meta.kind === 'optional' ? '선택' : '필수'}
-        </span>
+        <span className="stub__badge">{meta.kind === 'optional' ? '선택' : '필수'}</span>
       </header>
 
       <div className="stub__placeholder">

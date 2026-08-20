@@ -1,0 +1,29 @@
+/* 화면 전체가 준비 중일 때 맨 위 띠 */
+.coming {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px dashed var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 줄 하나를 눌렀을 때 잠깐 뜨는 알림. 하단 탭바 위에 뜨도록 띄운다. */
+.coming__toast {
+  position: fixed;
+  left: 50%;
+  bottom: 92px;
+  z-index: 30;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: var(--r-pill);
+  background: var(--c-text-brown);
+  color: var(--c-cream);
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
+}

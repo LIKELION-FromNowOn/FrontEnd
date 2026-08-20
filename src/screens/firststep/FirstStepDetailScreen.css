@@ -1,0 +1,102 @@
+/* 바텀시트 느낌 — 히어로 아래 크림 패널 */
+.fsdetail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 100%;
+  margin: -20px calc(var(--sp-screen) * -1) calc(var(--sp-screen) * -1);
+  padding: 12px var(--sp-screen) 20px;
+  background: var(--c-cream);
+}
+
+/* 시트 상단 손잡이 */
+.fsdetail__handle {
+  width: 56px;
+  height: 4px;
+  margin: 0 auto 20px;
+  border-radius: var(--r-pill);
+  background: var(--c-brand);
+}
+
+.fsdetail__quote-box {
+  padding: 22px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+}
+
+.fsdetail__quote {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--c-text-brown);
+}
+
+.fsdetail__who {
+  margin: 0;
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* 그때의 상황 · 맨 처음 한 일 · 그다음에 한 일 */
+.fsdetail__block {
+  padding: 16px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+}
+.fsdetail__block--grow {
+  flex: 1;
+}
+
+.fsdetail__label {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+}
+
+.fsdetail__text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--c-text-brown);
+  word-break: keep-all;
+}
+/* 「맨 처음 한 일」은 이 화면의 핵심 한 문장이라 조금 크게 */
+.fsdetail__text--lead {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.fsdetail__steps {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fsdetail__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c-text-brown);
+  word-break: keep-all;
+}
+
+.fsdetail__step-no {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--c-brand-pale);
+  color: var(--c-text-brown);
+  font-size: 10px;
+  font-weight: 700;
+}

@@ -1,22 +1,3 @@
-/* 웹 여백에 들어가는 설명 영역 (앱 뷰에선 안 보임) — 자리만 잡아둔 플레이스홀더 */
-.promo {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-align: left;
-}
-
-.promo__slot {
-  display: grid;
-  place-items: center;
-  min-height: 72px;
-  padding: 16px;
-  border: 1px dashed var(--c-border);
-  border-radius: var(--r-card);
-  color: var(--c-text-faint);
-  font-size: 14px;
-}
-.promo__slot--title {
-  min-height: 96px;
-  font-size: 16px;
-}
+/* 폰 화면 바깥은 components/DeviceShell.css 가 그린다.
+   여기 있던 .promo 플레이스홀더는 2026-08-21 배경 시안이 오면서 지웠다 —
+   시안의 바깥 배경에는 설명이 들어갈 자리가 없다. */

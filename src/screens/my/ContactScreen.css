@@ -1,0 +1,44 @@
+.contact__textarea {
+  width: 100%;
+  min-height: 260px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.7;
+  resize: vertical;
+}
+.contact__textarea::placeholder {
+  color: var(--c-text-faint);
+}
+
+.contact__attach {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.contact__attach-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-text-brown);
+}
+
+.contact__attach-plus {
+  color: var(--c-text-faint);
+  font-size: 18px;
+}

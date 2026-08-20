@@ -1,0 +1,133 @@
+.rrec {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--c-bg);
+}
+
+.rrec__body {
+  flex: 1;
+  padding: 6px var(--sp-screen) 24px;
+}
+
+.rrec__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.rrec__back {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-text);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rrec__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.rrec__lead {
+  margin: 0 0 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--c-text);
+}
+
+.rrec__section {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-text-brown);
+}
+
+.rrec__label {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+/* 피부 느낌 5단계 */
+.rrec__feelings {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin-bottom: 26px;
+}
+
+.rrec__feeling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border: 1px solid transparent;
+  border-radius: var(--r-card);
+  background: none;
+  cursor: pointer;
+}
+.rrec__feeling.is-selected {
+  border-color: var(--c-border-cream);
+  background: var(--c-cream);
+}
+
+.rrec__emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.rrec__feeling-label {
+  font-size: 10px;
+  color: var(--c-text-muted);
+}
+.rrec__feeling.is-selected .rrec__feeling-label {
+  color: var(--c-text-brown);
+  font-weight: 700;
+}
+
+.rrec__dids {
+  margin-bottom: 28px;
+}
+
+/* 한 줄 기록 */
+.rrec__note {
+  position: relative;
+}
+
+.rrec__textarea {
+  width: 100%;
+  min-height: 92px;
+  padding: 14px 14px 26px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 12px;
+  resize: vertical;
+}
+.rrec__textarea::placeholder {
+  color: var(--c-text-faint);
+}
+
+.rrec__count {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font-size: 10px;
+  color: var(--c-text-faint);
+}
+
+.rrec__cta {
+  margin-top: 26px;
+}

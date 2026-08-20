@@ -1,0 +1,191 @@
+.coach__lead {
+  margin: -8px 0 20px 2px;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ── 대화 ──────────────────────────────────── */
+.coach__thread {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 180px;
+}
+
+/* 첫 진입 안내 — 답할 수 있는 범위를 먼저 밝힌다 */
+.coach__intro {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  text-align: center;
+}
+
+.coach__intro-char {
+  width: 42%;
+}
+.coach__intro-char .character {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.coach__intro-text {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.coach__bubble {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.coach__bubble--me {
+  align-self: flex-end;
+  max-width: 84%;
+  border-radius: var(--r-card-lg) var(--r-card-lg) 4px var(--r-card-lg);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+}
+
+.coach__answer {
+  align-self: flex-start;
+  max-width: 92%;
+}
+
+.coach__bubble--coach {
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg) var(--r-card-lg) var(--r-card-lg) 4px;
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+}
+
+/* 답변 수위 배지 — 규칙 엔진이 정한 값을 그대로 표시한다 */
+.coach__level {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  color: var(--c-badge-on);
+  font-size: 11px;
+  font-weight: 700;
+}
+.coach__level--stop {
+  background: var(--c-badge-reduce-bg);
+}
+.coach__level--soft {
+  background: var(--c-badge-keep-bg);
+}
+.coach__level--ok {
+  background: var(--c-brand);
+}
+
+/* 근거 — 답변과 항상 붙어 다닌다 */
+.coach__basis {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0 2px;
+}
+
+.coach__basis-tag {
+  padding: 2px 8px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  color: var(--c-text-brown);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.coach__basis-sent {
+  color: var(--c-text-muted);
+  font-size: 10px;
+}
+
+.coach__typing {
+  align-self: flex-start;
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 12px;
+}
+
+/* ── 예시 질문 ─────────────────────────────── */
+.coach__suggests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coach__suggest {
+  height: var(--h-chip);
+  padding: 0 14px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  background: var(--c-surface);
+  color: var(--c-text-brown);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ── 입력 ──────────────────────────────────── */
+.coach__form {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.coach__input {
+  flex: 1;
+  min-width: 0;
+  height: var(--h-cta);
+  padding: 0 14px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-field);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 14px;
+}
+.coach__input::placeholder {
+  color: var(--c-text-faint);
+}
+
+.coach__send {
+  flex: none;
+  height: var(--h-cta);
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--r-cta);
+  background: var(--c-brand);
+  color: var(--c-brand-on);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.coach__send:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* 실패했을 때의 답변 자리 — 사유를 남겨 두어야 멈춘 것처럼 보이지 않는다 */
+.coach__bubble--error {
+  align-self: flex-start;
+  max-width: 92%;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg) var(--r-card-lg) var(--r-card-lg) 4px;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+}

@@ -1,16 +1,29 @@
 /* ── 공용 껍데기 레이아웃 ─────────────────────────────
-   폰 비율 화면 한 벌을, 웹에서는 프레임+설명으로 감싸고
+   폰 비율 화면 한 벌을, 웹에서는 프레임으로 감싸고
    앱(좁은 화면)에서는 풀스크린으로 편다. */
 
 .shell {
+  position: relative;
   min-height: 100svh;
   display: flex;
   justify-content: center;
   align-items: stretch;
+  /* 폰 화면 바깥은 바탕색으로 둔다. 화면이 어디서 끝나는지 눈에 보여야 한다. */
+  background: var(--c-page);
+  /* 물결이 가장자리 밖으로 나가도 가로 스크롤이 생기지 않게 */
+  overflow-x: hidden;
+}
+
+/* 바깥 배경 아래를 채우는 물결.
+   좁은 화면(앱 뷰)에서는 폰이 뷰포트를 꽉 채워 배경이 아예 안 보이므로 숨긴다. */
+.shell__wave {
+  display: none;
 }
 
 /* 폰 화면 — 기본(앱 뷰): 뷰포트를 그대로 채운다 */
 .shell__device {
+  position: relative; /* 물결 위로 올라오게 */
+  z-index: 1;
   width: 100%;
   display: flex;
 }
@@ -18,21 +31,51 @@
 .shell__screen {
   flex: 1;
   min-width: 0;
+  /* 시안처럼 화면 가장자리에 테두리를 둔다.
+     실제 폰에서는 뷰포트 끝에 붙어 사실상 보이지 않고, 브라우저에서는 경계가 된다. */
+  border: 1px solid var(--c-border);
   background: var(--c-bg);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
-/* 좌우 설명 패널 — 앱 뷰에서는 숨김 */
-.shell__aside {
-  display: none;
+/* 폰보다 넓지만 웹 프레임을 띄우기엔 좁은 구간 —
+   화면을 폰 폭으로 묶어 두지 않으면 카드가 가로로 늘어나 시안과 달라진다.
+   이때부터 바깥 배경이 보이기 시작하므로 물결도 같이 켠다. */
+@media (min-width: 480px) {
+  .shell {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .shell__device {
+    width: min(430px, 100%);
+  }
+
+  .shell__screen {
+    border-radius: var(--r-panel);
+  }
+
+  .shell__wave {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* 시안에서 물결이 화면 아래 3분의 1쯤을 차지한다 */
+    height: 34%;
+    width: 100%;
+    /* 배경이라 클릭을 가로채면 안 된다 */
+    pointer-events: none;
+  }
+
+  .shell__wave path {
+    fill: var(--c-page-wave);
+  }
 }
 
-/* ── 웹 뷰: 넓어지면 폰을 가운데 기기 프레임으로, 여백에 설명 ── */
+/* ── 웹 뷰: 넓어지면 폰을 가운데 기기 프레임으로 ── */
 @media (min-width: 900px) {
   .shell {
     align-items: center;
-    gap: clamp(24px, 4vw, 72px);
     padding: 40px 24px;
     box-sizing: border-box;
   }
@@ -48,20 +91,17 @@
   }
 
   .shell__screen {
+    /* 기기 프레임 안쪽이라 테두리 대신 베젤이 경계를 만든다 */
+    border: 0;
     border-radius: 32px;
-  }
-
-  .shell__aside {
-    display: block;
-    flex: 1 1 0;
-    max-width: 360px;
-    align-self: center;
-  }
-}
-
-/* 아주 넓은 화면에서 설명이 폰에서 너무 멀어지지 않게 */
-@media (min-width: 1400px) {
-  .shell__aside {
-    max-width: 420px;
+    /* 웹에서는 기기 높이가 고정이라 화면 안쪽이 스크롤된다.
+       앱(좁은 화면)에서는 문서 자체가 스크롤돼야 하므로 여기에만 둔다 —
+       바깥에 두면 하단 탭바의 position:sticky 가 이 요소를 기준으로 잡혀
+       화면 아래로 밀려 잘린다. */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* 위로 넘겨 스크롤할 때 이 요소의 흰 배경이 갈색 히어로 위로 드러나던 것을 막는다.
+       스크롤이 바깥 페이지로 넘어가는 것도 같이 막힌다. index.css 의 같은 속성 참고. */
+    overscroll-behavior: none;
   }
 }

@@ -1,0 +1,116 @@
+.rhist__filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.rhist__filter {
+  height: var(--h-chip);
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--c-cream);
+  color: var(--c-text-brown);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rhist__filter.is-selected {
+  background: var(--c-text-brown);
+  color: var(--c-cream);
+}
+
+.rhist__list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rhist__card {
+  padding: 18px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+}
+
+.rhist__card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rhist__date {
+  margin: 0;
+  color: var(--c-text-brown);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.rhist__edit {
+  flex: none;
+  color: var(--c-text-muted);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.rhist__title {
+  margin: 12px 0;
+  color: var(--c-text-brown);
+  font-size: 15px;
+}
+
+.rhist__dids {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rhist__did {
+  padding: 5px 11px;
+  border: 1px solid var(--c-text-brown);
+  border-radius: var(--r-pill);
+  color: var(--c-text-brown);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.rhist__did.is-selected {
+  background: var(--c-text-brown);
+  color: var(--c-cream);
+  font-weight: 600;
+}
+
+.rhist__empty {
+  margin: 0;
+  padding: 40px 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card-lg);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* 그날의 컨디션. 판정을 왜 그렇게 받았는지 읽는 실마리라 개수 줄 아래에 둔다. */
+.rhist__state {
+  display: inline-block;
+  padding: 5px 11px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-pill);
+  background: var(--c-bg);
+  color: var(--c-text-muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.rhist__more {
+  margin: 14px 0 0;
+  color: var(--c-text-muted);
+  font-size: 12px;
+  text-align: center;
+}
