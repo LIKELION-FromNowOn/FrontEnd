@@ -195,6 +195,22 @@ export const SCREENS = [
     links: ['/my/nickname'],
   },
   {
+    path: '/my/password',
+    key: 'changePassword',
+    code: 'I02-1',
+    title: '비밀번호 변경',
+    kind: 'required',
+    links: [],
+  },
+  {
+    path: '/my/withdraw',
+    key: 'withdraw',
+    code: 'I02-2',
+    title: '회원 탈퇴',
+    kind: 'required',
+    links: [],
+  },
+  {
     path: '/my/notifications',
     key: 'notificationSettings',
     code: 'I03',

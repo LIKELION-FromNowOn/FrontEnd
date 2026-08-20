@@ -147,6 +147,49 @@ export function updateProfile({ nickname, email }) {
   })
 }
 
+/**
+ * NOW-MY-002 · PATCH /me/password — 비밀번호 변경 (2026-08-21 신설).
+ *
+ * ⚠️ **지금 비밀번호를 반드시 같이 보낸다.** 토큰만으로 바꾸게 하면 토큰이 한 번 새는 순간
+ *    계정을 뺏긴다. 토큰이 30일짜리라 새고 나서 알아채기까지가 길다.
+ *
+ * ⚠️ **성공해도 토큰은 그대로다.** 새 토큰이 오지 않으므로 세션을 건드리지 않는다.
+ *    바꿨다고 로그아웃시키면 화면이 끊긴다.
+ *
+ * 401 INVALID_CREDENTIALS 는 여기서는 「지금 비밀번호가 틀렸다」가 확실하다 —
+ * 본인이 자기 비밀번호를 친 자리라 계정 존재 여부가 새어나가지 않는다.
+ * 400 은 8~64자, 403 은 게스트다.
+ */
+export function changePassword({ currentPassword, newPassword }) {
+  return call('NOW-MY-002', {
+    body: { currentPassword, newPassword },
+    mock: () => ok({ changed: true }),
+  })
+}
+
+/**
+ * NOW-MY-003 · DELETE /me — 회원 탈퇴 (2026-08-21 신설).
+ *
+ * ⚠️ 되돌릴 수 없어서 비밀번호를 받는다.
+ *
+ * ⚠️ **성공하면 이쪽 세션을 반드시 지운다.** 서버는 토큰을 무효화하지 않는다
+ *    (세션 표를 안 쓰고 JWT 만 쓴다). 안 지우면 남은 토큰으로 계속 부르다가
+ *    401 을 만나 이상하게 보인다. 그래서 여기서 지우고 나간다.
+ *
+ * 계정만 사라지고 항목·판정·기록은 DB 에 남는다(다른 표가 참조한다).
+ * 이메일·비밀번호는 지워져서 같은 이메일로 다시 가입할 수 있다.
+ * 화면 문구는 「계정 정보는 삭제됩니다」가 사실과 맞다.
+ */
+export async function withdraw({ password }) {
+  const data = await call('NOW-MY-003', {
+    body: { password },
+    mock: () => ok({ withdrawn: true }),
+  })
+  clearSession()
+  forgetMe()
+  return data
+}
+
 /** 앱 진입 시 — 세션이 없으면 게스트로 시작한다 */
 export async function ensureSession() {
   return getSession() ?? (await startGuest())

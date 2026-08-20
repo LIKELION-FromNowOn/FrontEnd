@@ -25,6 +25,8 @@ import ReduceRecordScreen from './screens/reduce/ReduceRecordScreen'
 import MyScreen from './screens/my/MyScreen'
 import EditNicknameScreen from './screens/my/EditNicknameScreen'
 import ProfileSettingsScreen from './screens/my/ProfileSettingsScreen'
+import ChangePasswordScreen from './screens/my/ChangePasswordScreen'
+import WithdrawScreen from './screens/my/WithdrawScreen'
 import NotificationSettingsScreen from './screens/my/NotificationSettingsScreen'
 import ServiceGuideScreen from './screens/my/ServiceGuideScreen'
 import ContactScreen from './screens/my/ContactScreen'
@@ -56,6 +58,8 @@ const REAL = {
   my: <MyScreen />,
   editNickname: <EditNicknameScreen />,
   profileSettings: <ProfileSettingsScreen />,
+  changePassword: <ChangePasswordScreen />,
+  withdraw: <WithdrawScreen />,
   notificationSettings: <NotificationSettingsScreen />,
   serviceGuide: <ServiceGuideScreen />,
   contact: <ContactScreen />,

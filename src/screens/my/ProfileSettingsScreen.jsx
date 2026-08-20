@@ -64,10 +64,11 @@ export default function ProfileSettingsScreen() {
           <span className="subpage__row-value">{me?.email || '가입 전이에요'}</span>
         </div>
 
+        {/* 2026-08-21 PATCH /me/password 가 생겨서 준비 중을 걷어냈다. */}
         <button
           type="button"
           className="subpage__row"
-          onClick={() => notify('비밀번호 변경')}
+          onClick={() => navigate('/my/password')}
         >
           <span className="subpage__row-label">비밀번호</span>
           <span className="subpage__chevron" aria-hidden>
