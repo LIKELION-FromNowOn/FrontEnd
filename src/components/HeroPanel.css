@@ -85,3 +85,47 @@
   font-weight: 700;
   line-height: 1;
 }
+
+/* ── 히어로 안쪽 배치 (홈 · 덜어내기 공용) ──────────────
+   두 화면이 각자 좌표를 들고 있어서 캐릭터 크기도, 카드 폭도, 흰 패널이 시작하는
+   높이도 서로 달랐다(2026-08-21). 같은 짜임이므로 여기 한 곳에서 정한다.
+   한쪽만 고치면 다시 어긋나므로 화면 CSS 에 좌표를 두지 않는다.
+
+     hero__layout  제목·부제·카드·캐릭터를 앉히는 틀
+     hero__aside   오른쪽 바로가기 카드 (한 장이든 두 장이든)
+     hero__figure  왼쪽 캐릭터. 아래 흰 패널 위로 올라탄다 */
+.hero__layout {
+  position: relative;
+  /* 캐릭터가 들어갈 세로 공간. 이 값이 곧 흰 패널이 시작하는 높이다. */
+  padding-bottom: 38%;
+}
+
+/* 제목·부제가 오른쪽 카드와 겹치지 않게 왼쪽만 쓴다 */
+.hero__layout .hero__title,
+.hero__layout .hero__lead {
+  max-width: 58%;
+}
+
+.hero__aside {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.hero__figure {
+  position: absolute;
+  left: 0;
+  /* 아래 여백 24px − 패널 겹침 12px = 12px 이면 딱 맞닿는다.
+     시안은 거기서 조금 더 내려와 패널 위로 올라타 있어서 10px 더 뺐다. */
+  bottom: -22px;
+  width: 48%;
+}
+.hero__figure .character {
+  display: block;
+  width: 100%;
+  height: auto;
+}

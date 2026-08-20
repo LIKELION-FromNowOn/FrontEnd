@@ -1,32 +1,6 @@
-/* ── 히어로 ────────────────────────────────── */
-/* 시안(402px 기준) 비율을 그대로 옮겼다.
-   바로가기는 제목 오른쪽에 겹치고, 캐릭터는 흰 패널과 맞닿는다. */
-.home__hero {
-  position: relative;
-  /* 캐릭터가 들어갈 세로 공간 확보 */
-  padding-bottom: 34%;
-}
-
-/* 제목·부제가 오른쪽 카드와 겹치지 않게 왼쪽 절반만 쓴다 */
-.home__hero .hero__title,
-.home__hero .hero__lead {
-  max-width: 54%;
-}
-
-.hero__shortcuts {
-  position: absolute;
-  top: 52px; /* 제목 아래에서 시작 */
-  right: 0;
-  width: 40%;
-}
-
-.home__character {
-  position: absolute;
-  left: 4%;
-  /* .hero__content 아래 여백 24px − 패널이 겹치는 12px = 12px 내려야 맞닿는다 */
-  bottom: -12px;
-  width: 42%;
-}
+/* 히어로 배치는 components/HeroPanel.css 의 hero__layout · hero__aside · hero__figure 가
+   맡는다. 덜어내기와 같은 짜임이라 여기서 좌표를 다시 정하지 않는다.
+   예전에는 두 화면이 각자 좌표를 들고 있어서 캐릭터 크기도 카드 폭도 서로 달랐다. */
 
 /* ── 섹션 제목 ─────────────────────────────── */
 .home__section {

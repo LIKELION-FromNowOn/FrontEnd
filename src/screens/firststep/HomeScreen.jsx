@@ -110,7 +110,7 @@ export default function HomeScreen() {
   return (
     <HeroPanel
       hero={
-        <div className="home__hero">
+        <div className="hero__layout">
           <h1 className="hero__title">
             지금부터,
             <br />
@@ -123,7 +123,7 @@ export default function HomeScreen() {
           </p>
 
           {/* 제목 오른쪽에 겹쳐 놓이는 바로가기 2개 */}
-          <div className="hero__shortcuts">
+          <div className="hero__aside">
             <Link
               to="/records/reductions"
               className="hero__shortcut hero__shortcut--solid"
@@ -152,7 +152,7 @@ export default function HomeScreen() {
           </div>
 
           {/* 아래 흰 패널과 맞닿게 히어로 왼쪽 아래에 붙인다 */}
-          <div className="home__character">
+          <div className="hero__figure">
             <Character variant="fullPlain" />
           </div>
         </div>

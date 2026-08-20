@@ -1,42 +1,5 @@
-/* ── 히어로 ────────────────────────────────
-   2026-08-21 시안. 캐릭터는 왼쪽에서 흰 패널과 맞닿고,
-   바로가기 카드는 오른쪽에 겹쳐 놓인다. 홈과 같은 짜임이다. */
-.reduce__hero {
-  position: relative;
-  /* 캐릭터가 들어갈 세로 공간 확보 */
-  padding-bottom: 38%;
-}
-
-/* 제목·부제가 오른쪽 카드와 겹치지 않게 왼쪽만 쓴다 */
-.reduce__hero .hero__title,
-.reduce__hero .hero__lead {
-  max-width: 58%;
-}
-
-/* 홈의 .hero__shortcuts 는 HomeScreen.css 가 자리를 잡아 두고 있어서
-   여기서는 같은 이름을 쓰지 않는다. 카드 모양(.hero__shortcut)만 공유한다. */
-.reduce__shortcuts {
-  position: absolute;
-  right: 0;
-  /* 시안에서 카드가 캐릭터 머리 옆에 온다 — 제목 바로 아래가 아니라 히어로 아래쪽이다 */
-  bottom: 0;
-  /* %는 히어로 안쪽(좌우 여백 뺀 폭) 기준이라 기기 폭보다 작다 */
-  width: 46%;
-}
-
-.reduce__character {
-  position: absolute;
-  left: 0;
-  /* 아래 여백 24px − 패널 겹침 12px = 12px 이면 딱 맞닿는다.
-     시안은 거기서 조금 더 내려와 패널 위로 올라타 있어서 10px 더 뺐다. */
-  bottom: -22px;
-  width: 48%;
-}
-.reduce__character .character {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+/* 히어로 배치는 components/HeroPanel.css 의 hero__layout · hero__aside · hero__figure 가
+   맡는다. 홈과 같은 짜임이라 여기서 좌표를 다시 정하지 않는다. */
 
 .reduce__notice {
   margin: 0 0 18px;

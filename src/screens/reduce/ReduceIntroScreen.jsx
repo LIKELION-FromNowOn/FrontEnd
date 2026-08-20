@@ -29,7 +29,7 @@ export default function ReduceIntroScreen() {
   return (
     <HeroPanel
       hero={
-        <div className="reduce__hero">
+        <div className="hero__layout">
           <h1 className="hero__title">
             지금부터,
             <br />
@@ -43,7 +43,7 @@ export default function ReduceIntroScreen() {
 
           {/* 홈과 같은 바로가기 카드다. 모양은 hero__shortcut 을 그대로 쓰고
               자리만 이 화면 것으로 잡는다. */}
-          <div className="reduce__shortcuts">
+          <div className="hero__aside">
             <Link to="/condition" className="hero__shortcut hero__shortcut--tint">
               <span className="hero__shortcut-title">
                 오늘의 컨디션 및
@@ -58,7 +58,7 @@ export default function ReduceIntroScreen() {
 
           {/* fullPlain 은 배경 없는 전신이라 모카 히어로 위에 그대로 얹힌다.
               아래 흰 패널과 맞닿게 내려 앉힌다(홈과 같은 방식). */}
-          <div className="reduce__character">
+          <div className="hero__figure">
             <Character variant="fullPlain" />
           </div>
         </div>
