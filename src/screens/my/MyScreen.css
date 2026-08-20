@@ -109,3 +109,9 @@
   color: var(--c-text-brown);
   font-size: 18px;
 }
+
+/* 아직 서버가 주지 않는 값. 숫자 자리와 구분되게 흐리게 둔다. */
+.my__stat-value--empty {
+  color: var(--c-text-muted);
+  font-weight: 400;
+}

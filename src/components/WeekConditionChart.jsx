@@ -1,4 +1,4 @@
-import { CONDITION_LEVELS, WEEK_CONDITION } from '../screens/options'
+import { CONDITION_LEVELS } from '../screens/options'
 import './WeekConditionChart.css'
 
 /**
@@ -7,6 +7,10 @@ import './WeekConditionChart.css'
  *
  * 세로축은 등급이 있는 컨디션만 세운다 — 「잘 모르겠어요」는 좋고 나쁨의 정도가 아니라
  * 답을 미룬 것이라, 답하지 않은 날은 level 을 null 로 두고 막대를 비운다.
+ *
+ * ⚠️ **기본값을 목으로 두지 않는다.** 한때 8.11~8.17 이 박혀 있어서, 8월 21일에 열어도
+ *    8월 둘째 주 그래프가 모든 사용자에게 똑같이 떴다(2026-08-21).
+ *    주간 컨디션을 주는 API 가 아직 없다 — 생기면 days 로 넘겨 주면 된다.
  */
 const LEVELS = CONDITION_LEVELS.length
 
@@ -16,8 +20,20 @@ const barHeight = (level) => (level == null ? 0 : `${(level / LEVELS) * 100}%`)
 const levelLabel = (level) =>
   level == null ? '답하지 않음' : CONDITION_LEVELS[LEVELS - level].label
 
-export default function WeekConditionChart({ days = WEEK_CONDITION }) {
-  const range = days.length ? `${days[0].date}~${days[days.length - 1].date}` : ''
+export default function WeekConditionChart({ days = [] }) {
+  if (!days.length) {
+    return (
+      <section className="wchart wchart--empty">
+        <p className="wchart__empty">
+          컨디션을 며칠 기록하면
+          <br />
+          이번 주 그래프를 보여드릴게요
+        </p>
+      </section>
+    )
+  }
+
+  const range = `${days[0].date}~${days[days.length - 1].date}`
 
   return (
     <section className="wchart">

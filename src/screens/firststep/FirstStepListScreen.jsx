@@ -17,7 +17,6 @@ export default function FirstStepListScreen() {
 
   return (
     <HeroPanel
-      nickname="예니"
       hero={
         <button
           type="button"

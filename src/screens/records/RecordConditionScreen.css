@@ -21,3 +21,15 @@
   font-size: 11px;
   text-decoration: none;
 }
+
+/* 오늘 컨디션을 아직 안 골랐을 때 */
+.rcond__empty {
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--c-border-cream);
+  border-radius: var(--r-card);
+  background: var(--c-cream);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  text-align: center;
+}

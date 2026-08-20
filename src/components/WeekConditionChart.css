@@ -73,3 +73,18 @@
   font-size: 8px;
   white-space: nowrap;
 }
+
+/* 주간 컨디션을 주는 API 가 아직 없어서 비어 있는 상태 */
+.wchart--empty {
+  display: grid;
+  place-items: center;
+  min-height: 140px;
+}
+
+.wchart__empty {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}

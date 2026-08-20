@@ -1,5 +1,6 @@
 import { call, ok } from './client'
 import { clearSession, getSession, setSession } from './session'
+import { forgetMe } from './useMe'
 
 /**
  * 인증 API — API 명세서 NOW-AUTH-001 ~ 005 · NOW-MY-001.
@@ -38,6 +39,7 @@ export async function startGuest() {
       }),
   })
   setSession(data)
+  forgetMe()
   return data
 }
 
@@ -58,6 +60,7 @@ export async function signup({ email, password, nickname }) {
       }),
   })
   setSession(data)
+  forgetMe()
   return data
 }
 
@@ -69,10 +72,11 @@ export async function login({ email, password }) {
       ok({
         token: 'eyJhbGciOiJIUzI1NiJ9.mock-member',
         userType: 'member',
-        name: '예니',
+        name: null,
       }),
   })
   setSession(data)
+  forgetMe()
   return data
 }
 
@@ -87,6 +91,7 @@ export async function logout() {
     await call('NOW-AUTH-004', { mock: () => ok({ loggedOut: true }) })
   } finally {
     clearSession()
+    forgetMe()
   }
 }
 
@@ -100,7 +105,8 @@ export function getMe() {
       ok({
         userId: 'u_mock',
         userType: 'guest',
-        name: '예니',
+        /* 게스트는 서버가 name 을 null 로 준다. 이름을 지어 넣지 않는다. */
+        name: null,
         email: null,
         currentState: 'normal',
         recommendationPaused: false,
@@ -117,7 +123,7 @@ export function updateProfile({ nickname, email }) {
       ...(nickname ? { nickname } : null),
       ...(email ? { email } : null),
     },
-    mock: () => ok({ name: nickname ?? '예니', email: email ?? null }),
+    mock: () => ok({ name: nickname ?? null, email: email ?? null }),
   })
 }
 

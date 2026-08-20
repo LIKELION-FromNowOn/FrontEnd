@@ -1,6 +1,5 @@
 import { call, ok } from './client'
 import {
-  ACTIVE_STREAK,
   FIRST_STEP_CARDS,
   REROLL_LIMIT,
   TODAY_ACTION,
@@ -177,7 +176,7 @@ export function getHome() {
           situation: FIRST_STEP_CARDS[0].situation,
           firstStep: FIRST_STEP_CARDS[0].firstStep,
         },
-        streak: ACTIVE_STREAK,
+        /* 실서버 응답에는 streak 이 없다. 목에 두면 있는 줄 알게 된다. */
         unlock: {
           recordedDays: WEEK_SUMMARY[0].days,
           weeklyOpen: true,

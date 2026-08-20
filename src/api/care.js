@@ -232,6 +232,12 @@ export function checkSafety({ text, source }) {
     /* blocked 는 명세에 없는데 서버가 더 준다(2026-08-20 실측).
        true 면 그 입력이 통째로 거절된 것이다 — flagged 만 보고 통과시키면 안 된다. */
     mock: () =>
-      ok({ flagged: false, action: 'none', message: null, stored: false, blocked: false }),
+      ok({
+        flagged: false,
+        action: 'none',
+        message: null,
+        stored: false,
+        blocked: false,
+      }),
   })
 }

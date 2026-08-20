@@ -16,7 +16,7 @@ export default function FirstStepDetailScreen() {
   const card = FIRST_STEP_CARDS[0]
 
   return (
-    <HeroPanel nickname="예니">
+    <HeroPanel>
       <div className="fsdetail">
         <span className="fsdetail__handle" aria-hidden />
 

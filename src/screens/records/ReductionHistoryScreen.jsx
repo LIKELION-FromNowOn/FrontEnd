@@ -42,8 +42,7 @@ const verdictLine = (summary) => {
 }
 
 /** 상태값은 서버가 주고 문구는 우리 상수에서 찾는다 */
-const stateLabel = (state) =>
-  CONDITIONS.find((c) => c.key === state)?.label ?? null
+const stateLabel = (state) => CONDITIONS.find((c) => c.key === state)?.label ?? null
 
 export default function ReductionHistoryScreen() {
   const [period, setPeriod] = useState('all')

@@ -240,40 +240,6 @@ export const SKIN_FEELINGS = [
 export const DID_OPTIONS = ['추천대로 했어요', '조금 바꿨어요', '거의 못 했어요']
 
 /**
- * 이어가는 첫 발자국 — 따라가는 중인 루틴 (F01 «루틴 따라하기» 상태 · F_FirstStepManage).
- *
- * 아직 아무 루틴도 시작하지 않았으면 null이다. 그때는 홈에서 이 카드를 통째로 빼고
- * 히어로 바로가기 문구도 「오늘의 컨디션 및 관리 항목」으로 바뀐다 (F01 기본 상태).
- * 서버 연동 시 홈 응답(NOW-HOME-001)에서 받아 채운다.
- */
-export const ACTIVE_STREAK = {
-  title: '아침에 눈 뜨면 물 마시기',
-  day: 1,
-  total: 7,
-}
-
-/** 완료한 첫 발자국 (F_FirstStepManage) — 시안이 빈 상태라 목도 비워 둔다 */
-export const DONE_STREAKS = []
-
-/**
- * 이번 주 컨디션 막대그래프 (F_WeeklyCondition).
- *
- * level은 CONDITION_LEVELS를 아래에서부터 센 값(1=많이 지쳤어요 … 4=아주 좋아요)이다.
- * 「잘 모르겠어요」로 답했거나 답하지 않은 날은 높이를 만들 수 없으므로
- * level을 null로 두고 막대를 비운다.
- * 서버 연동 시 기록 요약(NOW-LOG-002)에서 받아 채운다.
- */
-export const WEEK_CONDITION = [
-  { date: '8.11', level: 3 },
-  { date: '8.12', level: 2 },
-  { date: '8.13', level: 3 },
-  { date: '8.14', level: 4 },
-  { date: '8.15', level: 1 },
-  { date: '8.16', level: 2 },
-  { date: '8.17', level: 3 },
-]
-
-/**
  * 오늘의 행동 (NOW-TODAY-001 GET /today).
  *
  * durationSec은 서버가 매번 다르게 내려주는 값이다. 4차 회의에서 15분 고정을 없앴으므로
@@ -402,6 +368,14 @@ export const LOG_UNLOCK = {
  *    달성률과 함께 추후 개선사항으로 넘겼다. 되살리자는 말이 나오면 이 결정을 먼저 확인할 것.
  *    (아래 「첫 발자국도 함께 쌓이고 있어요」 카드는 다른 것이다 —
  *     따라가는 중인 루틴의 진행이지 며칠 연속 해냈는지를 세는 자리가 아니다.)
+ */
+/**
+ * ⚠️ 2026-08-21 여기 있던 목 셋을 지웠다. 화면에 그대로 그려지고 있었고,
+ *    **모든 사용자에게 같은 값**이 뜨는 자리였다.
+ *      ACTIVE_STREAK  「아침에 눈 뜨면 물 마시기 1일차 / 7일」 — 주는 API 가 없다
+ *      DONE_STREAKS   완료한 첫 발자국                        — 주는 API 가 없다
+ *      WEEK_CONDITION 8.11~8.17 주간 그래프                   — 주는 API 가 없다
+ *    셋 다 서버가 주기 전까지 화면에서 「아직 없어요」로 둔다. 지어내지 않는다.
  */
 export const WEEK_SUMMARY = [
   { key: 'recorded', label: '기록한 날', days: 5 },

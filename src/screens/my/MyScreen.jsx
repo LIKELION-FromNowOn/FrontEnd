@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import { useMe } from '../../api/useMe'
+import { CONDITIONS } from '../options'
 import AppHeader from '../../components/AppHeader'
 import Character from '../../components/ui/Character'
 import './MyScreen.css'
@@ -82,13 +84,17 @@ const MENUS = [
 ]
 
 export default function MyScreen() {
+  const me = useMe()
+  /* 상태값은 서버가 주고 문구는 우리 상수에서 찾는다 */
+  const state = CONDITIONS.find((c) => c.key === me?.currentState) ?? null
+
   return (
     <div className="my">
-      <AppHeader nickname="예니" profile />
+      <AppHeader profile />
 
       <div className="my__body">
         <div className="my__name">
-          <span>예니</span>
+          <span>{me?.name || '게스트'}</span>
           <Link to="/my/nickname" className="my__edit" aria-label="닉네임 수정">
             ✎
           </Link>
@@ -107,12 +113,20 @@ export default function MyScreen() {
                 <br />
                 나의 컨디션
               </p>
+              {/* GET /me 의 currentState. 아직 답하지 않았으면 빈 칸으로 둔다. */}
+              {state && (
+                <p className="my__stat-value">
+                  {state.emoji}{' '}
+                  {state.label.replace(/\s*\p{Extended_Pictographic}+\s*$/u, '')}
+                </p>
+              )}
             </div>
             <div className="my__stat">
               <p className="my__stat-label">첫 발자국</p>
-              <p className="my__stat-value">
-                <strong>1</strong> 개 진행 중
-              </p>
+              {/* ⚠️ 진행 중인 첫 발자국 개수를 주는 API 가 없다.
+                  「1개」가 박혀 있어서 모든 사용자에게 같은 값이 떴다(2026-08-21).
+                  숫자를 지어내는 대신 비어 있다고 적는다 — 라벨만 남으면 덜 만든 것처럼 보인다. */}
+              <p className="my__stat-value my__stat-value--empty">아직 없어요</p>
             </div>
           </div>
         </div>

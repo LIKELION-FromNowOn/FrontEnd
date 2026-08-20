@@ -15,7 +15,7 @@ export default function CharacterIntroScreen() {
 
   return (
     <div className="charintro">
-      <AppHeader nickname="예니" onBrand />
+      <AppHeader onBrand />
 
       <button
         type="button"

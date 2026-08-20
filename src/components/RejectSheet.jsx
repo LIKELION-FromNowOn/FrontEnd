@@ -18,7 +18,12 @@ export default function RejectSheet({ onClose, onSubmit, pending, errorText }) {
 
   return (
     <div className="rsheet" role="dialog" aria-modal="true" aria-label="오늘은 쉬어가기">
-      <button type="button" className="rsheet__scrim" onClick={onClose} aria-label="닫기" />
+      <button
+        type="button"
+        className="rsheet__scrim"
+        onClick={onClose}
+        aria-label="닫기"
+      />
 
       <div className="rsheet__panel">
         <span className="rsheet__handle" aria-hidden />

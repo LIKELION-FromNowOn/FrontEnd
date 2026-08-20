@@ -3,7 +3,7 @@ import HeroPanel from '../../components/HeroPanel'
 import StreakCard from '../../components/StreakCard'
 import { getLogSummary, getSubtractHistory, toWeekSummary } from '../../api/records'
 import { useApi } from '../../api/useApi'
-import { ACTIVE_STREAK, VERDICT_LABEL } from '../options'
+import { VERDICT_LABEL } from '../options'
 import { formatDay } from '../../utils/date'
 import './RecordsScreen.css'
 
@@ -23,7 +23,11 @@ import './RecordsScreen.css'
  */
 export default function RecordsScreen() {
   const navigate = useNavigate()
-  const streak = ACTIVE_STREAK
+  /* ⚠️ 「이어가는 첫 발자국」을 채울 값이 **어느 API 에도 없다.**
+     GET /home 응답에 streak 이 없다(2026-08-21 실측). 시안 값으로 대신 그리면
+     시작한 적 없는 루틴이 모든 사용자에게 「1일차」로 똑같이 뜬다.
+     서버가 주기 전까지는 카드를 띄우지 않는다. 필드가 생기면 이 한 줄만 고치면 된다. */
+  const streak = null
 
   /* period 를 적어서 부른다 — 서버 기본값은 month 이고 이 화면은 주 단위다.
      기본값에 기대면 어느 쪽 기본값인지 읽는 사람이 매번 확인해야 한다. */
@@ -37,7 +41,6 @@ export default function RecordsScreen() {
 
   return (
     <HeroPanel
-      nickname="예니"
       hero={
         <div className="rec__hero">
           <div className="rec__hero-head">

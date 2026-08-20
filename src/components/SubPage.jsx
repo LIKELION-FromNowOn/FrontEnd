@@ -15,7 +15,7 @@ export default function SubPage({ title, lead, footer, children }) {
 
   return (
     <div className="subpage">
-      <AppHeader nickname="예니" profile />
+      <AppHeader profile />
 
       <div className="subpage__body">
         <div className="subpage__head">

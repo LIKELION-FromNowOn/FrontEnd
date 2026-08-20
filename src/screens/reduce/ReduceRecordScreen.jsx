@@ -17,7 +17,7 @@ export default function ReduceRecordScreen() {
 
   return (
     <div className="rrec">
-      <AppHeader nickname="예니" />
+      <AppHeader />
 
       <div className="rrec__body">
         <div className="rrec__head">

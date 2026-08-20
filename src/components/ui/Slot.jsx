@@ -10,7 +10,14 @@ import './Slot.css'
  *   label : 무엇이 들어갈 자리인지 표시 (예: '캐릭터')
  *   sm    : 작은 슬롯 — 라벨 글자를 숨긴다
  */
-export default function Slot({ label, shape = 'rect', width, height, sm = false, children }) {
+export default function Slot({
+  label,
+  shape = 'rect',
+  width,
+  height,
+  sm = false,
+  children,
+}) {
   return (
     <div
       className={`slot slot--${shape}${sm ? ' slot--sm' : ''}`}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useMe } from '../../api/useMe'
 import SubPage from '../../components/SubPage'
 import Character from '../../components/ui/Character'
 import Button from '../../components/ui/Button'
@@ -6,6 +7,9 @@ import './ProfileSettingsScreen.css'
 
 /** I02_ProfileSettings — 프로필 정보 + 계정 관리 */
 export default function ProfileSettingsScreen() {
+  const me = useMe()
+  const name = me?.name || '게스트'
+
   return (
     <SubPage title="프로필 설정" footer={<Button>저장하기</Button>}>
       {/* 프로필 카드 */}
@@ -19,7 +23,7 @@ export default function ProfileSettingsScreen() {
 
         <div>
           <p className="profile__name">
-            예니{' '}
+            {name}{' '}
             <span className="profile__pencil" aria-hidden>
               ✎
             </span>
@@ -33,13 +37,14 @@ export default function ProfileSettingsScreen() {
         <Link to="/my/nickname" className="subpage__row">
           <span className="subpage__row-label">닉네임</span>
           <span className="subpage__row-value">
-            예니 <span aria-hidden>✎</span>
+            {name} <span aria-hidden>✎</span>
           </span>
         </Link>
 
         <div className="subpage__row">
           <span className="subpage__row-label">이메일</span>
-          <span className="subpage__row-value">가입한 이메일</span>
+          {/* 게스트는 이메일이 없다. 서버가 주는 값만 적는다. */}
+          <span className="subpage__row-value">{me?.email || '가입 전이에요'}</span>
         </div>
 
         <button type="button" className="subpage__row">

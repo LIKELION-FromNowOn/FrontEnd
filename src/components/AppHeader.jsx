@@ -1,5 +1,6 @@
 import Character from './ui/Character'
 import { BellIcon, MyIcon } from './ui/Icon'
+import { useNickname } from '../api/useMe'
 import './AppHeader.css'
 
 /**
@@ -8,13 +9,20 @@ import './AppHeader.css'
  *
  *   onBrand : 모카 히어로 위에 올릴 때 true (배경 투명 처리)
  *   profile : 마이페이지 계열에서 종 왼쪽에 사람 아이콘을 함께 노출
+ *
+ * 닉네임은 **여기서 직접 받아온다**(GET /me). 화면마다 넘기게 두었더니
+ * 13곳에 같은 이름이 박혀서 모든 사용자가 남의 이름을 보고 있었다(2026-08-21).
+ * nickname 을 넘기면 그 값이 이긴다 — 지금은 넘기는 곳이 없다.
  */
-export default function AppHeader({ nickname = '닉네임', onBrand = false, profile = false }) {
+export default function AppHeader({ nickname, onBrand = false, profile = false }) {
+  const fromServer = useNickname()
+  const name = nickname ?? fromServer
+
   return (
     <header className={`appheader${onBrand ? ' appheader--on-brand' : ''}`}>
       <div className="appheader__user">
         <Character variant="face" width={24} />
-        <span className="appheader__nickname">{nickname}</span>
+        <span className="appheader__nickname">{name}</span>
       </div>
 
       <div className="appheader__actions">

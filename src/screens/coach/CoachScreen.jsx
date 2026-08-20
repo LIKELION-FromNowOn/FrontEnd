@@ -77,7 +77,9 @@ export default function CoachScreen() {
               {/* 안내문에서 못 찾은 답은 level 이 아예 없이 온다. 그때는 배지를 띄우지 않는다 —
                   없는 값을 표에서 찾으면 화면이 죽고, 아무 배지나 붙이면 서버가 안 한 말이 된다. */}
               {COACH_LEVEL[m.level] && (
-                <span className={`coach__level coach__level--${COACH_LEVEL[m.level].tone}`}>
+                <span
+                  className={`coach__level coach__level--${COACH_LEVEL[m.level].tone}`}
+                >
                   {COACH_LEVEL[m.level].label}
                 </span>
               )}
@@ -91,7 +93,9 @@ export default function CoachScreen() {
                 <p className="coach__basis">
                   <span className="coach__basis-tag">{m.basis.label}</span>
                   {m.basis.sent != null && (
-                    <span className="coach__basis-sent">원문 {m.basis.sent}번째 문장</span>
+                    <span className="coach__basis-sent">
+                      원문 {m.basis.sent}번째 문장
+                    </span>
                   )}
                 </p>
               )}

@@ -75,7 +75,7 @@ export default function ReduceResultScreen() {
 
   return (
     <div className="rresult">
-      <AppHeader nickname="예니" />
+      <AppHeader />
 
       <div className="rresult__body">
         <button

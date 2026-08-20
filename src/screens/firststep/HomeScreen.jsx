@@ -86,7 +86,6 @@ export default function HomeScreen() {
 
   return (
     <HeroPanel
-      nickname="예니"
       hero={
         <div className="home__hero">
           <h1 className="hero__title">

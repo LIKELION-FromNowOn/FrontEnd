@@ -16,7 +16,6 @@ export default function ReduceIntroScreen() {
 
   return (
     <HeroPanel
-      nickname="예니"
       hero={
         <div>
           <h1 className="hero__title">

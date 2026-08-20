@@ -170,7 +170,8 @@ export function getSubtractHistory({ from, to, limit } = {}) {
 
   return call('NOW-SUB-004', {
     query: Object.keys(query).length ? query : undefined,
-    mock: () => ok({ history: SUBTRACT_HISTORY, total: SUBTRACT_HISTORY.length, hasMore: false }),
+    mock: () =>
+      ok({ history: SUBTRACT_HISTORY, total: SUBTRACT_HISTORY.length, hasMore: false }),
   })
 }
 
