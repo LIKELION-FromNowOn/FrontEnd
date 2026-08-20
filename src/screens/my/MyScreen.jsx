@@ -90,7 +90,7 @@ export default function MyScreen() {
 
   return (
     <div className="my">
-      <AppHeader profile />
+      <AppHeader />
 
       <div className="my__body">
         <div className="my__name">
