@@ -121,6 +121,16 @@ export default function MyScreen() {
                 </p>
               )}
             </div>
+
+            <div className="my__stat">
+              <p className="my__stat-label">첫 발자국</p>
+              {/* ⚠️ 진행 중인 개수를 주는 API 가 없다 — NOW-STEP-005 가
+                  「완료 버튼이 없다. 기록에 쌓지 않는다」라 셀 것이 없다.
+                  그래도 칸은 남긴다. .my__stats 가 2열이라 한 칸만 두면 카드가 깨지고,
+                  캐릭터가 가운데를 덮는 구조라 좌우 균형이 무너진다.
+                  숫자를 지어내는 대신 비어 있다고 적는다. */}
+              <p className="my__stat-value my__stat-value--empty">아직 없어요</p>
+            </div>
           </div>
         </div>
 
